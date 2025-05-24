@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -6,6 +5,7 @@ import { BrainCircuit, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
+import { ThemeToggleButton } from '@/components/theme-toggle-button';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -29,7 +29,7 @@ export function Header() {
           <span className="text-xl font-bold">ElectroLearn</span>
         </Link>
         
-        <nav className="hidden md:flex gap-6">
+        <nav className="hidden md:flex gap-4 items-center">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -39,9 +39,11 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <ThemeToggleButton />
         </nav>
 
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggleButton />
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
