@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/tutorials', label: 'Tutorials' },
   { href: '/blog', label: 'Blog' },
   { href: '/community', label: 'Community' },
+  { href: '/faq', label: 'FAQ' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
