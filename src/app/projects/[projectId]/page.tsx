@@ -24,23 +24,23 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
         <pre
           className={cn(
             prismClassName,
-            "p-4 rounded-md overflow-x-auto text-sm"
+            "p-4 rounded-md overflow-x-auto text-sm bg-[#1e1e1e]" // Ensure pre has a background if theme doesn't provide
           )}
-          style={prismStyle}
+          style={{...prismStyle, backgroundColor: prismStyle.backgroundColor || '#1e1e1e'}} // Explicitly set background
         >
           {tokens.map((line, i) => {
             if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
               return null; // Skip rendering the last empty line if it exists
             }
             return (
-              <div key={i} {...getLineProps({ line, key: i })} className="flex">
+              <div key={i} {...getLineProps({ line, key: i })} className="flex table-row">
                 <span
-                  className="inline-block w-8 select-none text-right pr-3 text-muted-foreground/50"
-                  style={{ flexShrink: 0 }}
+                  className="table-cell text-right pr-4 select-none text-muted-foreground/50 border-r border-muted-foreground/20"
+                  style={{ minWidth: '3em' }} // Ensure consistent width for line numbers
                 >
                   {i + 1}
                 </span>
-                <span className="flex-grow">
+                <span className="table-cell pl-4 flex-grow">
                   {line.map((token, key) => (
                     <span key={key} {...getTokenProps({ token, key })} />
                   ))}
