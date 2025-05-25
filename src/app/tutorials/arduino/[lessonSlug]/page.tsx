@@ -1,8 +1,11 @@
 
-import { getArduinoLessonBySlug, arduinoTutorialLessons, type ArduinoLesson } from '@/data/arduino-tutorial-data.tsx'; // Updated import
+import { getArduinoLessonBySlug, arduinoTutorialLessons, type ArduinoLesson } from '@/data/arduino-tutorial-data.tsx'; 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
-import { AlertTriangle, Cpu } from 'lucide-react';
+import { Cpu, ChevronLeft, ChevronRight } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 interface LessonPageProps {
   params: {
@@ -44,6 +47,10 @@ export default function ArduinoLessonPage({ params }: LessonPageProps) {
     { label: lesson.title },
   ];
 
+  const currentIndex = arduinoTutorialLessons.findIndex(l => l.slug === lesson.slug);
+  const prevLesson = currentIndex > 0 ? arduinoTutorialLessons[currentIndex - 1] : null;
+  const nextLesson = currentIndex < arduinoTutorialLessons.length - 1 ? arduinoTutorialLessons[currentIndex + 1] : null;
+
   return (
     <article className="w-full">
       <Breadcrumbs items={breadcrumbItems} />
@@ -71,7 +78,30 @@ export default function ArduinoLessonPage({ params }: LessonPageProps) {
         {lesson.content}
       </div>
 
-      {/* TODO: Add Next/Previous lesson navigation buttons */}
+      <Separator className="my-8 md:my-12" />
+
+      <nav className="flex flex-col sm:flex-row justify-between items-center gap-4">
+        {prevLesson ? (
+          <Button asChild variant="outline" className="w-full sm:w-auto">
+            <Link href={`/tutorials/arduino/${prevLesson.slug}`}>
+              <ChevronLeft className="mr-2 h-4 w-4" />
+              Previous: {prevLesson.title}
+            </Link>
+          </Button>
+        ) : (
+          <div className="w-full sm:w-auto"></div> // Placeholder to maintain layout
+        )}
+        {nextLesson ? (
+          <Button asChild variant="outline" className="w-full sm:w-auto">
+            <Link href={`/tutorials/arduino/${nextLesson.slug}`}>
+              Next: {nextLesson.title}
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        ) : (
+          <div className="w-full sm:w-auto"></div> // Placeholder to maintain layout
+        )}
+      </nav>
     </article>
   );
 }
