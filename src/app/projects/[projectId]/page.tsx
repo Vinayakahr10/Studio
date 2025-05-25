@@ -3,7 +3,7 @@
 
 import { getProjectById, type ProjectDetail, type CodeSection } from '@/data/project-details';
 import Image from 'next/image';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, ListChecks, Wrench, Codepen, Lightbulb, ArrowLeft, ExternalLink, CircuitBoard, Zap, Clock, Copy, Check } from 'lucide-react';
@@ -12,7 +12,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Highlight, themes } from 'prism-react-renderer';
 import { cn } from "@/lib/utils";
-import { useState } from 'react';
+import React, { useState, use } from 'react';
 
 const CodeBlock = ({ code, language }: { code: string; language: string }) => {
   const [isCopied, setIsCopied] = useState(false);
@@ -27,11 +27,9 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
         })
         .catch(err => {
           console.error('Error copying code to clipboard:', err);
-          // Optionally, provide user feedback for error (e.g., a toast)
         });
     } else {
       console.warn('Clipboard API not available or context is not secure. Please copy manually.');
-      // Optionally, inform the user that copy to clipboard is not available
     }
   };
 
@@ -46,9 +44,9 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
           <pre
             className={cn(
               prismClassName,
-              "p-4 text-sm" // Removed overflow-x-auto and rounded-md
+              "p-4 text-sm" 
             )}
-            style={{ ...prismStyle, margin: 0 }} // backgroundColor will come from prismStyle
+            style={{ ...prismStyle, margin: 0 }}
           >
             {tokens.map((line, i) => {
               if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
@@ -97,8 +95,9 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
 };
 
 
-export default function ProjectDetailPage({ params }: { params: { projectId: string } }) {
-  const project = getProjectById(params.projectId);
+export default function ProjectDetailPage({ params }: { params: Promise<{ projectId: string }> }) {
+  const actualParams = use(params);
+  const project = getProjectById(actualParams.projectId);
 
   if (!project) {
     return (
@@ -106,7 +105,7 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
         <AlertTriangle className="h-16 w-16 text-destructive mx-auto mb-4" />
         <h1 className="text-4xl font-bold mb-2">Project Not Found</h1>
         <p className="text-muted-foreground mb-6">
-          The project with ID "{params.projectId}" does not exist or details are not yet available.
+          The project with ID "{actualParams.projectId}" does not exist or details are not yet available.
         </p>
         <Button asChild variant="outline">
           <Link href="/projects"><ArrowLeft className="mr-2 h-4 w-4" /> Back to All Projects</Link>
@@ -262,7 +261,6 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
             </ul>
           </section>
         )}
-
       </article>
     </div>
   );
