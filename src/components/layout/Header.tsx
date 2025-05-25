@@ -2,11 +2,12 @@
 "use client";
 
 import Link from 'next/link';
-import { BrainCircuit, Menu, LogIn, Shield } from 'lucide-react';
+import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
+import { usePathname, useRouter } from 'next/navigation';
 
 const mainNavLinks = [
   { href: '/', label: 'Home' },
@@ -27,6 +28,42 @@ const utilityNavLinks = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      const checkLoginStatus = () => {
+        setIsAdminLoggedIn(localStorage.getItem('isElectroAdminLoggedIn') === 'true');
+      };
+      checkLoginStatus();
+      // Optional: Listen for storage changes if you want to sync across tabs/windows
+      // window.addEventListener('storage', checkLoginStatus);
+      // return () => window.removeEventListener('storage', checkLoginStatus);
+    }
+  }, [isClient, pathname]); // Re-check on pathname change
+
+  const handleLogout = () => {
+    if (isClient) {
+      localStorage.removeItem('isElectroAdminLoggedIn');
+      setIsAdminLoggedIn(false);
+      // If on an admin page, redirect to login. Otherwise, can redirect to home or stay.
+      if (pathname.startsWith('/admin')) {
+        router.push('/login');
+      } else {
+        router.push('/'); // Or wherever appropriate
+      }
+      if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+    }
+  };
+
+  const mobileNavItems = [...mainNavLinks]; // Start with main links
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -51,14 +88,21 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <div className="hidden md:flex gap-2 items-center">
-             {utilityNavLinks.map((link) => (
-              <Button variant={link.variant} asChild key={link.href} size="sm">
-                <Link href={link.href}>
-                  {link.icon && <link.icon className="mr-2 h-4 w-4" />}
-                  {link.label}
-                </Link>
-              </Button>
-            ))}
+             {isClient && isAdminLoggedIn ? (
+                <Button variant="outline" onClick={handleLogout} size="sm">
+                  <LogOutIcon className="mr-2 h-4 w-4" />
+                  Logout
+                </Button>
+             ) : (
+                utilityNavLinks.map((link) => (
+                  <Button variant={link.variant} asChild key={link.href} size="sm">
+                    <Link href={link.href}>
+                      {link.icon && <link.icon className="mr-2 h-4 w-4" />}
+                      {link.label}
+                    </Link>
+                  </Button>
+                ))
+             )}
             <ThemeToggleButton />
           </div>
          
@@ -77,7 +121,8 @@ export function Header() {
                     <BrainCircuit className="h-7 w-7 text-primary" />
                     <span className="text-xl font-bold">ElectroLearn</span>
                   </Link>
-                  {[...mainNavLinks, ...utilityNavLinks].map((link) => (
+                  
+                  {mobileNavItems.map((link) => (
                      <Button variant="ghost" asChild key={link.href} className="justify-start text-lg">
                         <Link
                             href={link.href}
@@ -88,6 +133,27 @@ export function Header() {
                         </Link>
                      </Button>
                   ))}
+
+                  <hr className="my-2" />
+
+                  {isClient && isAdminLoggedIn ? (
+                    <Button variant="ghost" onClick={handleLogout} className="justify-start text-lg">
+                      <LogOutIcon className="mr-2 h-5 w-5" />
+                      Logout
+                    </Button>
+                  ) : (
+                    utilityNavLinks.map((link) => (
+                       <Button variant="ghost" asChild key={link.href} className="justify-start text-lg">
+                          <Link
+                              href={link.href}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                           {link.icon && <link.icon className="mr-2 h-5 w-5" />}
+                           {link.label}
+                          </Link>
+                       </Button>
+                    ))
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

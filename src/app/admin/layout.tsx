@@ -3,13 +3,14 @@
 
 import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { LayoutDashboard, Newspaper, Users, Settings, LogOut, ArrowLeftToLine } from 'lucide-react';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useEffect, useState } from 'react';
 
 const adminNavItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
@@ -20,6 +21,39 @@ const adminNavItems = [
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      const isLoggedIn = localStorage.getItem('isElectroAdminLoggedIn') === 'true';
+      if (!isLoggedIn) {
+        router.replace('/login');
+      }
+    }
+  }, [isClient, router, pathname]); // Re-check on pathname change too for safety
+
+  const handleLogout = () => {
+    if (isClient) {
+      localStorage.removeItem('isElectroAdminLoggedIn');
+      router.push('/login');
+    }
+  };
+  
+  if (!isClient) {
+    // Optional: Render a loading state or null while waiting for client-side checks
+    return <div className="flex h-screen items-center justify-center"><p>Loading admin panel...</p></div>;
+  }
+  
+  // Ensure children are not rendered if redirecting (though router.replace should handle this)
+  if (isClient && localStorage.getItem('isElectroAdminLoggedIn') !== 'true') {
+      return null; 
+  }
+
 
   return (
     <SidebarProvider defaultOpen>
@@ -79,7 +113,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </Avatar>
             <div className="flex flex-col group-data-[collapsible=icon]:hidden">
               <span className="text-sm font-medium">Admin User</span>
-              <Link href="/login" className="text-xs text-muted-foreground hover:text-primary">Logout <LogOut className="inline h-3 w-3" /></Link>
+              <button onClick={handleLogout} className="text-xs text-muted-foreground hover:text-primary text-left">
+                Logout <LogOut className="inline h-3 w-3" />
+              </button>
             </div>
           </div>
         </SidebarFooter>
