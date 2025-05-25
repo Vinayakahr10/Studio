@@ -52,8 +52,9 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
               if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
                 return null;
               }
+              const lineProps = getLineProps({ line, key: i });
               return (
-                <div key={i} {...getLineProps({ line, key: i })} className="flex table-row">
+                <div key={i} {...lineProps} className={cn(lineProps.className, "flex table-row")}>
                   <span
                     className="table-cell text-right pr-4 select-none text-muted-foreground/50 border-r border-muted-foreground/20"
                     style={{ minWidth: '3em' }}
@@ -61,9 +62,10 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
                     {i + 1}
                   </span>
                   <span className="table-cell pl-4 flex-grow">
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({ token, key })} />
-                    ))}
+                    {line.map((token, tokenKey) => {
+                      const { key: _internalPrismKey, ...restTokenProps } = getTokenProps({ token, key: tokenKey });
+                      return <span key={tokenKey} {...restTokenProps} />;
+                    })}
                   </span>
                 </div>
               );
