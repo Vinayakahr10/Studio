@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, ListChecks, Tool, Codepen, Lightbulb, ArrowLeft, ExternalLink, CircuitBoard, Zap, Clock } from 'lucide-react';
+import { AlertTriangle, ListChecks, Wrench, Codepen, Lightbulb, ArrowLeft, ExternalLink, CircuitBoard, Zap, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -92,7 +92,7 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
           {project.toolsNeeded && project.toolsNeeded.length > 0 && (
              <Card className="shadow-md">
               <CardHeader>
-                <CardTitle className="text-xl flex items-center"><Tool className="mr-2 h-5 w-5 text-primary" />Tools Needed</CardTitle>
+                <CardTitle className="text-xl flex items-center"><Wrench className="mr-2 h-5 w-5 text-primary" />Tools Needed</CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="list-disc list-inside space-y-1 text-muted-foreground">
