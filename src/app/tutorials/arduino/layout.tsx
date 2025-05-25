@@ -16,8 +16,10 @@ export default function ArduinoTutorialLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="container mx-auto px-0 md:px-2 py-0 md:py-8 flex flex-col md:flex-row min-h-[calc(100vh-var(--header-height,4rem)-var(--footer-height,4rem))]">
-      <div className="md:w-72 lg:w-80 flex-shrink-0 md:sticky md:top-16 md:max-h-[calc(100vh-var(--header-height,4rem)-2rem)] md:overflow-y-auto hidden md:block border-r border-border">
+    // Removed container mx-auto here to allow full width usage for the tutorial section
+    // Added md:px-4 as a minimal horizontal padding for the overall tutorial section on medium screens and up
+    <div className="flex flex-col md:flex-row min-h-[calc(100vh-var(--header-height,4rem)-var(--footer-height,4rem))] md:px-4 md:py-8">
+      <div className="md:w-72 lg:w-80 flex-shrink-0 md:sticky md:top-16 md:max-h-[calc(100vh-var(--header-height,4rem)-2rem)] md:overflow-y-auto hidden md:block border-r border-border bg-background md:bg-transparent z-10"> {/* Added bg-background for potential overlap issues */}
          <TutorialSidebar 
             lessons={arduinoTutorialLessons} 
             basePath="/tutorials/arduino"
@@ -38,7 +40,8 @@ export default function ArduinoTutorialLayout({
             />
         </div>
       </div>
-      <main className="flex-grow pl-2 pr-4 py-4 md:pl-2 md:pr-4 lg:pl-4 lg:pr-6 overflow-y-auto">
+      {/* Increased padding for main content area for better readability */}
+      <main className="flex-grow px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-0 overflow-y-auto">
         {children}
       </main>
     </div>
