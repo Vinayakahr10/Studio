@@ -1,6 +1,7 @@
 
 "use client";
 
+import Image from 'next/image'; // Added this line
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
