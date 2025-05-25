@@ -12,31 +12,39 @@ import { Highlight, themes } from 'prism-react-renderer';
 import { cn } from "@/lib/utils";
 
 const CodeBlock = ({ code, language }: { code: string; language: string }) => {
-  const prismLanguage = language.toLowerCase() as any; 
+  const prismLanguage = language.toLowerCase() as any;
 
   return (
     <Highlight
-      theme={themes.vsDark} 
+      theme={themes.vsDark}
       code={code.trimEnd()}
       language={prismLanguage}
     >
       {({ className: prismClassName, style: prismStyle, tokens, getLineProps, getTokenProps }) => (
         <pre
           className={cn(
-            prismClassName, 
+            prismClassName,
             "p-4 rounded-md overflow-x-auto text-sm"
           )}
           style={prismStyle}
         >
           {tokens.map((line, i) => {
             if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
-              return null;
+              return null; // Skip rendering the last empty line if it exists
             }
             return (
-              <div key={i} {...getLineProps({ line, key: i })}>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({ token, key })} />
-                ))}
+              <div key={i} {...getLineProps({ line, key: i })} className="flex">
+                <span
+                  className="inline-block w-8 select-none text-right pr-3 text-muted-foreground/50"
+                  style={{ flexShrink: 0 }}
+                >
+                  {i + 1}
+                </span>
+                <span className="flex-grow">
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({ token, key })} />
+                  ))}
+                </span>
               </div>
             );
           })}
