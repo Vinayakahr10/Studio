@@ -1,10 +1,30 @@
 
-import { FeaturedProjectsSection } from "@/components/sections/FeaturedProjectsSection"; // Re-use for now
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import { FeaturedProjectsSection, featuredProjectsData } from "@/components/sections/FeaturedProjectsSection";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import type { Project } from '@/types';
 
 export default function ProjectsPage() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(featuredProjectsData);
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredProjects(featuredProjectsData);
+    } else {
+      const lowercasedFilter = searchTerm.toLowerCase();
+      const newFilteredProjects = featuredProjectsData.filter(project =>
+        project.title.toLowerCase().includes(lowercasedFilter) ||
+        project.description.toLowerCase().includes(lowercasedFilter)
+      );
+      setFilteredProjects(newFilteredProjects);
+    }
+  }, [searchTerm]);
+
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
       <div className="text-center mb-12">
@@ -16,18 +36,24 @@ export default function ProjectsPage() {
       
       <div className="mb-8 max-w-xl mx-auto">
         <div className="relative">
-          <Input type="search" placeholder="Search projects..." className="w-full pl-10 h-12 text-base rounded-lg" />
+          <Input 
+            type="search" 
+            placeholder="Search projects by title or description..." 
+            className="w-full pl-10 h-12 text-base rounded-lg" 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         </div>
         {/* Add filter dropdowns here in future */}
       </div>
 
-      {/* Using FeaturedProjectsSection as a placeholder for a more detailed project listing */}
-      <FeaturedProjectsSection />
+      <FeaturedProjectsSection projects={filteredProjects} />
 
-      <div className="mt-12 text-center">
+      {/* Placeholder: No "Load More" button for now as filtering is client-side on the full dataset */}
+      {/* <div className="mt-12 text-center">
         <Button size="lg" variant="outline">Load More Projects</Button>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight } from 'lucide-react';
 
-const featuredProjectsData: Project[] = [
+export const featuredProjectsData: Project[] = [
   {
     id: '1',
     title: 'DIY Arduino Weather Station',
@@ -33,43 +33,57 @@ const featuredProjectsData: Project[] = [
   },
 ];
 
-export function FeaturedProjectsSection() {
+interface FeaturedProjectsSectionProps {
+  projects?: Project[];
+}
+
+export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionProps) {
+  const projectsToDisplay = projects || featuredProjectsData;
+
   return (
     <section className="w-full py-12 md:py-16 lg:py-20 bg-secondary/30">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="mb-8 md:mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Featured Projects</h2>
-          <p className="mt-3 max-w-2xl mx-auto text-muted-foreground md:text-lg">
-            Get hands-on with these exciting electronics projects.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredProjectsData.map((project) => (
-            <Card key={project.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]">
-              <CardHeader className="p-0">
-                <Image
-                  src={project.imageUrl}
-                  alt={project.title}
-                  data-ai-hint={project.imageHint}
-                  width={400}
-                  height={300}
-                  className="aspect-[4/3] w-full object-cover"
-                />
-              </CardHeader>
-              <CardContent className="flex-grow p-6 space-y-3">
-                <CardTitle className="text-xl font-semibold">{project.title}</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground line-clamp-3">{project.description}</CardDescription>
-              </CardContent>
-              <CardFooter className="p-6 pt-0">
-                <Button asChild variant="default" className="w-full transition-colors group">
-                  <Link href={project.tutorialLink}>
-                    View Tutorial <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+        {!projects && ( // Only show this title if not being used with a custom project list (e.g., on the All Projects page)
+          <div className="mb-8 md:mb-12 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Featured Projects</h2>
+            <p className="mt-3 max-w-2xl mx-auto text-muted-foreground md:text-lg">
+              Get hands-on with these exciting electronics projects.
+            </p>
+          </div>
+        )}
+        {projectsToDisplay.length > 0 ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projectsToDisplay.map((project) => (
+              <Card key={project.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]">
+                <CardHeader className="p-0">
+                  <Image
+                    src={project.imageUrl}
+                    alt={project.title}
+                    data-ai-hint={project.imageHint}
+                    width={400}
+                    height={300}
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                </CardHeader>
+                <CardContent className="flex-grow p-6 space-y-3">
+                  <CardTitle className="text-xl font-semibold">{project.title}</CardTitle>
+                  <CardDescription className="text-sm text-muted-foreground line-clamp-3">{project.description}</CardDescription>
+                </CardContent>
+                <CardFooter className="p-6 pt-0">
+                  <Button asChild variant="default" className="w-full transition-colors group">
+                    <Link href={project.tutorialLink}>
+                      View Tutorial <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-muted-foreground">
+            No projects found matching your criteria.
+          </div>
+        )}
       </div>
     </section>
   );
