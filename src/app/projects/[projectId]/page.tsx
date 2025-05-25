@@ -129,10 +129,6 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
               {project.tags.map(tag => <Badge key={tag} variant="secondary">{tag}</Badge>)}
             </div>
           )}
-          <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground justify-center md:justify-start">
-            {project.difficulty && <span className="flex items-center"><Zap className="mr-1.5 h-4 w-4" /> Difficulty: {project.difficulty}</span>}
-            {project.estimatedTime && <span className="flex items-center"><Clock className="mr-1.5 h-4 w-4" /> Estimated Time: {project.estimatedTime}</span>}
-          </div>
         </header>
 
         <Image
@@ -271,3 +267,4 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
     </div>
   );
 }
+
