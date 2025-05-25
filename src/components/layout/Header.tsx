@@ -20,8 +20,11 @@ const mainNavLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
-const utilityNavLinks = [
-  { href: '/login', label: 'Login', icon: LogIn, variant: 'ghost' as const },
+// Link for non-logged-in users
+const loginLink = { href: '/login', label: 'Login', icon: LogIn, variant: 'ghost' as const };
+
+// Links for logged-in admin users
+const adminUtilityLinks = [
   { href: '/admin', label: 'Admin Panel', icon: Shield, variant: 'outline' as const },
 ];
 
@@ -57,13 +60,11 @@ export function Header() {
       if (pathname.startsWith('/admin')) {
         router.push('/login');
       } else {
-        router.push('/'); // Or wherever appropriate
+        router.push('/'); 
       }
       if (isMobileMenuOpen) setIsMobileMenuOpen(false);
     }
   };
-
-  const mobileNavItems = [...mainNavLinks]; // Start with main links
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -89,19 +90,29 @@ export function Header() {
         <div className="flex items-center gap-2">
           <div className="hidden md:flex gap-2 items-center">
              {isClient && isAdminLoggedIn ? (
-                <Button variant="outline" onClick={handleLogout} size="sm">
-                  <LogOutIcon className="mr-2 h-4 w-4" />
-                  Logout
-                </Button>
+                <>
+                  {adminUtilityLinks.map((link) => (
+                    <Button variant={link.variant} asChild key={link.href} size="sm">
+                      <Link href={link.href}>
+                        {link.icon && <link.icon className="mr-2 h-4 w-4" />}
+                        {link.label}
+                      </Link>
+                    </Button>
+                  ))}
+                  <Button variant="outline" onClick={handleLogout} size="sm">
+                    <LogOutIcon className="mr-2 h-4 w-4" />
+                    Logout
+                  </Button>
+                </>
              ) : (
-                utilityNavLinks.map((link) => (
-                  <Button variant={link.variant} asChild key={link.href} size="sm">
-                    <Link href={link.href}>
-                      {link.icon && <link.icon className="mr-2 h-4 w-4" />}
-                      {link.label}
+                isClient && (
+                  <Button variant={loginLink.variant} asChild size="sm">
+                    <Link href={loginLink.href}>
+                      {loginLink.icon && <loginLink.icon className="mr-2 h-4 w-4" />}
+                      {loginLink.label}
                     </Link>
                   </Button>
-                ))
+                )
              )}
             <ThemeToggleButton />
           </div>
@@ -122,14 +133,13 @@ export function Header() {
                     <span className="text-xl font-bold">ElectroLearn</span>
                   </Link>
                   
-                  {mobileNavItems.map((link) => (
+                  {mainNavLinks.map((link) => (
                      <Button variant="ghost" asChild key={link.href} className="justify-start text-lg">
                         <Link
                             href={link.href}
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
-                         {link.icon && <link.icon className="mr-2 h-5 w-5" />}
-                         {link.label}
+                         {link.label} {/* Icons removed for brevity in mobile main nav, can be added back if desired */}
                         </Link>
                      </Button>
                   ))}
@@ -137,22 +147,35 @@ export function Header() {
                   <hr className="my-2" />
 
                   {isClient && isAdminLoggedIn ? (
-                    <Button variant="ghost" onClick={handleLogout} className="justify-start text-lg">
-                      <LogOutIcon className="mr-2 h-5 w-5" />
-                      Logout
-                    </Button>
+                    <>
+                      {adminUtilityLinks.map((link) => (
+                         <Button variant="ghost" asChild key={link.href} className="justify-start text-lg">
+                            <Link
+                                href={link.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                             {link.icon && <link.icon className="mr-2 h-5 w-5" />}
+                             {link.label}
+                            </Link>
+                         </Button>
+                      ))}
+                      <Button variant="ghost" onClick={handleLogout} className="justify-start text-lg">
+                        <LogOutIcon className="mr-2 h-5 w-5" />
+                        Logout
+                      </Button>
+                    </>
                   ) : (
-                    utilityNavLinks.map((link) => (
-                       <Button variant="ghost" asChild key={link.href} className="justify-start text-lg">
+                     isClient && (
+                       <Button variant="ghost" asChild className="justify-start text-lg">
                           <Link
-                              href={link.href}
+                              href={loginLink.href}
                               onClick={() => setIsMobileMenuOpen(false)}
                           >
-                           {link.icon && <link.icon className="mr-2 h-5 w-5" />}
-                           {link.label}
+                           {loginLink.icon && <loginLink.icon className="mr-2 h-5 w-5" />}
+                           {loginLink.label}
                           </Link>
                        </Button>
-                    ))
+                     )
                   )}
                 </div>
               </SheetContent>
