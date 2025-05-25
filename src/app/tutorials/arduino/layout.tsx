@@ -26,7 +26,7 @@ export default function ArduinoTutorialLayout({
       </div>
       
       {/* Mobile Sidebar Section */}
-      <div className="md:hidden p-4 border-b border-border">
+      <div className="md:hidden px-2 py-3 border-b border-border">
          <h2 className="text-xl font-semibold text-primary mb-3">
             Arduino Tutorial
         </h2>
@@ -38,7 +38,7 @@ export default function ArduinoTutorialLayout({
             />
         </div>
       </div>
-      <main className="flex-grow p-4 md:p-4 lg:p-6 overflow-y-auto">
+      <main className="flex-grow pl-2 pr-4 py-4 md:pl-2 md:pr-4 lg:pl-4 lg:pr-6 overflow-y-auto">
         {children}
       </main>
     </div>
