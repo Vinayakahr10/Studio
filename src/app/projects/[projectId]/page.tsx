@@ -44,7 +44,7 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
           <pre
             className={cn(
               prismClassName,
-              "p-4 text-sm" 
+              "p-4 text-sm"
             )}
             style={{ ...prismStyle, margin: 0 }}
           >
@@ -52,9 +52,10 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
               if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
                 return null;
               }
-              const lineProps = getLineProps({ line, key: i });
+              const originalLineProps = getLineProps({ line, key: i });
+              const { key: _internalPrismLineKey, ...restLineProps } = originalLineProps; // Destructure key
               return (
-                <div key={i} {...lineProps} className={cn(lineProps.className, "flex table-row")}>
+                <div key={i} {...restLineProps} className={cn(restLineProps.className, "flex table-row")}>
                   <span
                     className="table-cell text-right pr-4 select-none text-muted-foreground/50 border-r border-muted-foreground/20"
                     style={{ minWidth: '3em' }}
@@ -63,7 +64,8 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
                   </span>
                   <span className="table-cell pl-4 flex-grow">
                     {line.map((token, tokenKey) => {
-                      const { key: _internalPrismKey, ...restTokenProps } = getTokenProps({ token, key: tokenKey });
+                      const tokenProps = getTokenProps({ token, key: tokenKey });
+                      const { key: _internalPrismTokenKey, ...restTokenProps } = tokenProps;
                       return <span key={tokenKey} {...restTokenProps} />;
                     })}
                   </span>
@@ -267,3 +269,4 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ projec
     </div>
   );
 }
+
