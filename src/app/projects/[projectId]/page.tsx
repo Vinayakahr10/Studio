@@ -8,13 +8,41 @@ import { AlertTriangle, ListChecks, Wrench, Codepen, Lightbulb, ArrowLeft, Exter
 import Link from 'next/link';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { Highlight, themes } from 'prism-react-renderer';
+import { cn } from "@/lib/utils";
 
-// Basic syntax highlighting for code blocks (can be expanded)
 const CodeBlock = ({ code, language }: { code: string; language: string }) => {
+  const prismLanguage = language.toLowerCase() as any; 
+
   return (
-    <pre className="bg-muted/50 p-4 rounded-md overflow-x-auto text-sm">
-      <code className={`language-${language}`}>{code.trim()}</code>
-    </pre>
+    <Highlight
+      theme={themes.vsDark} 
+      code={code.trimEnd()}
+      language={prismLanguage}
+    >
+      {({ className: prismClassName, style: prismStyle, tokens, getLineProps, getTokenProps }) => (
+        <pre
+          className={cn(
+            prismClassName, 
+            "p-4 rounded-md overflow-x-auto text-sm"
+          )}
+          style={prismStyle}
+        >
+          {tokens.map((line, i) => {
+            if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
+              return null;
+            }
+            return (
+              <div key={i} {...getLineProps({ line, key: i })}>
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({ token, key })} />
+                ))}
+              </div>
+            );
+          })}
+        </pre>
+      )}
+    </Highlight>
   );
 };
 
