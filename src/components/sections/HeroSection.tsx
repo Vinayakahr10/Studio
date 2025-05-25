@@ -7,7 +7,7 @@ import Image from 'next/image';
 // Removed useState and useEffect as they are no longer needed for the typing effect
 
 export function HeroSection() {
-  const fullTitle = "Welcome to ElectroLearn";
+  const fullTitle = "Welcome to EletronicswithVK";
 
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-primary/20 via-background to-background">
@@ -17,7 +17,7 @@ export function HeroSection() {
             {fullTitle}
           </h1>
           <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto lg:mx-0">
-            Dive into the world of electronics with our comprehensive tutorials, hands-on projects, and insightful articles. Whether you're a beginner or an expert, ElectroLearn is your guide.
+            Dive into the world of electronics with our comprehensive tutorials, hands-on projects, and insightful articles. Whether you're a beginner or an expert, EletronicswithVK is your guide.
           </p>
           <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start">
             <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-md hover:shadow-lg">

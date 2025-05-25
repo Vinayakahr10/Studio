@@ -5,14 +5,14 @@ import { HelpCircle } from 'lucide-react';
 
 const faqData = [
   {
-    id: "what-is-electrolearn",
-    question: "What is ElectroLearn?",
-    answer: "ElectroLearn is an online platform dedicated to helping enthusiasts learn electronics through tutorials, projects, and articles covering topics like Arduino, Raspberry Pi, IoT, and more.",
+    id: "what-is-site",
+    question: "What is EletronicswithVK?",
+    answer: "EletronicswithVK is an online platform dedicated to helping enthusiasts learn electronics through tutorials, projects, and articles covering topics like Arduino, Raspberry Pi, IoT, and more.",
   },
   {
     id: "who-is-it-for",
-    question: "Who is ElectroLearn for?",
-    answer: "ElectroLearn is for everyone, from absolute beginners curious about electronics to experienced makers and aspiring engineers looking to expand their knowledge and skills.",
+    question: "Who is EletronicswithVK for?",
+    answer: "EletronicswithVK is for everyone, from absolute beginners curious about electronics to experienced makers and aspiring engineers looking to expand their knowledge and skills.",
   },
   {
     id: "how-to-start",
@@ -40,7 +40,7 @@ export default function FaqPage() {
           Frequently Asked Questions
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-xl">
-          Find answers to common questions about ElectroLearn and our platform.
+          Find answers to common questions about EletronicswithVK and our platform.
         </p>
       </section>
 

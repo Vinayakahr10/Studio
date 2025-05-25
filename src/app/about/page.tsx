@@ -7,7 +7,7 @@ export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-16">
       <section className="text-center mb-12 md:mb-16">
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-primary">About ElectroLearn</h1>
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-primary">About EletronicswithVK</h1>
         <p className="mt-4 max-w-3xl mx-auto text-muted-foreground md:text-xl">
           Empowering electronics enthusiasts of all levels with quality knowledge and practical skills.
         </p>

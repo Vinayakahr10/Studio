@@ -24,11 +24,11 @@ export async function generateMetadata({ params }: LessonPageProps) {
   const lesson = getArduinoLessonBySlug(params.lessonSlug);
   if (!lesson) {
     return {
-      title: 'Lesson Not Found - ElectroLearn',
+      title: 'Lesson Not Found - EletronicswithVK',
     };
   }
   return {
-    title: `${lesson.title} - Arduino Tutorial - ElectroLearn`,
+    title: `${lesson.title} - Arduino Tutorial - EletronicswithVK`,
     description: lesson.description,
   };
 }
@@ -84,8 +84,8 @@ export default function ArduinoLessonPage({ params }: LessonPageProps) {
         {/* Previous Button Slot */}
         <div className="flex-1 sm:flex-initial"> {/* Allow shrinking on larger screens */}
           {prevLesson && (
-            <Button asChild variant="outline" className="w-full sm:w-auto">
-              <Link href={`/tutorials/arduino/${prevLesson.slug}`} className="flex items-center justify-center sm:justify-start">
+            <Button asChild variant="outline" className="w-full sm:w-auto justify-start">
+              <Link href={`/tutorials/arduino/${prevLesson.slug}`} className="flex items-center">
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 <span>Previous: {prevLesson.title}</span>
               </Link>
@@ -94,10 +94,10 @@ export default function ArduinoLessonPage({ params }: LessonPageProps) {
         </div>
 
         {/* Next Button Slot */}
-        <div className="flex-1 sm:flex-initial"> {/* Allow shrinking on larger screens */}
+        <div className="flex-1 sm:flex-initial sm:ml-auto"> {/* Allow shrinking on larger screens and push to right */}
           {nextLesson && (
-            <Button asChild variant="outline" className="w-full sm:w-auto">
-              <Link href={`/tutorials/arduino/${nextLesson.slug}`} className="flex items-center justify-center sm:justify-end">
+            <Button asChild variant="outline" className="w-full sm:w-auto justify-end">
+              <Link href={`/tutorials/arduino/${nextLesson.slug}`} className="flex items-center">
                 <span>Next: {nextLesson.title}</span>
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Link>

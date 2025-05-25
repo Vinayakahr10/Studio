@@ -71,7 +71,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
           <BrainCircuit className="h-7 w-7 text-primary" />
-          <span className="text-xl font-bold">ElectroLearn</span>
+          <span className="text-xl font-bold">EletronicswithVK</span>
         </Link>
         
         <nav className="hidden md:flex gap-1 items-center">
@@ -130,7 +130,7 @@ export function Header() {
                 <div className="flex flex-col gap-2 p-4">
                   <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsMobileMenuOpen(false)}>
                     <BrainCircuit className="h-7 w-7 text-primary" />
-                    <span className="text-xl font-bold">ElectroLearn</span>
+                    <span className="text-xl font-bold">EletronicswithVK</span>
                   </Link>
                   
                   {mainNavLinks.map((link) => (

@@ -38,7 +38,7 @@ export default function AdminSettingsPage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="siteName">Site Name</Label>
-              <Input id="siteName" defaultValue="ElectroLearn" className="h-11 text-base" />
+              <Input id="siteName" defaultValue="EletronicswithVK" className="h-11 text-base" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="siteTagline">Site Tagline</Label>

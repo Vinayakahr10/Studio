@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'ElectroLearn - Your Guide to Electronics',
-  description: 'Learn electronics with tutorials, projects, and articles on Arduino, Raspberry Pi, IoT, and more.',
+  title: 'EletronicswithVK - Your Guide to Electronics',
+  description: 'Learn electronics with tutorials, projects, and articles on Arduino, Raspberry Pi, IoT, and more with EletronicswithVK.',
 };
 
 export default function RootLayout({

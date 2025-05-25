@@ -10,7 +10,7 @@ export default function CommunityPage() {
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-16">
       <section className="text-center mb-12 md:mb-16">
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-primary">
-          Join the ElectroLearn Community
+          Join the EletronicswithVK Community
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-muted-foreground md:text-xl">
           Connect with fellow electronics enthusiasts, share your projects, ask questions, and learn together!
@@ -82,7 +82,7 @@ export default function CommunityPage() {
       <section className="text-center py-8 bg-secondary/30 rounded-lg">
         <h2 className="text-3xl font-semibold mb-4">Get Involved!</h2>
         <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-          Whether you're a beginner or a seasoned pro, there's a place for you in the ElectroLearn community.
+          Whether you're a beginner or a seasoned pro, there's a place for you in the EletronicswithVK community.
         </p>
         <Button size="lg" className="transition-transform hover:scale-105">
           Sign Up & Join the Discussion

@@ -47,7 +47,7 @@ export default function ArduinoTutorialPage() {
         </CardHeader>
         <CardContent className="text-muted-foreground space-y-4">
           <p className="text-lg">
-            Welcome to the ElectroLearn Arduino Tutorial series! This comprehensive guide is designed for beginners and hobbyists looking to dive into the exciting world of microcontrollers and electronics.
+            Welcome to the EletronicswithVK Arduino Tutorial series! This comprehensive guide is designed for beginners and hobbyists looking to dive into the exciting world of microcontrollers and electronics.
           </p>
           <p>
             In this series, you will:
