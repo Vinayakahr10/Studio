@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { arduinoTutorialLessons } from '@/data/arduino-tutorial-data';
+import { arduinoTutorialLessons } from '@/data/arduino-tutorial-data.tsx'; // Updated import
 
 export default function ArduinoTutorialPage() {
   const breadcrumbItems: BreadcrumbItem[] = [

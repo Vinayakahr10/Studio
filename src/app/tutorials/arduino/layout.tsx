@@ -1,7 +1,7 @@
 
 import type { ReactNode } from 'react';
 import { TutorialSidebar } from '@/components/layout/TutorialSidebar';
-import { arduinoTutorialLessons } from '@/data/arduino-tutorial-data';
+import { arduinoTutorialLessons } from '@/data/arduino-tutorial-data.tsx'; // Updated import
 import { Cpu } from 'lucide-react';
 
 

@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import type { ArduinoLesson } from '@/data/arduino-tutorial-data';
+import type { ArduinoLesson } from '@/data/arduino-tutorial-data.tsx'; // Updated import
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChevronRight } from 'lucide-react';
 

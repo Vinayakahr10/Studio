@@ -1,7 +1,6 @@
 
-import { getArduinoLessonBySlug, arduinoTutorialLessons, type ArduinoLesson } from '@/data/arduino-tutorial-data';
+import { getArduinoLessonBySlug, arduinoTutorialLessons, type ArduinoLesson } from '@/data/arduino-tutorial-data.tsx'; // Updated import
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle, Cpu } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
@@ -76,18 +75,3 @@ export default function ArduinoLessonPage({ params }: LessonPageProps) {
     </article>
   );
 }
-
-// Component to render code blocks, assuming it's located here for the data file
-// In a real app, this would be a shared component.
-// For this example, ensure CodeBlock is imported in arduino-tutorial-data.ts or defined globally.
-// If you create a shared one: src/components/content/CodeBlock.tsx
-const CodeBlock = ({ code, language }: { code: string; language: string }) => {
-  // This is a simplified placeholder. Use your actual CodeBlock component.
-  // Make sure your actual CodeBlock component is available and correctly imported in arduino-tutorial-data.ts
-  return (
-    <pre className="bg-muted p-4 rounded-md overflow-x-auto my-4 text-sm">
-      <code className={`language-${language}`}>{code.trim()}</code>
-    </pre>
-  );
-};
-export { CodeBlock }; // Export if used in arduino-tutorial-data.ts
