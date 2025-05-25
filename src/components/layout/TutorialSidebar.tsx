@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import type { ArduinoLesson } from '@/data/arduino-tutorial-data.tsx'; // Updated import
+import type { ArduinoLesson } from '@/data/arduino-tutorial-data.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChevronRight } from 'lucide-react';
 
@@ -13,22 +13,31 @@ interface TutorialSidebarProps {
   basePath: string;
   className?: string;
   tutorialTitle?: string;
+  showSidebarHeader?: boolean; // New prop
 }
 
-export function TutorialSidebar({ lessons, basePath, className, tutorialTitle = "Tutorial Lessons" }: TutorialSidebarProps) {
+export function TutorialSidebar({ 
+  lessons, 
+  basePath, 
+  className, 
+  tutorialTitle = "Tutorial Lessons", 
+  showSidebarHeader = true // Default to true
+}: TutorialSidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className={cn("w-full md:w-72 lg:w-80 border-r border-border h-full flex flex-col", className)}>
-      <div className="p-4 border-b">
-        <h3 className="text-xl font-semibold text-primary">{tutorialTitle}</h3>
-      </div>
+    <aside className={cn("w-full md:w-72 lg:w-80 h-full flex flex-col", className)}>
+      {showSidebarHeader && (
+        <div className="p-4 border-b border-border">
+          <h3 className="text-xl font-semibold text-primary">{tutorialTitle}</h3>
+        </div>
+      )}
       <ScrollArea className="flex-grow">
         <nav className="py-4 px-2">
           <ul>
             {lessons.map((lesson) => {
               const lessonPath = `${basePath}/${lesson.slug}`;
-              const isActive = pathname === lessonPath || (pathname === basePath && lesson.slug === 'introduction'); // Highlight intro if on base path
+              const isActive = pathname === lessonPath || (pathname === basePath && lesson.slug === 'introduction');
               return (
                 <li key={lesson.slug} className="mb-1">
                   <Link

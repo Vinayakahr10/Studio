@@ -17,27 +17,24 @@ export default function ArduinoTutorialLayout({
 }) {
   return (
     <div className="container mx-auto px-0 md:px-2 py-0 md:py-8 flex flex-col md:flex-row min-h-[calc(100vh-var(--header-height,4rem)-var(--footer-height,4rem))]">
-      {/* On mobile, sidebar could be a drawer or top section if needed. For now, standard layout */}
-      <div className="md:w-72 lg:w-80 flex-shrink-0 md:sticky md:top-16 md:max-h-[calc(100vh-var(--header-height,4rem)-2rem)] md:overflow-y-auto hidden md:block">
+      <div className="md:w-72 lg:w-80 flex-shrink-0 md:sticky md:top-16 md:max-h-[calc(100vh-var(--header-height,4rem)-2rem)] md:overflow-y-auto hidden md:block border-r border-border">
          <TutorialSidebar 
             lessons={arduinoTutorialLessons} 
             basePath="/tutorials/arduino"
             tutorialTitle="Arduino Tutorial"
         />
       </div>
-      {/* Mobile Sidebar Trigger (placeholder, actual implementation would use Sheet) */}
-      <div className="md:hidden p-4 border-b">
-         <h2 className="text-xl font-semibold flex items-center text-primary">
-            <Cpu className="h-6 w-6 mr-2"/> Arduino Tutorial Menu
+      
+      {/* Mobile Sidebar Section */}
+      <div className="md:hidden p-4 border-b border-border">
+         <h2 className="text-xl font-semibold text-primary mb-3">
+            Arduino Tutorial
         </h2>
-        {/* Add a button here to toggle a mobile sidebar/drawer if desired */}
-        {/* A simple way to show lesson list on mobile if sidebar is hidden */}
-        <div className="mt-2">
+        <div>
             <TutorialSidebar 
                 lessons={arduinoTutorialLessons} 
                 basePath="/tutorials/arduino"
-                tutorialTitle="Lessons"
-                className="border-0" 
+                showSidebarHeader={false}
             />
         </div>
       </div>
