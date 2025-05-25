@@ -62,7 +62,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
         {projectsToDisplay.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projectsToDisplay.map((project) => (
-              <Card key={project.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]">
+              <Card key={project.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
                 <CardHeader className="p-0">
                   <Image
                     src={project.imageUrl}

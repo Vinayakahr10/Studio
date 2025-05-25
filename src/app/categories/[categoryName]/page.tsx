@@ -68,7 +68,7 @@ export default function CategoryPage({ params }: { params: { categoryName: strin
         <h2 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-8">Tutorials & Projects in {name}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {placeholderItems.map(item => (
-            <Card key={item.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]">
+            <Card key={item.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
               <CardHeader className="p-0">
                 <Image src={item.imageUrl} alt={item.title} data-ai-hint={item.imageHint} width={400} height={250} className="aspect-video w-full object-cover" />
               </CardHeader>

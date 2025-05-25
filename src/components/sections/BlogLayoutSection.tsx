@@ -56,7 +56,7 @@ export function BlogLayoutSection() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
           <div className="lg:col-span-2 space-y-8">
             {articlesData.map((article) => (
-              <Card key={article.id} className="overflow-hidden shadow-lg transition-all hover:shadow-xl flex flex-col md:flex-row">
+              <Card key={article.id} className="overflow-hidden shadow-lg transition-all hover:shadow-xl flex flex-col md:flex-row hover:bg-muted/30">
                 <div className="md:w-1/3">
                   <Image
                     src={article.imageUrl}
