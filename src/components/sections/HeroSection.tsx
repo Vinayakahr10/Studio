@@ -1,15 +1,41 @@
 
+"use client";
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 export function HeroSection() {
+  const fullTitle = "Welcome to ElectroLearn";
+  const [typedTitle, setTypedTitle] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  const typingSpeed = 100; // milliseconds per character
+  const cursorBlinkSpeed = 530; // milliseconds for cursor blink interval
+
+  useEffect(() => {
+    if (typedTitle.length < fullTitle.length) {
+      const timeoutId = setTimeout(() => {
+        setTypedTitle(fullTitle.substring(0, typedTitle.length + 1));
+      }, typingSpeed);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [typedTitle, fullTitle]);
+
+  useEffect(() => {
+    const blinkInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, cursorBlinkSpeed);
+    return () => clearInterval(blinkInterval);
+  }, []);
+
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-primary/20 via-background to-background">
       <div className="container mx-auto grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
         <div className="space-y-4 text-center lg:text-left">
-          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-primary-foreground lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-            Welcome to ElectroLearn
+          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-primary h-[100px] sm:h-[120px] md:h-[140px] lg:h-[160px] flex items-center justify-center lg:justify-start">
+            <span>{typedTitle}</span>
+            {showCursor && <span className="ml-1 text-inherit">|</span>}
           </h1>
           <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto lg:mx-0">
             Dive into the world of electronics with our comprehensive tutorials, hands-on projects, and insightful articles. Whether you're a beginner or an expert, ElectroLearn is your guide.
