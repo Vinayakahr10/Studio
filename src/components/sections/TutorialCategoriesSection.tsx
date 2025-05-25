@@ -35,12 +35,12 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-6">
             {categoriesToDisplay.map((category) => (
               <Link key={category.id} href={category.href} className="group">
-                <Card className="h-full flex flex-col items-center justify-center p-6 text-center shadow-md transition-all hover:shadow-xl hover:bg-accent/10 hover:scale-105">
+                <Card className="h-full flex flex-col items-center justify-center p-6 text-center shadow-md transition-all hover:shadow-xl hover:bg-muted/30 hover:scale-105">
                   <CardHeader className="p-0 mb-4">
-                    <category.Icon className="h-12 w-12 text-primary transition-colors group-hover:text-accent-foreground" />
+                    <category.Icon className="h-12 w-12 text-primary transition-colors" />
                   </CardHeader>
                   <CardContent className="p-0">
-                    <CardTitle className="text-lg font-semibold group-hover:text-accent-foreground">{category.name}</CardTitle>
+                    <CardTitle className="text-lg font-semibold">{category.name}</CardTitle>
                     {category.description && <p className="text-sm text-muted-foreground mt-1">{category.description}</p>}
                   </CardContent>
                 </Card>
