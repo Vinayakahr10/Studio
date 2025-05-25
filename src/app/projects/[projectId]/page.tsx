@@ -36,7 +36,7 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
   };
 
   return (
-    <div className="relative group rounded-md bg-[#1e1e1e]">
+    <div className="relative group rounded-md bg-[#1e1e1e] overflow-x-auto">
       <Highlight
         theme={themes.vsDark}
         code={code.trimEnd()}
@@ -46,9 +46,9 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
           <pre
             className={cn(
               prismClassName,
-              "p-4 rounded-md overflow-x-auto text-sm"
+              "p-4 text-sm" // Removed overflow-x-auto and rounded-md
             )}
-            style={{ ...prismStyle, margin: 0, backgroundColor: prismStyle.backgroundColor || '#1e1e1e' }}
+            style={{ ...prismStyle, margin: 0 }} // backgroundColor will come from prismStyle
           >
             {tokens.map((line, i) => {
               if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
@@ -267,4 +267,3 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
     </div>
   );
 }
-
