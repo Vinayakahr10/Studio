@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu, Pi, Wifi, Gauge, CircuitBoard, Component } from 'lucide-react';
 
 export const categoriesData: Category[] = [
-  { id: 'arduino', name: 'Arduino', Icon: Cpu, href: '/categories/arduino', description: 'Microcontroller projects and guides.' },
+  { id: 'arduino', name: 'Arduino', Icon: Cpu, href: '/tutorials/arduino', description: 'Microcontroller projects and guides.' }, // Updated href
   { id: 'raspberry-pi', name: 'Raspberry Pi', Icon: Pi, href: '/categories/raspberry-pi', description: 'Single-board computer applications.' },
   { id: 'iot', name: 'IoT', Icon: Wifi, href: '/categories/iot', description: 'Internet of Things devices and concepts.' },
   { id: 'sensors', name: 'Sensors', Icon: Gauge, href: '/categories/sensors', description: 'Interfacing with various sensors.' },
@@ -23,7 +23,7 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
   return (
     <section className="w-full py-12 md:py-16 lg:py-20">
       <div className="container mx-auto px-4 md:px-6">
-        {!categories && ( // Only show this title if not being used with a custom category list (e.g., on the All Tutorials page)
+        {!categories && ( 
           <div className="mb-8 md:mb-12 text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Explore Tutorials by Category</h2>
             <p className="mt-3 max-w-2xl mx-auto text-muted-foreground md:text-lg">
