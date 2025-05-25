@@ -80,23 +80,30 @@ export default function ArduinoLessonPage({ params }: LessonPageProps) {
 
       <Separator className="my-8 md:my-12" />
 
-      <nav className="flex flex-col sm:flex-row sm:justify-start items-start sm:items-center gap-4">
-        {prevLesson && (
-          <Button asChild variant="outline" className="w-full sm:w-auto">
-            <Link href={`/tutorials/arduino/${prevLesson.slug}`}>
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Previous: {prevLesson.title}
-            </Link>
-          </Button>
-        )}
-        {nextLesson && (
-          <Button asChild variant="outline" className="w-full sm:w-auto">
-            <Link href={`/tutorials/arduino/${nextLesson.slug}`}>
-              Next: {nextLesson.title}
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        )}
+      <nav className="flex flex-col sm:flex-row sm:justify-between items-stretch sm:items-center gap-4">
+        {/* Previous Button Slot */}
+        <div className="flex-1 sm:flex-initial"> {/* Allow shrinking on larger screens */}
+          {prevLesson && (
+            <Button asChild variant="outline" className="w-full sm:w-auto">
+              <Link href={`/tutorials/arduino/${prevLesson.slug}`} className="flex items-center justify-center sm:justify-start">
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                <span>Previous: {prevLesson.title}</span>
+              </Link>
+            </Button>
+          )}
+        </div>
+
+        {/* Next Button Slot */}
+        <div className="flex-1 sm:flex-initial"> {/* Allow shrinking on larger screens */}
+          {nextLesson && (
+            <Button asChild variant="outline" className="w-full sm:w-auto">
+              <Link href={`/tutorials/arduino/${nextLesson.slug}`} className="flex items-center justify-center sm:justify-end">
+                <span>Next: {nextLesson.title}</span>
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          )}
+        </div>
       </nav>
     </article>
   );
