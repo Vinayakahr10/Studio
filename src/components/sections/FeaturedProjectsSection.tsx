@@ -31,6 +31,14 @@ export const featuredProjectsData: Project[] = [
     imageHint: 'iot plant sensor',
     tutorialLink: '/projects/iot-plant-monitor',
   },
+  {
+    id: '4',
+    title: 'ESP32 Based Weather Station',
+    description: 'Build a comprehensive weather station using the ESP32 to monitor various environmental conditions like temperature, humidity, pressure, and potentially air quality.',
+    imageUrl: 'https://placehold.co/400x300.png',
+    imageHint: 'esp32 weather station',
+    tutorialLink: '/projects/esp32-weather-station',
+  },
 ];
 
 interface FeaturedProjectsSectionProps {
