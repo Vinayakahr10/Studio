@@ -34,53 +34,55 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
   };
 
   return (
-    <div className="relative group rounded-md bg-[#1e1e1e] overflow-x-auto">
-      <Highlight
-        theme={themes.vsDark}
-        code={code.trimEnd()}
-        language={prismLanguage}
-      >
-        {({ className: prismClassName, style: prismStyle, tokens, getLineProps, getTokenProps }) => (
-          <pre
-            className={cn(
-              prismClassName,
-              "p-4 text-sm"
-            )}
-            style={{ ...prismStyle, margin: 0 }}
-          >
-            {tokens.map((line, i) => {
-              if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
-                return null;
-              }
-              const originalLineProps = getLineProps({ line, key: i });
-              const { key: _internalPrismLineKey, ...restLineProps } = originalLineProps; // Destructure key
-              return (
-                <div key={i} {...restLineProps} className={cn(restLineProps.className, "flex table-row")}>
-                  <span
-                    className="table-cell text-right pr-4 select-none text-muted-foreground/50 border-r border-muted-foreground/20"
-                    style={{ minWidth: '3em' }}
-                  >
-                    {i + 1}
-                  </span>
-                  <span className="table-cell pl-4 flex-grow">
-                    {line.map((token, tokenKey) => {
-                      const tokenProps = getTokenProps({ token, key: tokenKey });
-                      const { key: _internalPrismTokenKey, ...restTokenProps } = tokenProps;
-                      return <span key={tokenKey} {...restTokenProps} />;
-                    })}
-                  </span>
-                </div>
-              );
-            })}
-          </pre>
-        )}
-      </Highlight>
+    <div className="relative group rounded-md bg-[#1e1e1e]">
+      <div className="overflow-x-auto">
+        <Highlight
+          theme={themes.vsDark}
+          code={code.trimEnd()}
+          language={prismLanguage}
+        >
+          {({ className: prismClassName, style: prismStyle, tokens, getLineProps, getTokenProps }) => (
+            <pre
+              className={cn(
+                prismClassName,
+                "p-4 text-sm"
+              )}
+              style={{ ...prismStyle, margin: 0 }}
+            >
+              {tokens.map((line, i) => {
+                if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
+                  return null;
+                }
+                const linePropsOriginal = getLineProps({ line, key: i });
+                const { key: _internalPrismLineKey, ...restLineProps } = linePropsOriginal;
+                return (
+                  <div key={i} {...restLineProps} className={cn(restLineProps.className, "flex table-row")}>
+                    <span
+                      className="table-cell text-right pr-4 select-none text-muted-foreground/50 border-r border-muted-foreground/20"
+                      style={{ minWidth: '3em' }}
+                    >
+                      {i + 1}
+                    </span>
+                    <span className="table-cell pl-4 flex-grow">
+                      {line.map((token, tokenKey) => {
+                        const tokenPropsOriginal = getTokenProps({ token, key: tokenKey });
+                        const { key: _internalPrismTokenKey, ...restTokenProps } = tokenPropsOriginal;
+                        return <span key={tokenKey} {...restTokenProps} />;
+                      })}
+                    </span>
+                  </div>
+                );
+              })}
+            </pre>
+          )}
+        </Highlight>
+      </div>
       <Button
         variant="ghost"
         size="icon"
         onClick={copyToClipboard}
         className={cn(
-          "absolute top-2 right-2 h-8 w-8 p-1.5 rounded-md",
+          "absolute top-2 right-2 h-8 w-8 p-1.5 rounded-md z-10",
           "text-slate-400 hover:text-slate-200 focus-visible:text-slate-100",
           "hover:bg-slate-700/50 focus-visible:bg-slate-700/60",
           "opacity-60 group-hover:opacity-100 focus-visible:opacity-100 transition-all duration-150",
