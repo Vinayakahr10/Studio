@@ -1,0 +1,29 @@
+# Netlify configuration file for a Next.js project
+
+[build]
+  # Command to build your Next.js site
+  command = "npm run build"
+  # Directory that contains the built site (for Next.js, this is .next)
+  publish = ".next"
+
+# This plugin ensures Next.js features (like API routes, Image Optimization, etc.)
+# work correctly on Netlify.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# If your Genkit flows are intended to be deployed as serverless functions
+# and are handled through Next.js API routes or server actions,
+# the @netlify/plugin-nextjs should handle their deployment.
+# Netlify automatically detects Next.js API routes and server components.
+
+# You can define redirects and rewrites here if needed.
+# For example, a common one for SPAs (though Next.js handles routing differently):
+# [[redirects]]
+#  from = "/*"
+#  to = "/index.html"
+#  status = 200
+
+# If you have environment variables that your build process or runtime needs
+# (like API keys for Genkit or other services),
+# you'll need to set them up in your Netlify site's dashboard:
+# Site settings > Build & deploy > Environment > Environment variables.
