@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, DatabaseZap } from 'lucide-react'; // Added DatabaseZap
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'; // Added SheetHeader
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'; // Added SheetHeader & SheetTrigger
 import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { usePathname, useRouter } from 'next/navigation';
