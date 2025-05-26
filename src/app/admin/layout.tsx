@@ -4,56 +4,42 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Newspaper, LogOut, ArrowLeftToLine } from 'lucide-react'; // Removed Users, Settings
+import { LayoutDashboard, Newspaper, LogOut, ArrowLeftToLine } from 'lucide-react';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth'; // Import useAuth
 
 const adminNavItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/blogs', label: 'Blogs', icon: Newspaper },
-  // { href: '/admin/users', label: 'Users', icon: Users }, // Removed
-  // { href: '/admin/settings', label: 'Settings', icon: Settings }, // Removed
 ];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
+  const { user, isAdmin, loading, logout } = useAuth(); // Use the auth hook
   const pathname = usePathname();
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (isClient) {
-      const isLoggedIn = localStorage.getItem('isElectroAdminLoggedIn') === 'true';
-      if (!isLoggedIn) {
+    if (!loading) { // Only check after auth state is loaded
+      if (!user || !isAdmin) {
         router.replace('/login');
       }
     }
-  }, [isClient, router, pathname]); // Re-check on pathname change too for safety
+  }, [user, isAdmin, loading, router, pathname]);
 
-  const handleLogout = () => {
-    if (isClient) {
-      localStorage.removeItem('isElectroAdminLoggedIn');
-      router.push('/login');
-    }
+  const handleLogout = async () => {
+    await logout();
+    // Redirection to /login is handled within the logout function in useAuth
   };
   
-  if (!isClient) {
-    // Optional: Render a loading state or null while waiting for client-side checks
-    return <div className="flex h-screen items-center justify-center"><p>Loading admin panel...</p></div>;
+  if (loading || !user || !isAdmin) {
+    // Show loading or redirecting message while auth state is resolving or if not authorized
+    return <div className="flex h-screen items-center justify-center"><p>Loading admin panel or redirecting...</p></div>;
   }
-  
-  // Ensure children are not rendered if redirecting (though router.replace should handle this)
-  if (isClient && localStorage.getItem('isElectroAdminLoggedIn') !== 'true') {
-      return null; 
-  }
-
 
   return (
     <SidebarProvider defaultOpen>
@@ -108,11 +94,11 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           </Tooltip>
           <div className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
             <Avatar className="h-9 w-9">
-              <AvatarImage src="https://placehold.co/40x40.png" alt="Admin User" data-ai-hint="user avatar" />
-              <AvatarFallback>AD</AvatarFallback>
+              <AvatarImage src={user.photoURL || "https://placehold.co/40x40.png"} alt={user.displayName || user.email || "Admin User"} data-ai-hint="user avatar" />
+              <AvatarFallback>{user.email ? user.email.substring(0,2).toUpperCase() : 'AD'}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-              <span className="text-sm font-medium">Admin User</span>
+              <span className="text-sm font-medium truncate max-w-[120px]">{user.displayName || user.email}</span>
               <button onClick={handleLogout} className="text-xs text-muted-foreground hover:text-primary text-left">
                 Logout <LogOut className="inline h-3 w-3" />
               </button>

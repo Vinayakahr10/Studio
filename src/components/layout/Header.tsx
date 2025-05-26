@@ -4,10 +4,11 @@
 import Link from 'next/link';
 import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'; // Added SheetTitle
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { usePathname, useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth'; // Import useAuth
 
 const mainNavLinks = [
   { href: '/', label: 'Home' },
@@ -31,39 +32,14 @@ const adminUtilityLinks = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const { user, isAdmin, logout, loading } = useAuth(); // Use the auth hook
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (isClient) {
-      const checkLoginStatus = () => {
-        setIsAdminLoggedIn(localStorage.getItem('isElectroAdminLoggedIn') === 'true');
-      };
-      checkLoginStatus();
-      // Optional: Listen for storage changes if you want to sync across tabs/windows
-      // window.addEventListener('storage', checkLoginStatus);
-      // return () => window.removeEventListener('storage', checkLoginStatus);
-    }
-  }, [isClient, pathname]); // Re-check on pathname change
-
-  const handleLogout = () => {
-    if (isClient) {
-      localStorage.removeItem('isElectroAdminLoggedIn');
-      setIsAdminLoggedIn(false);
-      // If on an admin page, redirect to login. Otherwise, can redirect to home or stay.
-      if (pathname.startsWith('/admin')) {
-        router.push('/login');
-      } else {
-        router.push('/'); 
-      }
-      if (isMobileMenuOpen) setIsMobileMenuOpen(false);
-    }
+  const handleLogout = async () => {
+    await logout();
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+    // Redirection to /login is handled in useAuth or AdminLayout
   };
 
   return (
@@ -89,7 +65,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <div className="hidden md:flex gap-2 items-center">
-             {isClient && isAdminLoggedIn ? (
+             {!loading && user && isAdmin ? (
                 <>
                   {adminUtilityLinks.map((link) => (
                     <Button variant={link.variant} asChild key={link.href} size="sm">
@@ -104,16 +80,14 @@ export function Header() {
                     Logout
                   </Button>
                 </>
-             ) : (
-                isClient && (
+             ) : !loading && !user ? (
                   <Button variant={loginLink.variant} asChild size="sm">
                     <Link href={loginLink.href}>
                       {loginLink.icon && <loginLink.icon className="mr-2 h-4 w-4" />}
                       {loginLink.label}
                     </Link>
                   </Button>
-                )
-             )}
+             ) : null /* Show nothing while loading or if user is logged in but not admin */}
             <ThemeToggleButton />
           </div>
          
@@ -140,14 +114,14 @@ export function Header() {
                             href={link.href}
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
-                         {link.label} {/* Icons removed for brevity in mobile main nav, can be added back if desired */}
+                         {link.label}
                         </Link>
                      </Button>
                   ))}
 
                   <hr className="my-2" />
 
-                  {isClient && isAdminLoggedIn ? (
+                  {!loading && user && isAdmin ? (
                     <>
                       {adminUtilityLinks.map((link) => (
                          <Button variant="ghost" asChild key={link.href} className="justify-start text-lg">
@@ -165,8 +139,7 @@ export function Header() {
                         Logout
                       </Button>
                     </>
-                  ) : (
-                     isClient && (
+                  ) : !loading && !user ? (
                        <Button variant="ghost" asChild className="justify-start text-lg">
                           <Link
                               href={loginLink.href}
@@ -176,8 +149,7 @@ export function Header() {
                            {loginLink.label}
                           </Link>
                        </Button>
-                     )
-                  )}
+                  ) : null /* Show nothing while loading or if user is logged in but not admin */ }
                 </div>
               </SheetContent>
             </Sheet>
