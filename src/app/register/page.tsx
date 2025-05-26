@@ -7,52 +7,62 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LogIn } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
-// IMPORTANT: Admin email for demonstration purposes.
-// In a real app, proper role management is needed.
-const ADMIN_EMAIL = "admin@electrolearn.com";
-
-export default function LoginPage() {
-  const { login, user, isAdmin, loading } = useAuth();
+export default function RegisterPage() {
+  const { signup, user, loading } = useAuth();
   const router = useRouter();
+  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
-    if (user && !loading) { // Check !loading to prevent redirect before auth state is confirmed
-      if (isAdmin) {
-        router.replace('/admin');
-      } else {
-        // Optional: redirect non-admin users from login if already logged in
-        // router.replace('/'); 
-      }
+    if (user && !loading) {
+      // If user is already logged in, redirect from register page
+      router.replace('/');
     }
-  }, [user, isAdmin, loading, router]);
+  }, [user, loading, router]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await login(email, password);
-    // Redirection is handled by onAuthStateChanged in useAuth or the useEffect above
+    if (password !== confirmPassword) {
+      toast({
+        title: "Registration Failed",
+        description: "Passwords do not match.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const success = await signup(email, password);
+    if (success) {
+      // Firebase automatically signs in the user after successful creation.
+      // onAuthStateChanged in useAuth will handle further state updates.
+      // Redirect to homepage, user can then navigate or be redirected if admin by other logic.
+      router.push('/'); 
+    }
+    // Toast notifications for success/failure are handled within the signup function in useAuth
   };
   
-  if (loading && !user) { // Show loading only if auth is still resolving and no user yet
+  if (loading && !user) {
     return <div className="flex h-screen items-center justify-center"><p>Loading...</p></div>;
   }
-  if (user && isAdmin && !loading) { // Redirect if logged in, admin, and auth loaded
-    return <div className="flex h-screen items-center justify-center"><p>Redirecting to admin panel...</p></div>;
+  if (user) {
+    // Already logged in, should be redirected by useEffect
+    return <div className="flex h-screen items-center justify-center"><p>Redirecting...</p></div>;
   }
-  // If user is logged in but not admin, they can still see the login page (or be redirected by useEffect if desired)
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] py-12">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
-          <LogIn className="mx-auto h-10 w-10 text-primary mb-2" />
-          <CardTitle className="text-3xl">Admin Login</CardTitle>
-          <CardDescription>Enter your credentials to access the admin panel.</CardDescription>
+          <UserPlus className="mx-auto h-10 w-10 text-primary mb-2" />
+          <CardTitle className="text-3xl">Create Account</CardTitle>
+          <CardDescription>Fill in the details below to create your account.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -61,7 +71,7 @@ export default function LoginPage() {
               <Input 
                 id="email" 
                 type="email" 
-                placeholder="admin@electrolearn.com" 
+                placeholder="you@example.com" 
                 required 
                 className="h-11 text-base"
                 value={email}
@@ -80,23 +90,34 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} 
                 disabled={loading}
+                minLength={6} // Firebase default minimum
               />
             </div>
-            <p className="text-xs text-muted-foreground">Demo admin: {ADMIN_EMAIL} (any password after Firebase setup)</p>
+             <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input 
+                id="confirmPassword" 
+                type="password" 
+                placeholder="••••••••" 
+                required 
+                className="h-11 text-base"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)} 
+                disabled={loading}
+                minLength={6}
+              />
+            </div>
             <Button type="submit" size="lg" className="w-full transition-transform hover:scale-105" disabled={loading}>
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? 'Creating Account...' : 'Create Account'}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex flex-col items-center text-sm space-y-2">
            <p className="text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-primary hover:underline">
-              Create an account
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary hover:underline">
+              Login
             </Link>
-          </p>
-          <p className="text-muted-foreground">
-            Ensure you have set up Firebase Authentication.
           </p>
           <Link href="/" className="text-primary hover:underline mt-2">
             &larr; Back to Home
