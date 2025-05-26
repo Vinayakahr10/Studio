@@ -1,13 +1,14 @@
 
 "use client";
 
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Loader2, Save } from "lucide-react";
 import Link from "next/link";
 import {
   Select,
@@ -15,19 +16,84 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+import { db } from '@/lib/firebase/firebase'; // Import db
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useRouter } from "next/navigation";
+import type { Article } from "@/types";
 
 export default function AddBlogPage() {
   const { toast } = useToast();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w-]+/g, '') // Remove all non-word chars
+      .replace(/--+/g, '-'); // Replace multiple - with single -
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // In a real app, you would handle form submission to save the blog post
-    toast({
-      title: "Blog Post Submitted (Placeholder)",
-      description: "This form is a placeholder. Data is not actually saved.",
-    });
-    (event.target as HTMLFormElement).reset();
+    setLoading(true);
+    const formData = new FormData(event.target as HTMLFormElement);
+    const title = formData.get("title") as string;
+    let slug = formData.get("slug") as string;
+    const category = formData.get("category") as string;
+    const status = formData.get("status") as Article['status'] || 'draft';
+    const summary = formData.get("summary") as string;
+    const content = formData.get("content") as string;
+    const featuredImage = formData.get("featuredImage") as string;
+    const tagsString = formData.get("tags") as string;
+
+    if (!title || !content) {
+        toast({ title: "Error", description: "Title and Content are required.", variant: "destructive" });
+        setLoading(false);
+        return;
+    }
+
+    if (!slug && title) {
+      slug = generateSlug(title);
+    }
+
+    const blogPost: Omit<Article, 'id' | 'href' | 'date'> & { createdAt: any } = {
+      title,
+      slug,
+      category,
+      status,
+      summary,
+      content,
+      featuredImage: featuredImage || `https://placehold.co/800x400.png?text=${encodeURIComponent(title)}`,
+      imageHint: "blog post image",
+      tags: tagsString ? tagsString.split(',').map(tag => tag.trim()).filter(tag => tag) : [],
+      author: "Admin", // Placeholder, or get from logged-in user
+      createdAt: serverTimestamp(), // Firestore server timestamp
+    };
+
+    try {
+      if (!db) {
+        throw new Error("Firestore database is not available.");
+      }
+      await addDoc(collection(db, "blogs"), blogPost);
+      toast({
+        title: "Blog Post Saved!",
+        description: "Your new blog post has been successfully saved to Firestore.",
+      });
+      (event.target as HTMLFormElement).reset();
+      router.push('/admin/blogs'); // Redirect to blog list
+    } catch (error: any) {
+      console.error("Error adding document: ", error);
+      toast({
+        title: "Error Saving Post",
+        description: error.message || "Could not save the blog post. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,13 +120,13 @@ export default function AddBlogPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" placeholder="Enter blog post title" required className="h-11 text-base" />
+              <Input name="title" id="title" placeholder="Enter blog post title" required className="h-11 text-base" />
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="category">Category</Label>
-                  <Select name="category">
+                  <Select name="category" defaultValue="fundamentals">
                     <SelectTrigger className="h-11 text-base">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
@@ -91,36 +157,37 @@ export default function AddBlogPage() {
             
             <div className="space-y-2">
               <Label htmlFor="slug">Slug (URL Path)</Label>
-              <Input id="slug" placeholder="e.g., my-awesome-post" className="h-11 text-base" />
+              <Input name="slug" id="slug" placeholder="e.g., my-awesome-post (auto-generated if blank)" className="h-11 text-base" />
               <p className="text-xs text-muted-foreground">If left blank, it will be generated from the title.</p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="summary">Summary / Excerpt</Label>
-              <Textarea id="summary" placeholder="A short summary of the blog post..." rows={3} className="text-base" />
+              <Textarea name="summary" id="summary" placeholder="A short summary of the blog post..." rows={3} className="text-base" />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="content">Main Content (Markdown Supported)</Label>
-              <Textarea id="content" placeholder="Write your blog post content here..." required rows={10} className="text-base" />
+              <Textarea name="content" id="content" placeholder="Write your blog post content here..." required rows={10} className="text-base" />
             </div>
             
             <div className="space-y-2">
               <Label htmlFor="featuredImage">Featured Image URL</Label>
-              <Input id="featuredImage" type="url" placeholder="https://placehold.co/800x400.png" className="h-11 text-base" />
+              <Input name="featuredImage" id="featuredImage" type="url" placeholder="https://placehold.co/800x400.png" className="h-11 text-base" />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="tags">Tags (comma-separated)</Label>
-              <Input id="tags" placeholder="e.g., arduino, beginner, sensors" className="h-11 text-base" />
+              <Input name="tags" id="tags" placeholder="e.g., arduino, beginner, sensors" className="h-11 text-base" />
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" asChild>
+              <Button type="button" variant="outline" asChild disabled={loading}>
                 <Link href="/admin/blogs">Cancel</Link>
               </Button>
-              <Button type="submit" size="lg" className="transition-transform hover:scale-105">
-                <Save className="mr-2 h-4 w-4" /> Save Post
+              <Button type="submit" size="lg" className="transition-transform hover:scale-105" disabled={loading}>
+                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+                {loading ? "Saving..." : "Save Post"}
               </Button>
             </div>
           </form>
