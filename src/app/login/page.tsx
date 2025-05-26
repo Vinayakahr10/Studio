@@ -95,8 +95,8 @@ export default function LoginPage() {
               Create an account
             </Link>
           </p>
-          <p className="text-muted-foreground">
-            Ensure you have set up Firebase Authentication.
+          <p className="text-muted-foreground px-4 text-center text-xs">
+            For login to work: ensure Firebase is configured (check <code>.env.local</code> &amp; enable Email/Password sign-in in Firebase console).
           </p>
           <Link href="/" className="text-primary hover:underline mt-2">
             &larr; Back to Home
@@ -106,3 +106,4 @@ export default function LoginPage() {
     </div>
   );
 }
+
