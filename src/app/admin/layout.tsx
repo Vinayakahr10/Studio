@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Newspaper, Users, Settings, LogOut, ArrowLeftToLine } from 'lucide-react';
+import { LayoutDashboard, Newspaper, LogOut, ArrowLeftToLine } from 'lucide-react'; // Removed Users, Settings
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -15,8 +15,8 @@ import { useEffect, useState } from 'react';
 const adminNavItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/blogs', label: 'Blogs', icon: Newspaper },
-  { href: '/admin/users', label: 'Users', icon: Users },
-  { href: '/admin/settings', label: 'Settings', icon: Settings },
+  // { href: '/admin/users', label: 'Users', icon: Users }, // Removed
+  // { href: '/admin/settings', label: 'Settings', icon: Settings }, // Removed
 ];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
