@@ -2,9 +2,9 @@
 "use client";
 
 import Link from 'next/link';
-import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, DatabaseZap } from 'lucide-react'; // Added DatabaseZap
+import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon } from 'lucide-react'; // Removed DatabaseZap
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'; // Added SheetHeader & SheetTrigger
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { usePathname, useRouter } from 'next/navigation';
@@ -19,7 +19,7 @@ const mainNavLinks = [
   { href: '/faq', label: 'FAQ' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  { href: '/data-demo', label: 'Data Demo', icon: DatabaseZap }, // Added Data Demo link
+  // { href: '/data-demo', label: 'Data Demo', icon: DatabaseZap }, // Removed Data Demo link
 ];
 
 // Link for non-logged-in users

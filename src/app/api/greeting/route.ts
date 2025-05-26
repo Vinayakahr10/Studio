@@ -1,8 +1,3 @@
-
-import { NextResponse } from 'next/server';
-
-export async function GET() {
-  // In a real application, you might fetch data from a database here
-  // or perform other server-side logic.
-  return NextResponse.json({ message: 'Hello from the Next.js Backend!' });
-}
+// This file is intentionally left empty as it's being removed.
+// If the build system attempts to use it, it will be empty.
+// The file will be deleted by the apply_changes script if it exists.
