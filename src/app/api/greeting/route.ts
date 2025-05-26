@@ -1,3 +1,5 @@
-// This file is intentionally left empty as it's being removed.
-// If the build system attempts to use it, it will be empty.
-// The file will be deleted by the apply_changes script if it exists.
+// This API route was intended to be removed.
+// Ensuring its content is benign if the file deletion process was not completed.
+// Next.js should 404 this route if accessed directly and it has no handlers.
+
+// Intentionally empty
