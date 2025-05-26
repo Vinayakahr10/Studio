@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'; // Added SheetTitle
 import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { usePathname, useRouter } from 'next/navigation';
@@ -127,6 +127,7 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full max-w-xs">
+                <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle> 
                 <div className="flex flex-col gap-2 p-4">
                   <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsMobileMenuOpen(false)}>
                     <BrainCircuit className="h-7 w-7 text-primary" />
