@@ -89,7 +89,13 @@ export default function LoginPage() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col items-center text-sm">
+        <CardFooter className="flex flex-col items-center text-sm space-y-2">
+          <p className="text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <Link href="#" className="text-primary hover:underline">
+              Create an account
+            </Link>
+          </p>
           <p className="text-muted-foreground">
             This is a placeholder login form for demonstration.
           </p>
