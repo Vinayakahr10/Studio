@@ -11,7 +11,7 @@ export function ContactCallToActionSection() {
           <div className="inline-block bg-primary/10 p-3 rounded-full mb-4">
             <Mail className="h-8 w-8 text-primary" />
           </div>
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary-foreground">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary">
             Get in Touch
           </h2>
           <p className="mt-4 max-w-xl mx-auto text-muted-foreground md:text-lg">
