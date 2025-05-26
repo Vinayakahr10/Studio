@@ -2,13 +2,13 @@
 "use client";
 
 import Link from 'next/link';
-import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon } from 'lucide-react';
+import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, DatabaseZap } from 'lucide-react'; // Added DatabaseZap
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'; // Added SheetHeader
 import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth'; // Import useAuth
+import { useAuth } from '@/hooks/useAuth';
 
 const mainNavLinks = [
   { href: '/', label: 'Home' },
@@ -19,6 +19,7 @@ const mainNavLinks = [
   { href: '/faq', label: 'FAQ' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  { href: '/data-demo', label: 'Data Demo', icon: DatabaseZap }, // Added Data Demo link
 ];
 
 // Link for non-logged-in users
@@ -32,7 +33,7 @@ const adminUtilityLinks = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, isAdmin, logout, loading } = useAuth(); // Use the auth hook
+  const { user, isAdmin, logout, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -57,6 +58,7 @@ export function Header() {
                 href={link.href}
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2"
               >
+                {link.icon && <link.icon className="mr-1.5 h-4 w-4" />}
                 {link.label}
               </Link>
             </Button>
@@ -101,30 +103,32 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full max-w-xs">
-                <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle> 
-                <div className="flex flex-col gap-2 p-4">
-                  <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsMobileMenuOpen(false)}>
-                    <BrainCircuit className="h-7 w-7 text-primary" />
-                    <span className="text-xl font-bold">EletronicswithVK</span>
-                  </Link>
-                  
+                 <SheetHeader className="mb-4 border-b pb-4">
+                    <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle> 
+                    <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                        <BrainCircuit className="h-7 w-7 text-primary" />
+                        <span className="text-xl font-bold">EletronicswithVK</span>
+                    </Link>
+                 </SheetHeader>
+                <div className="flex flex-col gap-1">
                   {mainNavLinks.map((link) => (
-                     <Button variant="ghost" asChild key={link.href} className="justify-start text-lg">
+                     <Button variant="ghost" asChild key={link.href} className="justify-start text-base py-2.5 h-auto">
                         <Link
                             href={link.href}
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
+                         {link.icon && <link.icon className="mr-2 h-5 w-5" />}
                          {link.label}
                         </Link>
                      </Button>
                   ))}
 
-                  <hr className="my-2" />
+                  <hr className="my-3" />
 
                   {!loading && user && isAdmin ? (
                     <>
                       {adminUtilityLinks.map((link) => (
-                         <Button variant="ghost" asChild key={link.href} className="justify-start text-lg">
+                         <Button variant="ghost" asChild key={link.href} className="justify-start text-base py-2.5 h-auto">
                             <Link
                                 href={link.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
@@ -134,13 +138,13 @@ export function Header() {
                             </Link>
                          </Button>
                       ))}
-                      <Button variant="ghost" onClick={handleLogout} className="justify-start text-lg">
+                      <Button variant="ghost" onClick={handleLogout} className="justify-start text-base py-2.5 h-auto">
                         <LogOutIcon className="mr-2 h-5 w-5" />
                         Logout
                       </Button>
                     </>
                   ) : !loading && !user ? (
-                       <Button variant="ghost" asChild className="justify-start text-lg">
+                       <Button variant="ghost" asChild className="justify-start text-base py-2.5 h-auto">
                           <Link
                               href={loginLink.href}
                               onClick={() => setIsMobileMenuOpen(false)}
