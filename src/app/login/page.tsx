@@ -96,7 +96,7 @@ export default function LoginPage() {
             </Link>
           </p>
           <p className="text-muted-foreground px-4 text-center text-xs">
-            For login to work: ensure Firebase is configured (check <code>.env.local</code> &amp; enable Email/Password sign-in in Firebase console).
+            Reminder: For login to function, ensure your Firebase project is configured correctly (check <code>.env.local</code> for credentials &amp; enable Email/Password sign-in method in your Firebase console).
           </p>
           <Link href="/" className="text-primary hover:underline mt-2">
             &larr; Back to Home
