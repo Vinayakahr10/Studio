@@ -30,22 +30,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setIsAdmin(currentUser?.email === ADMIN_EMAIL);
+    if (auth) {
+      try {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+          setUser(currentUser);
+          setIsAdmin(currentUser?.email === ADMIN_EMAIL);
+          setLoading(false);
+        });
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error setting up Firebase onAuthStateChanged listener:", error);
+        // This might happen if the auth object is partially initialized due to config errors
+        setLoading(false); // Ensure loading is set to false to unblock UI
+      }
+    } else {
+      // If auth is null, Firebase isn't initialized (e.g. missing config).
+      console.warn("Firebase auth object is null. Skipping onAuthStateChanged listener. Ensure Firebase is configured correctly in .env.local and the server is restarted.");
       setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+    }
+  }, []); // Empty dependency array means it runs once on mount
 
   const login = async (email: string, pass: string): Promise<boolean> => {
+    if (!auth) {
+      toast({ title: "Login Error", description: "Firebase authentication is not available. Please check configuration.", variant: "destructive" });
+      return false;
+    }
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, pass);
       // onAuthStateChanged will update user and isAdmin state
-      toast({ title: "Login Successful", description: "Redirecting to admin panel..." });
-      // router.push('/admin') is handled in useEffect in AdminLayout based on user state
-      setLoading(false);
+      toast({ title: "Login Successful", description: "Redirecting..." });
+      // Redirection is handled by useEffect in AdminLayout or LoginPage based on user state
+      // setLoading(false) is handled by onAuthStateChanged
       return true;
     } catch (error: any) {
       console.error("Firebase login error:", error);
@@ -56,6 +72,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async (): Promise<void> => {
+    if (!auth) {
+      toast({ title: "Logout Error", description: "Firebase authentication is not available.", variant: "destructive" });
+      return;
+    }
     setLoading(true);
     try {
       await firebaseSignOut(auth);
@@ -66,7 +86,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error("Firebase logout error:", error);
       toast({ title: "Logout Failed", description: error.message, variant: "destructive" });
     } finally {
-      setLoading(false);
+      // setLoading(false) is handled by onAuthStateChanged or if an error occurs above.
+      // However, if signOut itself doesn't trigger onAuthStateChanged immediately or fails before, ensure loading stops.
+      // A more robust way would be to rely on onAuthStateChanged setting loading to false.
+      // For now, let's ensure it's set if not already done by onAuthStateChanged.
+      if (loading) {
+         setLoading(false);
+      }
     }
   };
 
