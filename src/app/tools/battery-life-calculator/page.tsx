@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { ArrowLeft, Hourglass, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils'; // Import cn utility
 
 // Helper to format duration into a readable string
 const formatDuration = (hours: number): string => {
@@ -46,13 +47,14 @@ export default function BatteryLifeCalculatorPage() {
      if (/^\d*\.?\d*$/.test(value) || value === '') {
       setter(value);
       setError(null); 
-      setResult(null);
+      setResult(null); // Clear result when input changes, this will also help re-trigger animation
     }
   };
 
   const calculateBatteryLife = () => {
     setError(null);
-    setResult(null);
+    // Set result to null briefly before new calculation to ensure animation re-triggers if inputs were valid before
+    setResult(null); 
 
     const capacity = parseFloat(batteryCapacity);
     const consumption = parseFloat(currentConsumption);
@@ -75,11 +77,16 @@ export default function BatteryLifeCalculatorPage() {
     }
     
     const formattedDuration = formatDuration(estimatedHours);
-    setResult(formattedDuration);
-    toast({
-      title: "Calculation Complete",
-      description: `Estimated Battery Life: ${formattedDuration}`,
-    });
+    
+    // Use a slight delay before setting the result to allow the UI to clear the previous result
+    // This helps ensure the animation triggers cleanly.
+    setTimeout(() => {
+      setResult(formattedDuration);
+      toast({
+        title: "Calculation Complete",
+        description: `Estimated Battery Life: ${formattedDuration}`,
+      });
+    }, 50); // A small delay like 50ms
   };
 
   return (
@@ -125,13 +132,20 @@ export default function BatteryLifeCalculatorPage() {
             <Zap className="mr-2 h-5 w-5"/> Calculate Battery Life
           </Button>
 
-          {result && (
-            <div className="mt-6 p-6 bg-primary/5 rounded-lg space-y-2 border border-primary/20">
-              <h3 className="text-lg font-semibold text-center text-primary mb-1">Estimated Battery Life:</h3>
-              <p className="text-center text-2xl font-mono font-bold tracking-wide">{result}</p>
-               <p className="text-xs text-muted-foreground text-center pt-2">Note: This is an ideal estimate. Real-world battery life can be affected by factors like battery age, temperature, discharge curve, and variations in current draw.</p>
-            </div>
-          )}
+          <div 
+            className={cn(
+              "mt-6 p-6 bg-primary/5 rounded-lg space-y-2 border border-primary/20 transition-all duration-500 ease-out transform",
+              result ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+            )}
+          >
+            {result && ( // Only render inner content if result is present
+              <>
+                <h3 className="text-lg font-semibold text-center text-primary mb-1">Estimated Battery Life:</h3>
+                <p className="text-center text-2xl font-mono font-bold tracking-wide">{result}</p>
+                <p className="text-xs text-muted-foreground text-center pt-2">Note: This is an ideal estimate. Real-world battery life can be affected by factors like battery age, temperature, discharge curve, and variations in current draw.</p>
+              </>
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>
