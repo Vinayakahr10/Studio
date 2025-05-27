@@ -2,11 +2,11 @@
 "use client";
 
 import Link from "next/link";
-import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, ChevronDown } from 'lucide-react';
+import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, ChevronDown, Wrench } from 'lucide-react'; // Added Wrench
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { usePathname, useRouter } from 'next/navigation';
@@ -17,17 +17,22 @@ const mainNavLinks = [
   { href: "/projects", label: "Projects" },
   { href: "/tutorials", label: "Tutorials" },
   { href: "/blog", label: "Blog" },
+  {
+    label: "Tools",
+    icon: Wrench, // Added icon for the main "Tools" dropdown trigger
+    href: "/tools", // Main link for the Tools item itself
+    dropdown: [
+      { href: "/tools", label: "All Tools" }, // Link to the main tools page
+      { type: 'separator' as const }, // Separator
+      { href: "/tools/ohms-law-calculator", label: "Ohm's Law Calculator" },
+      { href: "/tools/resistance-calculator", label: "Resistor Color Code Calculator" },
+      { href: "/tools/555-timer-calculator", label: "555 Timer Calculator" },
+      { href: "/tools/capacitor-code-calculator", label: "Capacitor Code Calculator" },
+    ],
+  },
   { href: "/faq", label: "FAQ" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
-  {
-    label: "Tools",
-    icon: undefined, 
-    dropdown: [
-      { href: "/tools/ohms-law-calculator", label: "Ohm's Law Calculator" },
-      { href: "/tools/resistance-calculator", label: "Resistance Calculator" },
-    ],
-  },
 ];
 
 // Link for non-logged-in users
@@ -63,16 +68,29 @@ export function Header() {
             link.dropdown ? (
               <DropdownMenu key={link.label}>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="link" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2">
-                    {link.icon && <link.icon className="mr-1.5 h-4 w-4" />}
-                    {link.label} <ChevronDown className="ml-1 h-4 w-4" />
+                  <Button variant="link" asChild={!link.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2">
+                     {link.href ? (
+                        <Link href={link.href} className="flex items-center gap-1.5">
+                            {link.icon && <link.icon className="h-4 w-4" />}
+                            {link.label} <ChevronDown className="ml-1 h-4 w-4" />
+                        </Link>
+                     ) : (
+                        <span className="flex items-center gap-1.5">
+                            {link.icon && <link.icon className="h-4 w-4" />}
+                            {link.label} <ChevronDown className="ml-1 h-4 w-4" />
+                        </span>
+                     )}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  {link.dropdown.map((item) => (
+                  {link.dropdown.map((item, index) => (
+                    item.type === 'separator' ? (
+                      <DropdownMenuSeparator key={`separator-${index}`} />
+                    ) : (
                     <DropdownMenuItem key={item.href} asChild>
                       <Link href={item.href}>{item.label}</Link>
                     </DropdownMenuItem>
+                    )
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -82,7 +100,7 @@ export function Header() {
                   href={link.href!} 
                   className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2"
                 >
-                  <span className="flex items-center gap-1.5"> {/* Ensure single child for Link when Button is asChild */}
+                  <span className="flex items-center gap-1.5">
                     {link.icon && <link.icon className="h-4 w-4" />}
                     {link.label}
                   </span>
@@ -134,8 +152,8 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full max-w-xs">
+                <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
                  <SheetHeader className="mb-4 border-b pb-4">
-                    <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle> 
                     <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                         <BrainCircuit className="h-7 w-7 text-primary" />
                         <span className="text-xl font-bold">EletronicswithVK</span>
@@ -147,12 +165,23 @@ export function Header() {
                       <Accordion type="single" collapsible className="w-full" key={link.label}>
                         <AccordionItem value={link.label} className="border-b-0">
                           <AccordionTrigger className="text-base py-2.5 h-auto hover:no-underline hover:bg-muted/50 rounded-md px-3 font-medium text-muted-foreground justify-start group">
-                             {link.icon && <link.icon className="mr-2 h-5 w-5" />}
-                             <span>{link.label}</span>
+                             <span className="flex items-center">
+                                {link.icon && <link.icon className="mr-2 h-5 w-5" />}
+                                {link.href ? (
+                                  <Link href={link.href} onClick={(e) => { e.stopPropagation(); setIsMobileMenuOpen(false); }} className="group-hover:underline">
+                                    {link.label}
+                                  </Link>
+                                ) : (
+                                  <span>{link.label}</span>
+                                )}
+                             </span>
                           </AccordionTrigger>
                           <AccordionContent className="pt-1 pb-0 pl-7">
                             <div className="flex flex-col gap-0.5">
-                              {link.dropdown.map((item) => (
+                              {link.dropdown.map((item, index) => (
+                                item.type === 'separator' ? (
+                                  <hr key={`separator-mobile-${index}`} className="my-1"/>
+                                ) : (
                                 <Button variant="ghost" asChild key={item.href} className="justify-start text-base py-2.5 h-auto font-normal text-muted-foreground">
                                   <Link
                                     href={item.href}
@@ -161,6 +190,7 @@ export function Header() {
                                     {item.label}
                                   </Link>
                                 </Button>
+                                )
                               ))}
                             </div>
                           </AccordionContent>
@@ -172,7 +202,7 @@ export function Header() {
                               href={link.href!}
                               onClick={() => setIsMobileMenuOpen(false)}
                           >
-                           <span className="flex items-center"> {/* Ensure single child for Link when Button is asChild */}
+                           <span className="flex items-center">
                              {link.icon && <link.icon className="mr-2 h-5 w-5" />}
                              {link.label}
                            </span>
@@ -225,3 +255,4 @@ export function Header() {
     </header>
   );
 }
+
