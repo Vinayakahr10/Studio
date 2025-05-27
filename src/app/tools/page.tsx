@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass, Sigma } from 'lucide-react'; // Added Sigma
+import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network } from 'lucide-react'; // Added Cpu, Network
 
 const toolsData = [
   {
@@ -13,7 +13,7 @@ const toolsData = [
   },
   {
     title: "Resistor Color Code Calculator",
-    description: "Determine the resistance value of a resistor based on its color bands.",
+    description: "Determine the resistance value of a resistor based on its color bands (4, 5, or 6 bands).",
     href: "/tools/resistance-calculator",
     Icon: Zap, 
   },
@@ -25,7 +25,7 @@ const toolsData = [
   },
   {
     title: "Capacitor Code Calculator",
-    description: "Convert capacitor codes (e.g., 104) to capacitance values (pF, nF, µF).",
+    description: "Convert 3-digit EIA capacitor codes (e.g., 104) to capacitance values (pF, nF, µF).",
     href: "/tools/capacitor-code-calculator",
     Icon: DraftingCompass,
   },
@@ -33,7 +33,19 @@ const toolsData = [
     title: "LED Resistor Calculator",
     description: "Calculate the required series resistor value and power rating for an LED.",
     href: "/tools/led-resistor-calculator",
-    Icon: Sigma, // Using Sigma icon for this new tool
+    Icon: Sigma,
+  },
+  {
+    title: "SMD Resistor Code Calculator",
+    description: "Decode 3-digit, 4-digit, and EIA-96 SMD resistor codes to determine their resistance.",
+    href: "/tools/smd-resistor-calculator",
+    Icon: Cpu, // Using Cpu as a generic component icon
+  },
+  {
+    title: "Voltage Divider Calculator",
+    description: "Calculate output voltage or resistor values in a voltage divider circuit.",
+    href: "/tools/voltage-divider-calculator",
+    Icon: Network, // Using Network icon for circuit relation
   }
 ];
 
