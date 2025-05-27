@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, ChevronDown, Wrench } from 'lucide-react'; // Added Wrench
+import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, ChevronDown, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -19,16 +19,8 @@ const mainNavLinks = [
   { href: "/blog", label: "Blog" },
   {
     label: "Tools",
-    icon: Wrench, // Added icon for the main "Tools" dropdown trigger
-    href: "/tools", // Main link for the Tools item itself
-    dropdown: [
-      { href: "/tools", label: "All Tools" }, // Link to the main tools page
-      { type: 'separator' as const }, // Separator
-      { href: "/tools/ohms-law-calculator", label: "Ohm's Law Calculator" },
-      { href: "/tools/resistance-calculator", label: "Resistor Color Code Calculator" },
-      { href: "/tools/555-timer-calculator", label: "555 Timer Calculator" },
-      { href: "/tools/capacitor-code-calculator", label: "Capacitor Code Calculator" },
-    ],
+    icon: Wrench,
+    href: "/tools", // This will now be a direct link
   },
   { href: "/faq", label: "FAQ" },
   { href: "/about", label: "About" },
@@ -65,7 +57,7 @@ export function Header() {
         
         <nav className="hidden md:flex gap-1 items-center">
           {mainNavLinks.map((link) => (
-            link.dropdown ? (
+            link.dropdown ? ( // This condition will now be false for "Tools"
               <DropdownMenu key={link.label}>
                 <DropdownMenuTrigger asChild>
                   <Button variant="link" asChild={!link.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2">
@@ -161,7 +153,7 @@ export function Header() {
                  </SheetHeader>
                 <div className="flex flex-col gap-1">
                   {mainNavLinks.map((link) => (
-                    link.dropdown ? (
+                    link.dropdown ? ( // This condition will now be false for "Tools"
                       <Accordion type="single" collapsible className="w-full" key={link.label}>
                         <AccordionItem value={link.label} className="border-b-0">
                           <AccordionTrigger className="text-base py-2.5 h-auto hover:no-underline hover:bg-muted/50 rounded-md px-3 font-medium text-muted-foreground justify-start group">
@@ -255,4 +247,3 @@ export function Header() {
     </header>
   );
 }
-
