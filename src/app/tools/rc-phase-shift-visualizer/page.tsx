@@ -19,7 +19,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart'; // Assuming ChartTooltipContent is correctly exported
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
 const chartConfig = {
   inputVoltage: {
@@ -27,7 +27,7 @@ const chartConfig = {
     color: 'hsl(var(--chart-1))',
   },
   outputVoltage: {
-    label: 'Output Voltage (Vout)',
+    label: 'Output Voltage (Vout - Inverted)', // Updated label
     color: 'hsl(var(--chart-2))',
   },
 };
@@ -38,8 +38,8 @@ export default function RcPhaseShiftVisualizerPage() {
   const [signalFrequency, setSignalFrequency] = useState<number>(1000); // Hertz
 
   const [cutoffFrequency, setCutoffFrequency] = useState<number>(0);
-  const [phaseShift, setPhaseShift] = useState<number>(0); // degrees
-  const [outputGain, setOutputGain] = useState<number>(1);
+  const [phaseShift, setPhaseShift] = useState<number>(0); // degrees for the RC network
+  const [outputGain, setOutputGain] = useState<number>(1); // gain of the RC network
   const [chartData, setChartData] = useState<any[]>([]);
 
   const handleResistorChange = (value: number[]) => {
@@ -51,17 +51,20 @@ export default function RcPhaseShiftVisualizerPage() {
   };
 
   const handleFrequencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value);
-    setSignalFrequency(val > 0 ? val : 1); // Prevent 0 or negative frequency
+    let val = parseFloat(e.target.value);
+    if (isNaN(val) || val <= 0) {
+      val = 1; // Default to 1 Hz if input is invalid or zero
+    }
+    setSignalFrequency(val);
   };
 
   useEffect(() => {
     const R = resistor;
     const C_farads = capacitor * 1e-6; // Convert µF to F
-    const f_signal = signalFrequency;
+    const f_signal = signalFrequency > 0 ? signalFrequency : 1; // Ensure positive frequency
 
-    if (R > 0 && C_farads > 0 && f_signal > 0) {
-      // Calculate Cutoff Frequency
+    if (R > 0 && C_farads > 0) {
+      // Calculate Cutoff Frequency for the RC network
       const fc = 1 / (2 * Math.PI * R * C_farads);
       setCutoffFrequency(fc);
 
@@ -69,14 +72,14 @@ export default function RcPhaseShiftVisualizerPage() {
       const omega_signal = 2 * Math.PI * f_signal;
       const RC = R * C_farads;
 
-      // Calculate Phase Shift
-      const phi_rad = -Math.atan(omega_signal * RC);
-      const phi_deg = phi_rad * (180 / Math.PI);
-      setPhaseShift(phi_deg);
+      // Calculate Phase Shift for the RC network (radians and degrees)
+      const phi_rad_rc_network = -Math.atan(omega_signal * RC);
+      const phi_deg_rc_network = phi_rad_rc_network * (180 / Math.PI);
+      setPhaseShift(phi_deg_rc_network);
 
-      // Calculate Gain (Magnitude of Transfer Function H(jω))
-      const gain = 1 / Math.sqrt(1 + Math.pow(omega_signal * RC, 2));
-      setOutputGain(gain);
+      // Calculate Gain (Magnitude of Transfer Function H(jω)) for the RC network
+      const gain_rc_network = 1 / Math.sqrt(1 + Math.pow(omega_signal * RC, 2));
+      setOutputGain(gain_rc_network);
 
       // Generate Chart Data
       const V_peak_input = 1; // Assume 1V peak input for simplicity
@@ -89,12 +92,15 @@ export default function RcPhaseShiftVisualizerPage() {
       const data = [];
       for (let i = 0; i <= numPoints; i++) {
         const t = i * timeStep;
-        const inputV = V_peak_input * Math.sin(omega_signal * t);
-        const outputV = V_peak_input * gain * Math.sin(omega_signal * t + phi_rad);
+        let inputV = V_peak_input * Math.sin(omega_signal * t);
+        // Output voltage from RC network, then inverted (multiplied by -1)
+        let outputV_rc_filter = V_peak_input * gain_rc_network * Math.sin(omega_signal * t + phi_rad_rc_network);
+        let outputV_inverted = -1 * outputV_rc_filter;
+
         data.push({
-          time: parseFloat((t * 1000).toFixed(3)), // Time in ms for better readability
-          inputVoltage: parseFloat(inputV.toFixed(4)),
-          outputVoltage: parseFloat(outputV.toFixed(4)),
+          time: parseFloat((t * 1000).toFixed(3)) || 0, // Time in ms
+          inputVoltage: parseFloat(inputV.toFixed(4)) || 0,
+          outputVoltage: parseFloat(outputV_inverted.toFixed(4)) || 0,
         });
       }
       setChartData(data);
@@ -130,7 +136,8 @@ export default function RcPhaseShiftVisualizerPage() {
           </div>
           <CardTitle className="text-3xl">RC Circuit Phase Shift Visualizer</CardTitle>
           <CardDescription>
-            Visualize phase shift and cutoff frequency in an RC low-pass filter circuit.
+            Visualize phase shift and signal response in a passive RC low-pass filter circuit. 
+            The output waveform on the graph is shown inverted (180° shift) for contexts like an inverting amplifier stage.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
@@ -148,7 +155,7 @@ export default function RcPhaseShiftVisualizerPage() {
               />
             </div>
             <div className="space-y-3">
-              <Label htmlFor="capacitor" className="text-base">Capacitor (C): {capacitor} µF</Label>
+              <Label htmlFor="capacitor" className="text-base">Capacitor (C): {capacitor.toFixed(1)} µF</Label>
               <Slider
                 id="capacitor"
                 min={0.1}
@@ -160,7 +167,7 @@ export default function RcPhaseShiftVisualizerPage() {
               />
             </div>
             <div className="space-y-3">
-              <Label htmlFor="frequency" className="text-base">Signal Frequency (f):</Label>
+              <Label htmlFor="frequency" className="text-base">Signal Frequency (f_signal):</Label>
               <Input
                 id="frequency"
                 type="number"
@@ -177,7 +184,7 @@ export default function RcPhaseShiftVisualizerPage() {
           <Card className="bg-muted/20 p-6 rounded-lg">
             <CardHeader className="p-0 pb-4">
               <CardTitle className="text-xl text-primary flex items-center">
-                <Zap className="mr-2 h-5 w-5"/>Calculated Values
+                <Zap className="mr-2 h-5 w-5"/>Calculated RC Network Values
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
@@ -186,11 +193,11 @@ export default function RcPhaseShiftVisualizerPage() {
                 <p className="font-mono text-primary">{formatFrequency(cutoffFrequency)}</p>
               </div>
               <div>
-                <p className="font-semibold">Phase Shift (ϕ) at {formatFrequency(signalFrequency)}:</p>
+                <p className="font-semibold">RC Network Phase Shift (ϕ) at {formatFrequency(signalFrequency)}:</p>
                 <p className="font-mono text-primary">{phaseShift.toFixed(2)}°</p>
               </div>
               <div>
-                <p className="font-semibold">Output Gain (Vout/Vin):</p>
+                <p className="font-semibold">RC Network Gain (Vout/Vin):</p>
                 <p className="font-mono text-primary">{outputGain.toFixed(3)}</p>
               </div>
             </CardContent>
@@ -206,21 +213,23 @@ export default function RcPhaseShiftVisualizerPage() {
                   <LineChart
                     data={chartData}
                     margin={{
-                      top: 5, right: 20, left: -10, bottom: 5,
+                      top: 5, right: 30, left: 0, bottom: 20, // Adjusted margins
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                     <XAxis 
                         dataKey="time" 
                         type="number" 
-                        label={{ value: "Time (ms)", position: "insideBottomRight", offset: -5, fill: 'hsl(var(--muted-foreground))' }} 
+                        label={{ value: "Time (ms)", position: "insideBottom", dy:10, fill: 'hsl(var(--muted-foreground))' }} 
                         stroke="hsl(var(--muted-foreground))"
                         tickFormatter={(value) => `${value.toFixed(1)}`}
+                        domain={['dataMin', 'dataMax']}
                     />
                     <YAxis 
                         label={{ value: "Voltage (V)", angle: -90, position: "insideLeft", fill: 'hsl(var(--muted-foreground))' }} 
                         stroke="hsl(var(--muted-foreground))"
-                        domain={[-1.1, 1.1]} // Fixed domain for 1V peak input
+                        type="number"
+                        domain={[-1.1, 1.1]} 
                         ticks={[-1, -0.5, 0, 0.5, 1]}
                     />
                     <Tooltip content={<ChartTooltipContent hideIndicator />} cursor={{stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3'}} />
@@ -231,7 +240,7 @@ export default function RcPhaseShiftVisualizerPage() {
                       stroke={chartConfig.inputVoltage.color}
                       strokeWidth={2}
                       dot={false}
-                      name="Input Voltage (Vin)"
+                      name={chartConfig.inputVoltage.label}
                     />
                     <Line
                       type="monotone"
@@ -239,7 +248,7 @@ export default function RcPhaseShiftVisualizerPage() {
                       stroke={chartConfig.outputVoltage.color}
                       strokeWidth={2}
                       dot={false}
-                      name="Output Voltage (Vout)"
+                      name={chartConfig.outputVoltage.label}
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -255,3 +264,4 @@ export default function RcPhaseShiftVisualizerPage() {
     </div>
   );
 }
+
