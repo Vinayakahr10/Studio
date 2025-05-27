@@ -18,20 +18,38 @@ export default function VoltageDividerCalculatorPage() {
   const [vin, setVin] = useState<string>('');
   const [r1, setR1] = useState<string>('');
   const [r2, setR2] = useState<string>('');
-  const [vout, setVout] = useState<string>(''); // Also used for input if calculating R1/R2
+  const [vout, setVout] = useState<string>('');
   
   const [calculateWhich, setCalculateWhich] = useState<CalculateOption>('vout');
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>, fieldName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (/^\d*\.?\d*$/.test(value) || value === '') { // Allow numbers and one decimal
+    if (/^\d*\.?\d*$/.test(value) || value === '') {
       setter(value);
       setError(null);
       setResult(null);
+      // Clear the field that will be calculated if user is editing other inputs
+      if (calculateWhich === 'vout' && (fieldName === 'vin' || fieldName === 'r1' || fieldName === 'r2')) setVout('');
+      if (calculateWhich === 'r1' && (fieldName === 'vin' || fieldName === 'r2' || fieldName === 'vout')) setR1('');
+      if (calculateWhich === 'r2' && (fieldName === 'vin' || fieldName === 'r1' || fieldName === 'vout')) setR2('');
     }
   };
+  
+  const handleSelectChange = (value: CalculateOption) => {
+    setCalculateWhich(value);
+    setVin(''); setR1(''); setR2(''); setVout(''); // Clear all fields on mode change
+    setError(null);
+    setResult(null);
+  };
+
+  const formatValue = (val: number | null | undefined, unit: string): string => {
+    if (val === null || val === undefined || isNaN(val) || !isFinite(val)) return "---";
+    // Basic formatting, can be expanded for k, M, etc.
+    return `${val.toPrecision(4)} ${unit}`;
+  };
+
 
   const performCalculation = () => {
     setError(null);
@@ -40,33 +58,58 @@ export default function VoltageDividerCalculatorPage() {
     const numVin = parseFloat(vin);
     const numR1 = parseFloat(r1);
     const numR2 = parseFloat(r2);
-    const numVoutTarget = parseFloat(vout); // Vout can be an input if we are calculating R1 or R2
+    const numVoutInput = parseFloat(vout); // Vout is an input when calculating R1/R2
 
-    // Basic validation
-    let knownValues = 0;
-    if (!isNaN(numVin)) knownValues++;
-    if (!isNaN(numR1)) knownValues++;
-    if (!isNaN(numR2)) knownValues++;
-    if (calculateWhich !== 'vout' && !isNaN(numVoutTarget)) knownValues++; // Vout is known when calculating R1/R2
-    
-    if (knownValues < (calculateWhich === 'vout' ? 3 : 3) ) { // Need Vin, R1, R2 for Vout; or Vin, Vout, one R for other R.
-         setError("Please provide sufficient input values for the calculation.");
-         return;
+    let calculatedValue: number | null = null;
+    let resultString: string | null = null;
+
+    try {
+      if (calculateWhich === 'vout') {
+        if (isNaN(numVin) || isNaN(numR1) || isNaN(numR2)) {
+          throw new Error("Vin, R1, and R2 are required to calculate Vout.");
+        }
+        if (numR1 < 0 || numR2 < 0) throw new Error("Resistor values cannot be negative.");
+        if (numR1 + numR2 === 0) throw new Error("Total resistance (R1+R2) cannot be zero.");
+        calculatedValue = numVin * (numR2 / (numR1 + numR2));
+        setVout(calculatedValue.toPrecision(4)); // Update the Vout display field
+        resultString = `Vout: ${formatValue(calculatedValue, "V")}`;
+      } else if (calculateWhich === 'r1') {
+        if (isNaN(numVin) || isNaN(numR2) || isNaN(numVoutInput)) {
+          throw new Error("Vin, R2, and Vout are required to calculate R1.");
+        }
+        if (numR2 < 0) throw new Error("R2 cannot be negative.");
+        if (numVoutInput === 0) throw new Error("Vout cannot be zero when calculating R1 (division by zero).");
+        if (numVin <= numVoutInput && numVoutInput !== 0) throw new Error("Vin must be greater than Vout to calculate R1.");
+        calculatedValue = numR2 * (numVin / numVoutInput - 1);
+        if (calculatedValue < 0) throw new Error("Calculated R1 is negative, check inputs (Vin > Vout required).");
+        setR1(calculatedValue.toPrecision(4));
+        resultString = `R1: ${formatValue(calculatedValue, "Ω")}`;
+      } else if (calculateWhich === 'r2') {
+        if (isNaN(numVin) || isNaN(numR1) || isNaN(numVoutInput)) {
+          throw new Error("Vin, R1, and Vout are required to calculate R2.");
+        }
+        if (numR1 < 0) throw new Error("R1 cannot be negative.");
+        if (numVin - numVoutInput === 0) throw new Error("Vin cannot be equal to Vout (division by zero) when calculating R2.");
+        if (numVin <= numVoutInput && numVoutInput !== 0) throw new Error("Vin must be greater than Vout to calculate R2.");
+        calculatedValue = (numVoutInput * numR1) / (numVin - numVoutInput);
+        if (calculatedValue < 0) throw new Error("Calculated R2 is negative, check inputs (Vin > Vout required).");
+        setR2(calculatedValue.toPrecision(4));
+        resultString = `R2: ${formatValue(calculatedValue, "Ω")}`;
+      }
+      
+      if (resultString) {
+        setResult(resultString);
+        toast({ title: "Calculation Complete", description: resultString });
+      }
+
+    } catch (e: any) {
+      setError(e.message || "Calculation error.");
+      setResult(null); // Clear result on error
+      // Also clear the field that was supposed to be calculated
+      if (calculateWhich === 'vout') setVout('');
+      if (calculateWhich === 'r1') setR1('');
+      if (calculateWhich === 'r2') setR2('');
     }
-
-    // Placeholder logic
-    toast({
-      title: "Calculation Placeholder",
-      description: `Logic to calculate ${calculateWhich} needs to be implemented with values: Vin=${vin}, R1=${r1}, R2=${r2}, VoutTarget=${vout}.`,
-    });
-    // Example result:
-    // setResult("Calculated Value: X (Placeholder)");
-    
-    // Actual calculation logic would go here
-    // if (calculateWhich === 'vout') { Vout = Vin * (R2 / (R1 + R2)) }
-    // if (calculateWhich === 'r1') { R1 = R2 * (Vin / Vout - 1) }
-    // if (calculateWhich === 'r2') { R2 = R1 / (Vin / Vout - 1) }
-
   };
 
   return (
@@ -94,32 +137,32 @@ export default function VoltageDividerCalculatorPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="vin">Input Voltage (Vin) - Volts</Label>
-              <Input id="vin" type="text" placeholder="e.g., 5" value={vin} onChange={handleInputChange(setVin)} className="h-10 text-base" inputMode="decimal" />
+              <Input id="vin" type="text" placeholder="e.g., 5" value={vin} onChange={handleInputChange(setVin, 'vin')} className="h-10 text-base" inputMode="decimal" disabled={calculateWhich === 'vout' && false} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="r1">Resistor R1 - Ohms</Label>
-              <Input id="r1" type="text" placeholder="e.g., 1000" value={r1} onChange={handleInputChange(setR1)} className="h-10 text-base" inputMode="decimal" disabled={calculateWhich === 'r1'}/>
+              <Input id="r1" type="text" placeholder="e.g., 1000" value={r1} onChange={handleInputChange(setR1, 'r1')} className="h-10 text-base" inputMode="decimal" disabled={calculateWhich === 'r1'}/>
             </div>
             <div className="space-y-2">
               <Label htmlFor="r2">Resistor R2 - Ohms</Label>
-              <Input id="r2" type="text" placeholder="e.g., 1000" value={r2} onChange={handleInputChange(setR2)} className="h-10 text-base" inputMode="decimal" disabled={calculateWhich === 'r2'}/>
+              <Input id="r2" type="text" placeholder="e.g., 1000" value={r2} onChange={handleInputChange(setR2, 'r2')} className="h-10 text-base" inputMode="decimal" disabled={calculateWhich === 'r2'}/>
             </div>
             <div className="space-y-2">
               <Label htmlFor="vout">Output Voltage (Vout) - Volts</Label>
-              <Input id="vout" type="text" placeholder={calculateWhich === 'vout' ? "Calculated" : "e.g., 2.5"} value={vout} onChange={handleInputChange(setVout)} readOnly={calculateWhich === 'vout'} className="h-10 text-base" inputMode="decimal" disabled={calculateWhich === 'vout'}/>
+              <Input id="vout" type="text" placeholder={calculateWhich === 'vout' ? "Calculated" : "e.g., 2.5"} value={vout} onChange={handleInputChange(setVout, 'vout')} className={`h-10 text-base ${calculateWhich === 'vout' ? 'bg-muted/50' : ''}`} inputMode="decimal" readOnly={calculateWhich === 'vout'}/>
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="calculateWhich">Calculate Which Value?</Label>
-            <Select value={calculateWhich} onValueChange={(value) => setCalculateWhich(value as CalculateOption)}>
+            <Select value={calculateWhich} onValueChange={(value) => handleSelectChange(value as CalculateOption)}>
               <SelectTrigger className="h-11 text-base">
                 <SelectValue placeholder="Select value to calculate" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="vout">Output Voltage (Vout)</SelectItem>
-                <SelectItem value="r1">Resistor R1</SelectItem>
-                <SelectItem value="r2">Resistor R2</SelectItem>
+                <SelectItem value="r1">Resistor R1 (Ω)</SelectItem>
+                <SelectItem value="r2">Resistor R2 (Ω)</SelectItem>
               </SelectContent>
             </Select>
           </div>
