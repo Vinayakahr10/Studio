@@ -27,10 +27,10 @@ export default function LedResistorCalculatorPage() {
 
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-     if (/^\d*\.?\d*$/.test(value) || value === '') {
+     if (/^\d*\.?\d*$/.test(value) || value === '') { // Allow numbers and one decimal
       setter(value);
       setError(null); 
-      setResults(null);
+      setResults(null); // Clear results on input change
     }
   };
 
@@ -67,17 +67,17 @@ export default function LedResistorCalculatorPage() {
 
     const powerDissipatedWatts = (vs - vf) * ifAmps;
 
-    // Find standard resistor value (simplified - not implementing full E-series search here)
-    // For now, we'll just use the calculated value.
+    // Standard resistor value (simplified - not implementing full E-series search here)
+    // We'll just use the calculated value, often users pick the next common higher value.
     const standardResistorValue = resistorValueOhms; 
 
     // Recommend a power rating (typically at least 2x the dissipated power)
     let recommendedPowerRating = "1/8 W (0.125 W)";
-    if (powerDissipatedWatts > 0.0625) recommendedPowerRating = "1/4 W (0.25 W)";
+    if (powerDissipatedWatts > 0.0625) recommendedPowerRating = "1/4 W (0.25 W)"; // Standard safety margin
     if (powerDissipatedWatts > 0.125) recommendedPowerRating = "1/2 W (0.5 W)";
     if (powerDissipatedWatts > 0.25) recommendedPowerRating = "1 W";
     if (powerDissipatedWatts > 0.5) recommendedPowerRating = "2 W";
-    // Add more steps as needed
+    // Add more steps as needed for higher power LEDs
 
     const actualCurrentThroughLedAmps = (vs - vf) / standardResistorValue;
     const actualCurrentThroughLedMa = actualCurrentThroughLedAmps * 1000;
@@ -90,7 +90,7 @@ export default function LedResistorCalculatorPage() {
     
     toast({
         title: "Calculation Complete",
-        description: `Resistor: ${standardResistorValue.toFixed(1)} Ω, Power: ${recommendedPowerRating}`,
+        description: `Resistor: ${standardResistorValue.toFixed(1)} Ω, Power Rating: ${recommendedPowerRating}`,
     });
   };
 
@@ -112,7 +112,7 @@ export default function LedResistorCalculatorPage() {
           </div>
           <CardTitle className="text-3xl">LED Series Resistor Calculator</CardTitle>
           <CardDescription>
-            Calculate the required series resistor for an LED.
+            Calculate the required series resistor and its power rating for an LED.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -123,12 +123,12 @@ export default function LedResistorCalculatorPage() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="ledForwardVoltage">LED Forward Voltage (Vf) - Volts</Label>
-              <Input id="ledForwardVoltage" type="text" placeholder="e.g., 2.1" value={ledForwardVoltage} onChange={handleInputChange(setLedForwardVoltage)} className="h-10 text-base" inputMode="decimal" />
+              <Input id="ledForwardVoltage" type="text" placeholder="e.g., 2.1 (Red LED)" value={ledForwardVoltage} onChange={handleInputChange(setLedForwardVoltage)} className="h-10 text-base" inputMode="decimal" />
             </div>
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="ledForwardCurrent">LED Forward Current (If) - Milliamps (mA)</Label>
-            <Input id="ledForwardCurrent" type="text" placeholder="e.g., 20" value={ledForwardCurrent} onChange={handleInputChange(setLedForwardCurrent)} className="h-10 text-base" inputMode="decimal" />
+            <Input id="ledForwardCurrent" type="text" placeholder="e.g., 20 (Standard LED)" value={ledForwardCurrent} onChange={handleInputChange(setLedForwardCurrent)} className="h-10 text-base" inputMode="decimal" />
           </div>
 
           {error && (
@@ -149,7 +149,7 @@ export default function LedResistorCalculatorPage() {
                 <p><strong>Recommended Rating:</strong> {results.powerRating}</p>
                 <p className="sm:col-span-2"><strong>Actual LED Current:</strong> {results.actualCurrent}</p>
               </div>
-               <p className="text-xs text-muted-foreground text-center pt-2">Note: For a longer LED life, consider using a slightly higher resistor value than calculated or ensure the actual current is slightly below the LED's max rating.</p>
+               <p className="text-xs text-muted-foreground text-center pt-2">Note: For a longer LED life, consider using a slightly higher resistor value than calculated, or ensure the actual current is slightly below the LED's maximum forward current rating. Always select a resistor with a power rating at least double the calculated dissipated power.</p>
             </div>
           )}
         </CardContent>
