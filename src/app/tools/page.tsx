@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass } from 'lucide-react'; // Added RadioTower, Hourglass
+import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart } from 'lucide-react';
 
 const toolsData = [
   {
@@ -58,6 +58,12 @@ const toolsData = [
     description: "Estimate battery life based on capacity and average current consumption.",
     href: "/tools/battery-life-calculator",
     Icon: Hourglass,
+  },
+  {
+    title: "RC Circuit Phase Shift Visualizer",
+    description: "Visualize phase shift and cutoff frequency in an RC circuit with dynamic graphs.",
+    href: "/tools/rc-phase-shift-visualizer",
+    Icon: Activity, // Or LineChart
   }
 ];
 
