@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart } from 'lucide-react';
+import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart, Triangle } from 'lucide-react';
 
 const toolsData = [
   {
@@ -63,7 +63,13 @@ const toolsData = [
     title: "RC Circuit Phase Shift Visualizer",
     description: "Visualize phase shift and cutoff frequency in an RC circuit with dynamic graphs.",
     href: "/tools/rc-phase-shift-visualizer",
-    Icon: Activity, // Or LineChart
+    Icon: Activity,
+  },
+  {
+    title: "Op-Amp Gain Calculator",
+    description: "Calculate gain for common op-amp configurations like inverting and non-inverting amplifiers.",
+    href: "/tools/op-amp-calculator",
+    Icon: Triangle,
   }
 ];
 
