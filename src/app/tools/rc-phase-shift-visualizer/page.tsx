@@ -60,8 +60,12 @@ export default function RcPhaseShiftVisualizerPage() {
     if (pattern.test(value)) {
       if (isIntegerOnly) {
         const intVal = parseInt(value, 10);
-        if (!isNaN(intVal) && intVal.toString() === value) {
+        if (!isNaN(intVal) && intVal.toString() === value && intVal > 0) { // Ensure positive for N
           setter(value);
+        } else if (value === '' || (parseInt(value, 10).toString() !== value && value !=='0')) { // Allow empty or partial valid int
+           setter(value); // Let validation catch it later if still invalid
+        } else if (intVal <=0) {
+           setter(value); // Let validation catch it
         }
       } else {
         setter(value);
@@ -78,24 +82,29 @@ export default function RcPhaseShiftVisualizerPage() {
     let f_signal_val = parseFloat(signalFrequency);
     const N_val = parseInt(numberOfStages, 10);
 
-    if (isNaN(R_val) || R_val <= 0 || isNaN(C_val_uF) || C_val_uF <= 0 || isNaN(N_val) || N_val <= 0) {
-      setError("R, C, and N must be positive values greater than zero.");
+    if (isNaN(R_val) || R_val <= 0 || isNaN(C_val_uF) || C_val_uF <= 0) {
+      setError("R and C values must be positive and greater than zero.");
       setChartData([]); setCutoffFrequency(0); setPhaseShift(0); setOutputGain(0); setCalculatedOscillationFrequency(0);
       return;
     }
+    
+    // N_val validation is still important for f_osc, but the specific error message "R, C, and N..." is removed for this block.
+    // The f_osc calculation itself will handle invalid N by resulting in 0 Hz or "---".
+    // Chart generation does not depend on N.
+
      if (isNaN(f_signal_val) || f_signal_val <= 0) {
-        f_signal_val = 1; // Auto-correct to 1Hz to prevent errors
+        f_signal_val = 1; // Auto-correct to 1Hz to prevent errors if input is invalid
+        setSignalFrequency("1"); // Reflect the change in the input field
     }
 
-
     const C_farads = C_val_uF * 1e-6; // Convert µF to F
+    const RC = R_val * C_farads;
     
-    const fc = 1 / (2 * Math.PI * R_val * C_farads);
+    const fc = 1 / (2 * Math.PI * RC);
     setCutoffFrequency(isFinite(fc) ? fc : 0);
 
     const omega_signal = 2 * Math.PI * f_signal_val;
-    const RC = R_val * C_farads;
-
+    
     const phi_rad_rc_network = -Math.atan(omega_signal * RC);
     const phi_deg_rc_network = phi_rad_rc_network * (180 / Math.PI);
     setPhaseShift(isFinite(phi_deg_rc_network) ? phi_deg_rc_network : 0);
@@ -103,13 +112,18 @@ export default function RcPhaseShiftVisualizerPage() {
     const gain_rc_network = 1 / Math.sqrt(1 + Math.pow(omega_signal * RC, 2));
     setOutputGain(isFinite(gain_rc_network) ? gain_rc_network : 0);
     
-    const sqrt2N = Math.sqrt(2 * N_val);
-    if (RC > 0 && sqrt2N > 0) {
-        const f_osc = 1 / (2 * Math.PI * RC * sqrt2N);
-        setCalculatedOscillationFrequency(isFinite(f_osc) ? f_osc : 0);
+    if (!isNaN(N_val) && N_val > 0) {
+      const sqrt2N = Math.sqrt(2 * N_val);
+      if (RC > 0 && sqrt2N > 0) {
+          const f_osc = 1 / (2 * Math.PI * RC * sqrt2N);
+          setCalculatedOscillationFrequency(isFinite(f_osc) ? f_osc : 0);
+      } else {
+          setCalculatedOscillationFrequency(0);
+      }
     } else {
-        setCalculatedOscillationFrequency(0);
+      setCalculatedOscillationFrequency(0); // N is invalid for f_osc calculation
     }
+
 
     const V_peak_input = 1;
     const numCycles = 3;
@@ -123,8 +137,11 @@ export default function RcPhaseShiftVisualizerPage() {
       for (let i = 0; i <= numPoints; i++) {
         const t = i * timeStep;
         let inputV = V_peak_input * Math.sin(omega_signal * t);
+        // Output voltage of the passive RC filter
         let outputV_rc_filter = V_peak_input * gain_rc_network * Math.sin(omega_signal * t + phi_rad_rc_network);
+        // Invert for display, simulating an inverting amplifier stage
         let outputV_inverted = -1 * outputV_rc_filter;
+
 
         data.push({
           time: parseFloat((t * 1000).toFixed(3)), // Time in ms
@@ -149,7 +166,7 @@ export default function RcPhaseShiftVisualizerPage() {
       return;
     }
     if (isNaN(N_val) || N_val <= 0) {
-      setError("Number of RC Stages (N) must be a positive integer.");
+      setError("Number of RC Stages (N) must be a positive integer greater than zero.");
       return;
     }
 
@@ -161,7 +178,7 @@ export default function RcPhaseShiftVisualizerPage() {
         return;
     }
 
-    if (resistor === '' && !isNaN(current_C_val_uF) && current_C_val_uF > 0) {
+    if (resistor === '' && capacitor !== '' && !isNaN(current_C_val_uF) && current_C_val_uF > 0) {
         const C_farads = current_C_val_uF * 1e-6;
         const calculated_R = 1 / (twoPi_targetFreq_sqrt2N * C_farads);
         if (isFinite(calculated_R) && calculated_R > 0) {
@@ -170,7 +187,7 @@ export default function RcPhaseShiftVisualizerPage() {
         } else {
             setError("Could not calculate a valid Resistor value. Check inputs.");
         }
-    } else if (capacitor === '' && !isNaN(current_R_val) && current_R_val > 0) {
+    } else if (capacitor === '' && resistor !== '' && !isNaN(current_R_val) && current_R_val > 0) {
         const calculated_C_farads = 1 / (twoPi_targetFreq_sqrt2N * current_R_val);
         const calculated_C_uF = calculated_C_farads * 1e6;
          if (isFinite(calculated_C_uF) && calculated_C_uF > 0) {
@@ -190,7 +207,11 @@ export default function RcPhaseShiftVisualizerPage() {
 
 
   const formatFrequency = (hz: number) => {
-    if (isNaN(hz) || !isFinite(hz) || hz <= 0) return "---";
+    if (isNaN(hz) || !isFinite(hz)) return "---"; // Show "---" for NaN or Infinite
+    if (hz === 0 && calculatedOscillationFrequency === 0 && (parseInt(numberOfStages, 10) <=0 || isNaN(parseInt(numberOfStages, 10)))) return "---"; // Specifically for f_osc if N is bad
+    if (hz === 0) return "0 Hz";
+
+
     if (hz >= 1e6) return `${(hz / 1e6).toPrecision(3)} MHz`;
     if (hz >= 1e3) return `${(hz / 1e3).toPrecision(3)} kHz`;
     return `${hz.toPrecision(3)} Hz`;
@@ -228,31 +249,31 @@ export default function RcPhaseShiftVisualizerPage() {
             </CardHeader>
             <CardContent className="p-0 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
               <div className="space-y-4">
-                <h4 className="text-md font-semibold text-muted-foreground border-b pb-1.5">Component & Signal Values</h4>
+                <h4 className="text-md font-semibold text-muted-foreground border-b pb-1.5">Component Values</h4>
                 <div className="space-y-2">
                   <Label htmlFor="resistor" className="text-base">Resistor (R) - Ohms</Label>
-                  <Input id="resistor" type="text" value={resistor} onChange={handleInputChange(setResistor, true, false)} placeholder="e.g., 1000" className="h-10 text-base" />
+                  <Input id="resistor" type="text" value={resistor} onChange={handleInputChange(setResistor, true, false)} placeholder="e.g., 1000" className="h-10 text-base" inputMode="decimal"/>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="capacitor" className="text-base">Capacitor (C) - µF</Label>
-                  <Input id="capacitor" type="text" value={capacitor} onChange={handleInputChange(setCapacitor, true, false)} placeholder="e.g., 1" className="h-10 text-base" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signalFrequency" className="text-base">Signal Frequency (f_signal) - Hz</Label>
-                  <Input id="signalFrequency" type="text" value={signalFrequency} onChange={handleInputChange(setSignalFrequency, true, false)} placeholder="e.g., 1000 Hz" className="h-10 text-base" />
-                   <p className="text-xs text-muted-foreground">Input for waveform graph visualization.</p>
+                  <Input id="capacitor" type="text" value={capacitor} onChange={handleInputChange(setCapacitor, true, false)} placeholder="e.g., 1" className="h-10 text-base" inputMode="decimal"/>
                 </div>
               </div>
               <div className="space-y-4">
-                 <h4 className="text-md font-semibold text-muted-foreground border-b pb-1.5">Oscillator Design</h4>
+                 <h4 className="text-md font-semibold text-muted-foreground border-b pb-1.5">Signal & Oscillator Config</h4>
+                 <div className="space-y-2">
+                  <Label htmlFor="signalFrequency" className="text-base">Signal Frequency (f_signal) - Hz</Label>
+                  <Input id="signalFrequency" type="text" value={signalFrequency} onChange={handleInputChange(setSignalFrequency, true, false)} placeholder="e.g., 1000 Hz" className="h-10 text-base" inputMode="decimal"/>
+                   <p className="text-xs text-muted-foreground">Input for waveform graph visualization.</p>
+                </div>
                  <div className="space-y-2">
                   <Label htmlFor="numberOfStages" className="text-base">Number of RC Stages (N)</Label>
-                  <Input id="numberOfStages" type="text" value={numberOfStages} onChange={handleInputChange(setNumberOfStages, false, true)} placeholder="e.g., 3" className="h-10 text-base" />
-                   <p className="text-xs text-muted-foreground">For f_osc calculation (typically 3 or more).</p>
+                  <Input id="numberOfStages" type="text" value={numberOfStages} onChange={handleInputChange(setNumberOfStages, false, true)} placeholder="e.g., 3" className="h-10 text-base" inputMode="numeric" pattern="\d*"/>
+                   <p className="text-xs text-muted-foreground">For f_osc calculation (e.g., 3 or more).</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="targetOscFreq" className="text-base">Target Oscillation Freq. (f_osc_target) - Hz</Label>
-                  <Input id="targetOscFreq" type="text" value={targetOscFreq} onChange={handleInputChange(setTargetOscFreq, true, false)} placeholder="e.g., 5000 (Optional)" className="h-10 text-base" />
+                  <Input id="targetOscFreq" type="text" value={targetOscFreq} onChange={handleInputChange(setTargetOscFreq, true, false)} placeholder="e.g., 5000 (Optional)" className="h-10 text-base" inputMode="decimal"/>
                    <p className="text-xs text-muted-foreground">If set, clear R or C and click button below.</p>
                 </div>
                 <Button onClick={handleCalculateMissingComponent} variant="outline" className="w-full">
@@ -289,7 +310,7 @@ export default function RcPhaseShiftVisualizerPage() {
                 <p className="font-mono text-primary">{outputGain.toFixed(3)}</p>
               </div>
               <div>
-                <p className="font-semibold">Actual Osc. Freq. (f_osc) for {parseInt(numberOfStages, 10) || 'N'} stage(s):</p>
+                <p className="font-semibold">Actual Osc. Freq. (f_osc) for {parseInt(numberOfStages, 10) > 0 ? parseInt(numberOfStages, 10) : 'N'} stage(s):</p>
                 <p className="font-mono text-primary">{formatFrequency(calculatedOscillationFrequency)}</p>
               </div>
             </CardContent>
