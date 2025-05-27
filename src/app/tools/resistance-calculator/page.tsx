@@ -1,161 +1,219 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import { ArrowLeft, Palette, Zap } from 'lucide-react';
+import { ArrowLeft, ChevronDown, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
-import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
-type BandColor = 'black' | 'brown' | 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'violet' | 'gray' | 'white' | 'gold' | 'silver' | 'none';
+interface ColorSpec {
+  name: string;
+  id: ResistorBandColor;
+  hex: string;
+  digit?: number;
+  multiplier?: number;
+  multiplierVal?: number; // For display like x10^0
+  tolerance?: number;
+  tempCo?: number; // ppm/°C
+}
 
-const colorValues: Record<Exclude<BandColor, 'gold' | 'silver' | 'none'>, number> = {
-  black: 0, brown: 1, red: 2, orange: 3, yellow: 4, green: 5, blue: 6, violet: 7, gray: 8, white: 9,
-};
-const multiplierValues: Record<Exclude<BandColor, 'none'>, number> = {
-  black: 1, brown: 10, red: 100, orange: 1000, yellow: 10000, green: 100000, blue: 1000000, violet: 10000000, gray:100000000, white: 1000000000, gold: 0.1, silver: 0.01,
-};
-const toleranceValues: Record<Extract<BandColor, 'brown' | 'red' | 'green' | 'blue' | 'violet' | 'gray' | 'gold' | 'silver' | 'none'>, number | string> = {
-  brown: 1, red: 2, green: 0.5, blue: 0.25, violet: 0.1, gray: 0.05, gold: 5, silver: 10, none: 20,
-};
-const tempCoValues: Record<Extract<BandColor, 'brown' | 'red' | 'orange' | 'yellow' | 'blue' | 'violet'>, number> = {
-  brown: 100, red: 50, orange: 15, yellow: 25, blue: 10, violet: 5,
-};
+type ResistorBandColor = 
+  | 'black' | 'brown' | 'red' | 'orange' | 'yellow' 
+  | 'green' | 'blue' | 'violet' | 'gray' | 'white' 
+  | 'gold' | 'silver' | 'none' | 'pink'; // Added pink as per prompt implying it in tolerance
 
+const colorData: ColorSpec[] = [
+  { name: 'Black', id: 'black', hex: '#000000', digit: 0, multiplier: 1, multiplierVal: 0, tempCo: 250 },
+  { name: 'Brown', id: 'brown', hex: '#A52A2A', digit: 1, multiplier: 10, multiplierVal: 1, tolerance: 1, tempCo: 100 },
+  { name: 'Red', id: 'red', hex: '#FF0000', digit: 2, multiplier: 100, multiplierVal: 2, tolerance: 2, tempCo: 50 },
+  { name: 'Orange', id: 'orange', hex: '#FFA500', digit: 3, multiplier: 1000, multiplierVal: 3, tempCo: 15 },
+  { name: 'Yellow', id: 'yellow', hex: '#FFFF00', digit: 4, multiplier: 10000, multiplierVal: 4, tempCo: 25 },
+  { name: 'Green', id: 'green', hex: '#008000', digit: 5, multiplier: 100000, multiplierVal: 5, tolerance: 0.5, tempCo: 20 },
+  { name: 'Blue', id: 'blue', hex: '#0000FF', digit: 6, multiplier: 1000000, multiplierVal: 6, tolerance: 0.25, tempCo: 10 },
+  { name: 'Violet', id: 'violet', hex: '#EE82EE', digit: 7, multiplier: 10000000, multiplierVal: 7, tolerance: 0.1, tempCo: 5 },
+  { name: 'Gray', id: 'gray', hex: '#808080', digit: 8, multiplier: 100000000, multiplierVal: 8, tolerance: 0.05, tempCo: 1 },
+  { name: 'White', id: 'white', hex: '#FFFFFF', digit: 9, multiplier: 1000000000, multiplierVal: 9, tempCo: 1 },
+  { name: 'Gold', id: 'gold', hex: '#FFD700', multiplier: 0.1, multiplierVal: -1, tolerance: 5 },
+  { name: 'Silver', id: 'silver', hex: '#C0C0C0', multiplier: 0.01, multiplierVal: -2, tolerance: 10 },
+  { name: 'Pink', id: 'pink', hex: '#FFC0CB', tolerance: 0 }, // Example for pink, not standard EIA for tolerance. Usually Gold/Silver/None. For this example assuming it's placeholder for a value.
+  { name: 'None', id: 'none', hex: 'transparent', tolerance: 20 },
+];
+
+const getColorSpec = (id: ResistorBandColor): ColorSpec | undefined => colorData.find(c => c.id === id);
+
+type BandType = 'digit' | 'multiplier' | 'tolerance' | 'tempCo';
+
+interface BandDefinition {
+  type: BandType;
+  label: string; // For table header
+  colorStateSetter: React.Dispatch<React.SetStateAction<ResistorBandColor>>;
+  currentColor: ResistorBandColor;
+  validColors: ResistorBandColor[];
+}
 
 export default function ResistorColorCodeCalculatorPage() {
-  const { toast } = useToast();
-  const [numBands, setNumBands] = useState<4 | 5 | 6>(4);
-  const [band1, setBand1] = useState<BandColor>('brown');
-  const [band2, setBand2] = useState<BandColor>('black');
-  const [band3, setBand3] = useState<BandColor>('red'); // Multiplier for 4-band, 3rd digit for 5/6-band
-  const [band4, setBand4] = useState<BandColor>('gold'); // Tolerance for 4-band, Multiplier for 5/6-band
-  const [band5, setBand5] = useState<BandColor>('gold'); // Tolerance for 5/6-band
-  const [band6, setBand6] = useState<BandColor>('brown'); // TempCo for 6-band
+  const [numBands, setNumBands] = useState<3 | 4 | 5 | 6>(4);
+  
+  const [band1Color, setBand1Color] = useState<ResistorBandColor>('brown');
+  const [band2Color, setBand2Color] = useState<ResistorBandColor>('black');
+  const [band3Color, setBand3Color] = useState<ResistorBandColor>('red'); // Digit for 5/6, Multiplier for 3/4
+  const [band4Color, setBand4Color] = useState<ResistorBandColor>('gold'); // Multiplier for 5/6, Tolerance for 4
+  const [band5Color, setBand5Color] = useState<ResistorBandColor>('gold'); // Tolerance for 5/6
+  const [band6Color, setBand6Color] = useState<ResistorBandColor>('brown'); // TempCo for 6
 
-  const [resistance, setResistance] = useState<string>('');
-  const [tolerance, setTolerance] = useState<string>('');
-  const [tempCo, setTempCo] = useState<string>('');
+  const [resistanceResult, setResistanceResult] = useState<string>('');
+  const [activeBandConfig, setActiveBandConfig] = useState<number>(1); // 1-indexed band user is currently configuring
 
-  const digitColors: BandColor[] = ['black', 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'violet', 'gray', 'white'];
-  const multiplierColors: BandColor[] = [...digitColors, 'gold', 'silver'];
-  const toleranceColors: BandColor[] = ['brown', 'red', 'green', 'blue', 'violet', 'gray', 'gold', 'silver', 'none'];
-  const tempCoColors: BandColor[] = ['brown', 'red', 'orange', 'yellow', 'blue', 'violet'];
+  const digitColors = colorData.filter(c => c.digit !== undefined).map(c => c.id);
+  const multiplierColors = colorData.filter(c => c.multiplier !== undefined).map(c => c.id);
+  const toleranceColors = colorData.filter(c => c.tolerance !== undefined).map(c => c.id);
+  const tempCoColors = colorData.filter(c => c.tempCo !== undefined).map(c => c.id);
 
-  // Placeholder calculation
-  const calculateResistance = () => {
-     toast({
-      title: "Calculation Placeholder",
-      description: "Actual resistor calculation logic needs to be implemented.",
-    });
-    // Basic example for a 4-band resistor (needs full implementation)
-    // let val = (colorValues[band1] * 10 + colorValues[band2]) * multiplierValues[band3];
-    // setResistance(`${val} Ω`);
-    // setTolerance(`±${toleranceValues[band4]}%`);
-    setResistance("Calculated Resistance (e.g., 1k Ω)");
-    setTolerance("Calculated Tolerance (e.g., ±5%)");
-    if (numBands === 6) {
-        setTempCo("Calculated TempCo (e.g., 100 ppm/°C)");
-    } else {
-        setTempCo("");
+  const bandSetters = [setBand1Color, setBand2Color, setBand3Color, setBand4Color, setBand5Color, setBand6Color];
+  const bandColors = [band1Color, band2Color, band3Color, band4Color, band5Color, band6Color];
+  
+  const bandDefinitions = useMemo((): BandDefinition[] => {
+    const defs: Partial<Record<number, { type: BandType, label: string, validColors: ResistorBandColor[] }>> = {};
+    
+    defs[1] = { type: 'digit', label: 'Band 1 (1st)', validColors: digitColors.filter(c => c !== 'black' || numBands > 4) }; // Black not allowed for 1st band in 4 band usually
+    defs[2] = { type: 'digit', label: 'Band 2 (2nd)', validColors: digitColors };
+
+    if (numBands === 3) {
+      defs[3] = { type: 'multiplier', label: 'Multiplier', validColors: multiplierColors };
+      // Implicit tolerance of +/-20% (None) for 3-band
+    } else if (numBands === 4) {
+      defs[3] = { type: 'multiplier', label: 'Multiplier', validColors: multiplierColors };
+      defs[4] = { type: 'tolerance', label: 'Tolerance', validColors: toleranceColors };
+    } else if (numBands === 5) {
+      defs[3] = { type: 'digit', label: 'Band 3 (3rd)', validColors: digitColors };
+      defs[4] = { type: 'multiplier', label: 'Multiplier', validColors: multiplierColors };
+      defs[5] = { type: 'tolerance', label: 'Tolerance', validColors: toleranceColors };
+    } else if (numBands === 6) {
+      defs[3] = { type: 'digit', label: 'Band 3 (3rd)', validColors: digitColors };
+      defs[4] = { type: 'multiplier', label: 'Multiplier', validColors: multiplierColors };
+      defs[5] = { type: 'tolerance', label: 'Tolerance', validColors: toleranceColors };
+      defs[6] = { type: 'tempCo', label: 'Temp. Coeff.', validColors: tempCoColors };
+    }
+    
+    return Array.from({ length: numBands }, (_, i) => ({
+      ...defs[i + 1]!,
+      colorStateSetter: bandSetters[i],
+      currentColor: bandColors[i],
+    }));
+  }, [numBands, band1Color, band2Color, band3Color, band4Color, band5Color, band6Color]);
+
+
+  useEffect(() => {
+    // Reset colors when numBands changes to avoid invalid states
+    setBand1Color(getColorSpec(bandDefinitions[0]?.validColors[1] || 'brown')?.id || 'brown'); // default to brown or first valid
+    setBand2Color(getColorSpec(bandDefinitions[1]?.validColors[0] || 'black')?.id || 'black'); // default to black
+    if (numBands >= 3) setBand3Color(getColorSpec(bandDefinitions[2]?.validColors[2] || 'red')?.id || 'red');
+    if (numBands >= 4) setBand4Color(getColorSpec(bandDefinitions[3]?.validColors.includes('gold') ? 'gold' : bandDefinitions[3]?.validColors[0] || 'gold')?.id || 'gold');
+    if (numBands >= 5) setBand5Color(getColorSpec(bandDefinitions[4]?.validColors.includes('gold') ? 'gold' : bandDefinitions[4]?.validColors[0] || 'gold')?.id || 'gold');
+    if (numBands >= 6) setBand6Color(getColorSpec(bandDefinitions[5]?.validColors[0] || 'brown')?.id || 'brown');
+    setActiveBandConfig(1);
+  }, [numBands]);
+
+
+  useEffect(() => {
+    let value = 0;
+    let multiplier = 1;
+    let toleranceVal: number | null = null;
+    let tempCoVal: number | null = null;
+
+    const b1Spec = getColorSpec(band1Color);
+    const b2Spec = getColorSpec(band2Color);
+    let b3Spec: ColorSpec | undefined, 
+        b4Spec: ColorSpec | undefined, 
+        b5Spec: ColorSpec | undefined, 
+        b6Spec: ColorSpec | undefined;
+
+    if (b1Spec?.digit === undefined || b2Spec?.digit === undefined) {
+      setResistanceResult('Invalid band colors');
+      return;
+    }
+    
+    value = b1Spec.digit * 10 + b2Spec.digit;
+
+    if (numBands === 3) {
+      b3Spec = getColorSpec(band3Color); // Multiplier
+      if (b3Spec?.multiplier === undefined) { setResistanceResult('Invalid multiplier'); return; }
+      multiplier = b3Spec.multiplier;
+      toleranceVal = 20; // Default for 3-band
+    } else if (numBands === 4) {
+      b3Spec = getColorSpec(band3Color); // Multiplier
+      b4Spec = getColorSpec(band4Color); // Tolerance
+      if (b3Spec?.multiplier === undefined) { setResistanceResult('Invalid multiplier'); return; }
+      multiplier = b3Spec.multiplier;
+      if (b4Spec?.tolerance === undefined) { setResistanceResult('Invalid tolerance'); return; }
+      toleranceVal = b4Spec.tolerance;
+    } else if (numBands === 5) {
+      b3Spec = getColorSpec(band3Color); // 3rd Digit
+      b4Spec = getColorSpec(band4Color); // Multiplier
+      b5Spec = getColorSpec(band5Color); // Tolerance
+      if (b3Spec?.digit === undefined) { setResistanceResult('Invalid 3rd digit'); return; }
+      value = value * 10 + b3Spec.digit;
+      if (b4Spec?.multiplier === undefined) { setResistanceResult('Invalid multiplier'); return; }
+      multiplier = b4Spec.multiplier;
+      if (b5Spec?.tolerance === undefined) { setResistanceResult('Invalid tolerance'); return; }
+      toleranceVal = b5Spec.tolerance;
+    } else if (numBands === 6) {
+      b3Spec = getColorSpec(band3Color); // 3rd Digit
+      b4Spec = getColorSpec(band4Color); // Multiplier
+      b5Spec = getColorSpec(band5Color); // Tolerance
+      b6Spec = getColorSpec(band6Color); // TempCo
+      if (b3Spec?.digit === undefined) { setResistanceResult('Invalid 3rd digit'); return; }
+      value = value * 10 + b3Spec.digit;
+      if (b4Spec?.multiplier === undefined) { setResistanceResult('Invalid multiplier'); return; }
+      multiplier = b4Spec.multiplier;
+      if (b5Spec?.tolerance === undefined) { setResistanceResult('Invalid tolerance'); return; }
+      toleranceVal = b5Spec.tolerance;
+      if (b6Spec?.tempCo === undefined) { setResistanceResult('Invalid TempCo'); return; }
+      tempCoVal = b6Spec.tempCo;
+    }
+
+    const finalResistance = value * multiplier;
+
+    let displayResistance: string;
+    if (finalResistance >= 1000000000) displayResistance = (finalResistance / 1000000000).toFixed(finalResistance % 1000000000 === 0 ? 0 : 2) + ' GΩ';
+    else if (finalResistance >= 1000000) displayResistance = (finalResistance / 1000000).toFixed(finalResistance % 1000000 === 0 ? 0 : 2) + ' MΩ';
+    else if (finalResistance >= 1000) displayResistance = (finalResistance / 1000).toFixed(finalResistance % 1000 === 0 ? 0 : 2) + ' kΩ';
+    else displayResistance = finalResistance.toFixed(finalResistance % 1 === 0 ? 0 : (finalResistance < 10 ? 2 : 1)) + ' Ω';
+    
+    let resultString = `${displayResistance}`;
+    if (toleranceVal !== null) resultString += ` ±${toleranceVal}%`;
+    if (tempCoVal !== null && numBands === 6) resultString += `, ${tempCoVal}ppm/°C`;
+    
+    setResistanceResult(resultString);
+
+  }, [band1Color, band2Color, band3Color, band4Color, band5Color, band6Color, numBands]);
+
+  const handleTableColorClick = (bandIndexToSet: number, colorId: ResistorBandColor) => {
+    if (bandIndexToSet >= 0 && bandIndexToSet < numBands) {
+      const bandDef = bandDefinitions[bandIndexToSet];
+      if (bandDef && bandDef.validColors.includes(colorId)) {
+        bandDef.colorStateSetter(colorId);
+      }
     }
   };
   
-  const bandSelect = (bandNumber: number, value: BandColor, setter: React.Dispatch<React.SetStateAction<BandColor>>) => {
-    setter(value);
-  };
-
-  const renderBandSelectors = () => {
-    const selectors = [];
-    selectors.push(
-      <div key="band1" className="space-y-1">
-        <Label htmlFor="band1">Band 1 (1st Digit)</Label>
-        <Select value={band1} onValueChange={(v) => bandSelect(1, v as BandColor, setBand1)}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
-          <SelectContent>{digitColors.filter(c => c !== 'black' || numBands > 4).map(c => <SelectItem key={c} value={c} style={{ textTransform: 'capitalize' }}>{c}</SelectItem>)}</SelectContent>
-        </Select>
-      </div>
-    );
-    selectors.push(
-      <div key="band2" className="space-y-1">
-        <Label htmlFor="band2">Band 2 (2nd Digit)</Label>
-        <Select value={band2} onValueChange={(v) => bandSelect(2, v as BandColor, setBand2)}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
-          <SelectContent>{digitColors.map(c => <SelectItem key={c} value={c} style={{ textTransform: 'capitalize' }}>{c}</SelectItem>)}</SelectContent>
-        </Select>
-      </div>
-    );
-
-    if (numBands >= 5) {
-      selectors.push(
-        <div key="band3_digit" className="space-y-1">
-          <Label htmlFor="band3_digit">Band 3 (3rd Digit)</Label>
-          <Select value={band3} onValueChange={(v) => bandSelect(3, v as BandColor, setBand3)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>{digitColors.map(c => <SelectItem key={c} value={c} style={{ textTransform: 'capitalize' }}>{c}</SelectItem>)}</SelectContent>
-          </Select>
-        </div>
-      );
-      selectors.push( // Multiplier
-        <div key="band4_multiplier" className="space-y-1">
-          <Label htmlFor="band4_multiplier">Band 4 (Multiplier)</Label>
-          <Select value={band4} onValueChange={(v) => bandSelect(4, v as BandColor, setBand4)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>{multiplierColors.map(c => <SelectItem key={c} value={c} style={{ textTransform: 'capitalize' }}>{c}</SelectItem>)}</SelectContent>
-          </Select>
-        </div>
-      );
-      selectors.push( // Tolerance
-         <div key="band5_tolerance" className="space-y-1">
-            <Label htmlFor="band5_tolerance">Band 5 (Tolerance)</Label>
-            <Select value={band5} onValueChange={(v) => bandSelect(5, v as BandColor, setBand5)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{toleranceColors.map(c => <SelectItem key={c} value={c} style={{ textTransform: 'capitalize' }}>{c}</SelectItem>)}</SelectContent>
-            </Select>
-        </div>
-      );
-       if (numBands === 6) {
-         selectors.push(
-            <div key="band6_tempco" className="space-y-1">
-                <Label htmlFor="band6_tempco">Band 6 (Temp. Coeff.)</Label>
-                <Select value={band6} onValueChange={(v) => bandSelect(6, v as BandColor, setBand6)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>{tempCoColors.map(c => <SelectItem key={c} value={c} style={{ textTransform: 'capitalize' }}>{c}</SelectItem>)}</SelectContent>
-                </Select>
-            </div>
-         );
-       }
-    } else { // 4-band
-      selectors.push( // Multiplier
-        <div key="band3_multiplier" className="space-y-1">
-          <Label htmlFor="band3_multiplier">Band 3 (Multiplier)</Label>
-          <Select value={band3} onValueChange={(v) => bandSelect(3, v as BandColor, setBand3)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>{multiplierColors.map(c => <SelectItem key={c} value={c} style={{ textTransform: 'capitalize' }}>{c}</SelectItem>)}</SelectContent>
-          </Select>
-        </div>
-      );
-      selectors.push( // Tolerance
-         <div key="band4_tolerance" className="space-y-1">
-            <Label htmlFor="band4_tolerance">Band 4 (Tolerance)</Label>
-            <Select value={band4} onValueChange={(v) => bandSelect(4, v as BandColor, setBand4)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{toleranceColors.map(c => <SelectItem key={c} value={c} style={{ textTransform: 'capitalize' }}>{c}</SelectItem>)}</SelectContent>
-            </Select>
-        </div>
-      );
-    }
-    return selectors;
-  };
+  const tableColumns = [
+    { header: "Color", id: "colorName" },
+    { header: bandDefinitions[0]?.label || "Band 1", id: "band1", bandNum: 1 },
+    { header: bandDefinitions[1]?.label || "Band 2", id: "band2", bandNum: 2 },
+    { header: bandDefinitions[2]?.label || "Band 3", id: "band3", bandNum: 3 },
+    { header: bandDefinitions[3]?.label || "Band 4", id: "band4", bandNum: 4 },
+    { header: bandDefinitions[4]?.label || "Band 5", id: "band5", bandNum: 5 },
+    { header: bandDefinitions[5]?.label || "Band 6", id: "band6", bandNum: 6 },
+  ].filter((col, index) => index === 0 || (col.bandNum && col.bandNum <= numBands));
 
 
   return (
-    <div className="container mx-auto px-4 py-8 md:px-6 md:py-16">
-      <div className="mb-8">
-        <Button variant="outline" asChild>
+    <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 bg-gray-100 dark:bg-gray-800 min-h-screen">
+      <div className="mb-6">
+        <Button variant="outline" asChild size="sm">
           <Link href="/tools">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to All Tools
@@ -163,47 +221,127 @@ export default function ResistorColorCodeCalculatorPage() {
         </Button>
       </div>
 
-      <Card className="max-w-3xl mx-auto shadow-xl">
-        <CardHeader className="text-center">
-          <div className="inline-block bg-primary/10 p-3 rounded-full mb-4 mx-auto w-fit">
-            <Palette className="h-10 w-10 text-primary" />
-          </div>
-          <CardTitle className="text-3xl">Resistor Color Code Calculator</CardTitle>
-          <CardDescription>
-            Select the color bands to determine the resistance value and tolerance.
-          </CardDescription>
+      <Card className="max-w-3xl mx-auto shadow-xl overflow-hidden">
+        <CardHeader className="bg-orange-500 p-4 rounded-t-md">
+          <CardTitle className="text-2xl font-bold text-white text-center">
+            Resistor Color Code Calculator
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="numBands">Number of Bands</Label>
-            <Select value={numBands.toString()} onValueChange={(v) => setNumBands(parseInt(v) as 4 | 5 | 6)}>
-              <SelectTrigger className="h-11 text-base"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="4">4 Bands</SelectItem>
-                <SelectItem value="5">5 Bands</SelectItem>
-                <SelectItem value="6">6 Bands</SelectItem>
-              </SelectContent>
-            </Select>
+        <CardContent className="p-4 md:p-6 space-y-6">
+          <div className="flex justify-center space-x-1 sm:space-x-2 bg-gray-200 dark:bg-gray-700 p-1 rounded-md">
+            {[3, 4, 5, 6].map((bands) => (
+              <Button
+                key={bands}
+                variant={numBands === bands ? "default" : "secondary"}
+                onClick={() => setNumBands(bands as 3 | 4 | 5 | 6)}
+                className={cn(
+                  "text-xs sm:text-sm px-2 sm:px-4 py-1.5 h-auto",
+                  numBands === bands ? "bg-gray-600 dark:bg-gray-500 text-white" : "bg-gray-400 dark:bg-gray-600 text-white hover:bg-gray-500 dark:hover:bg-gray-500"
+                )}
+              >
+                {bands} Band
+              </Button>
+            ))}
+          </div>
+
+          {/* Resistor Graphic */}
+          <div className="flex justify-center items-center my-6 h-20">
+            <div className="w-2 h-6 bg-gray-400 dark:bg-gray-500 rounded-l-sm" /> {/* Left Lead */}
+            <div className="h-12 w-40 bg-beige-200 dark:bg-beige-700 border-2 border-gray-400 dark:border-gray-600 rounded-md flex items-center justify-around px-2 relative shadow-inner"
+                 style={{ background: '#F5F5DC' }}> {/* Beige body */}
+              {bandDefinitions.map((bandDef, index) => (
+                <div
+                  key={`resistor-band-${index}`}
+                  className={cn(
+                    "h-full w-3", 
+                    index === 0 && "ml-1", 
+                    index === bandDefinitions.length -1 && "mr-1"
+                  )}
+                  style={{ backgroundColor: getColorSpec(bandColors[index])?.hex || 'transparent' }}
+                />
+              ))}
+            </div>
+            <div className="w-2 h-6 bg-gray-400 dark:bg-gray-500 rounded-r-sm" /> {/* Right Lead */}
           </div>
           
-          <div className={`grid grid-cols-2 sm:grid-cols-3 gap-4 items-end`}>
-            {renderBandSelectors()}
+          {/* Resistance Value Display */}
+          <div className="bg-white dark:bg-gray-700 p-3 rounded-md shadow-md text-center">
+            <div className="flex items-center justify-center">
+              <span className="text-lg font-medium text-gray-700 dark:text-gray-200 mr-1">Resistance</span> 
+              <ChevronDown className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+            </div>
+            <p className="text-2xl font-bold text-primary mt-1">{resistanceResult || "Select band colors"}</p>
           </div>
 
-          <Button onClick={calculateResistance} size="lg" className="w-full transition-transform hover:scale-105">
-             <Zap className="mr-2 h-5 w-5"/> Calculate Resistance
-          </Button>
+          {/* Interactive Color Table */}
+          <div className="overflow-x-auto shadow-md rounded-lg">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-700/50">
+                <tr>
+                  {tableColumns.map(col => (
+                    <th key={col.id} scope="col" className="px-3 py-3 text-center whitespace-nowrap">
+                      {col.header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {colorData.map((color) => (
+                  <tr key={color.id} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600/50">
+                    <td className="px-3 py-3 font-medium text-gray-900 dark:text-white whitespace-nowrap flex items-center justify-center">
+                       <div className="w-4 h-4 rounded-sm mr-2 border border-gray-400" style={{ backgroundColor: color.hex === 'transparent' ? '#E5E7EB' : color.hex }} />
+                       {color.name}
+                    </td>
+                    {tableColumns.slice(1).map((colDef, colIndex) => {
+                      const bandNum = colDef.bandNum!;
+                      const currentBandInfo = bandDefinitions[bandNum - 1];
+                      let displayVal = '';
+                      let isValidChoice = false;
 
-          <div className="mt-6 p-6 bg-muted/30 rounded-lg space-y-3">
-            <h3 className="text-xl font-semibold text-center text-primary mb-2">Result:</h3>
-            <div className="text-center text-lg">
-              <p><strong>Resistance:</strong> {resistance || "N/A"}</p>
-              <p><strong>Tolerance:</strong> {tolerance || "N/A"}</p>
-              {numBands === 6 && tempCo && <p><strong>Temp. Coefficient:</strong> {tempCo}</p>}
-            </div>
+                      if (currentBandInfo) {
+                        if (currentBandInfo.type === 'digit' && color.digit !== undefined) { displayVal = color.digit.toString(); isValidChoice = true; }
+                        else if (currentBandInfo.type === 'multiplier' && color.multiplierVal !== undefined) { displayVal = `x10^${color.multiplierVal}`; isValidChoice = true; }
+                        else if (currentBandInfo.type === 'tolerance' && color.tolerance !== undefined) { displayVal = `±${color.tolerance}%`; isValidChoice = true; }
+                        else if (currentBandInfo.type === 'tempCo' && color.tempCo !== undefined) { displayVal = `${color.tempCo}`; isValidChoice = true; }
+                        
+                        isValidChoice = isValidChoice && currentBandInfo.validColors.includes(color.id);
+                      }
+                      
+                      return (
+                        <td key={`${color.id}-${colDef.id}`} className="px-3 py-3 text-center">
+                          {isValidChoice ? (
+                            <button
+                              onClick={() => handleTableColorClick(bandNum - 1, color.id)}
+                              className={cn(
+                                "w-full h-full p-1 rounded text-xs",
+                                bandColors[bandNum - 1] === color.id ? "ring-2 ring-blue-500 ring-inset shadow-md" : "hover:bg-gray-200 dark:hover:bg-gray-700",
+                                !isValidChoice && "opacity-30 cursor-not-allowed"
+                              )}
+                              disabled={!isValidChoice}
+                              title={isValidChoice ? `Set ${colDef.header} to ${color.name}` : 'Invalid for this band'}
+                            >
+                              {displayVal || '-'}
+                            </button>
+                          ) : (
+                            <span className="text-gray-400 dark:text-gray-600">-</span>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex justify-end items-center mt-4">
+             <HelpCircle className="h-4 w-4 mr-1 text-gray-500 dark:text-gray-400"/>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Standard: IEC 60062:2016
+            </p>
           </div>
         </CardContent>
       </Card>
     </div>
   );
 }
+
