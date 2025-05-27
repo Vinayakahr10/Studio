@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass } from 'lucide-react'; // Added more icons
+import { Calculator, Zap, Settings2, DraftingCompass, Sigma } from 'lucide-react'; // Added Sigma
 
 const toolsData = [
   {
@@ -14,8 +14,8 @@ const toolsData = [
   {
     title: "Resistor Color Code Calculator",
     description: "Determine the resistance value of a resistor based on its color bands.",
-    href: "/tools/resistance-calculator", // Will rename this page for clarity
-    Icon: Zap, // Placeholder, could be specific like 'Palette' if a color code tool
+    href: "/tools/resistance-calculator",
+    Icon: Zap, 
   },
   {
     title: "555 Timer Calculator",
@@ -27,7 +27,13 @@ const toolsData = [
     title: "Capacitor Code Calculator",
     description: "Convert capacitor codes (e.g., 104) to capacitance values (pF, nF, µF).",
     href: "/tools/capacitor-code-calculator",
-    Icon: DraftingCompass, // Placeholder
+    Icon: DraftingCompass,
+  },
+  {
+    title: "LED Resistor Calculator",
+    description: "Calculate the required series resistor value and power rating for an LED.",
+    href: "/tools/led-resistor-calculator",
+    Icon: Sigma, // Using Sigma icon for this new tool
   }
 ];
 
