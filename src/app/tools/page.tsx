@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network } from 'lucide-react'; // Added Cpu, Network
+import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass } from 'lucide-react'; // Added RadioTower, Hourglass
 
 const toolsData = [
   {
@@ -39,13 +39,25 @@ const toolsData = [
     title: "SMD Resistor Code Calculator",
     description: "Decode 3-digit, 4-digit, and EIA-96 SMD resistor codes to determine their resistance.",
     href: "/tools/smd-resistor-calculator",
-    Icon: Cpu, // Using Cpu as a generic component icon
+    Icon: Cpu,
   },
   {
     title: "Voltage Divider Calculator",
     description: "Calculate output voltage or resistor values in a voltage divider circuit.",
     href: "/tools/voltage-divider-calculator",
-    Icon: Network, // Using Network icon for circuit relation
+    Icon: Network,
+  },
+  {
+    title: "LC Resonance Calculator",
+    description: "Calculate the resonant frequency of an inductor-capacitor (LC) circuit.",
+    href: "/tools/lc-resonance-calculator",
+    Icon: RadioTower,
+  },
+  {
+    title: "Battery Life Calculator",
+    description: "Estimate battery life based on capacity and average current consumption.",
+    href: "/tools/battery-life-calculator",
+    Icon: Hourglass,
   }
 ];
 
