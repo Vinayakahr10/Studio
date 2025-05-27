@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, ChevronDown } from 'lucide-react'; // Added ChevronDown
+import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -22,7 +22,7 @@ const mainNavLinks = [
   { href: "/contact", label: "Contact" },
   {
     label: "Tools",
-    icon: undefined, // Explicitly set icon to undefined or a LucideIcon if needed
+    icon: undefined, 
     dropdown: [
       { href: "/tools/ohms-law-calculator", label: "Ohm's Law Calculator" },
       { href: "/tools/resistance-calculator", label: "Resistance Calculator" },
@@ -77,13 +77,15 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button variant="link" asChild key={link.label}> {/* Changed key to link.label */}
+              <Button variant="link" asChild key={link.label}>
                 <Link
                   href={link.href!} 
                   className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2"
                 >
-                  {link.icon && <link.icon className="mr-1.5 h-4 w-4" />}
-                  {link.label}
+                  <span className="flex items-center gap-1.5"> {/* Ensure single child for Link when Button is asChild */}
+                    {link.icon && <link.icon className="h-4 w-4" />}
+                    {link.label}
+                  </span>
                 </Link>
               </Button>
             )
@@ -97,8 +99,10 @@ export function Header() {
                   {adminUtilityLinks.map((link) => (
                     <Button variant={link.variant} asChild key={link.href} size="sm">
                       <Link href={link.href}>
-                        {link.icon && <link.icon className="mr-2 h-4 w-4" />}
-                        {link.label}
+                         <span className="flex items-center gap-2">
+                            {link.icon && <link.icon className="h-4 w-4" />}
+                            {link.label}
+                         </span>
                       </Link>
                     </Button>
                   ))}
@@ -110,8 +114,10 @@ export function Header() {
              ) : !loading && !user ? (
                   <Button variant={loginLink.variant} asChild size="sm" key={loginLink.href}>
                     <Link href={loginLink.href}>
-                      {loginLink.icon && <loginLink.icon className="mr-2 h-4 w-4" />}
-                      {loginLink.label}
+                      <span className="flex items-center gap-2">
+                        {loginLink.icon && <loginLink.icon className="h-4 w-4" />}
+                        {loginLink.label}
+                      </span>
                     </Link>
                   </Button>
              ) : null}
@@ -143,7 +149,6 @@ export function Header() {
                           <AccordionTrigger className="text-base py-2.5 h-auto hover:no-underline hover:bg-muted/50 rounded-md px-3 font-medium text-muted-foreground justify-start group">
                              {link.icon && <link.icon className="mr-2 h-5 w-5" />}
                              <span>{link.label}</span>
-                             {/* Chevron is part of AccordionTrigger by default */}
                           </AccordionTrigger>
                           <AccordionContent className="pt-1 pb-0 pl-7">
                             <div className="flex flex-col gap-0.5">
@@ -162,13 +167,15 @@ export function Header() {
                         </AccordionItem>
                       </Accordion>
                     ) : (
-                       <Button variant="ghost" asChild key={link.label} className="justify-start text-base py-2.5 h-auto"> {/* Changed key to link.label */}
+                       <Button variant="ghost" asChild key={link.label} className="justify-start text-base py-2.5 h-auto">
                           <Link
                               href={link.href!}
                               onClick={() => setIsMobileMenuOpen(false)}
                           >
-                           {link.icon && <link.icon className="mr-2 h-5 w-5" />}
-                           {link.label}
+                           <span className="flex items-center"> {/* Ensure single child for Link when Button is asChild */}
+                             {link.icon && <link.icon className="mr-2 h-5 w-5" />}
+                             {link.label}
+                           </span>
                           </Link>
                        </Button>
                     )
@@ -184,8 +191,10 @@ export function Header() {
                                 href={link.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
-                             {link.icon && <link.icon className="mr-2 h-5 w-5" />}
-                             {link.label}
+                             <span className="flex items-center gap-2">
+                               {link.icon && <link.icon className="h-5 w-5" />}
+                               {link.label}
+                             </span>
                             </Link>
                          </Button>
                       ))}
@@ -200,8 +209,10 @@ export function Header() {
                               href={loginLink.href}
                               onClick={() => setIsMobileMenuOpen(false)}
                           >
-                           {loginLink.icon && <loginLink.icon className="mr-2 h-5 w-5" />}
-                           {loginLink.label}
+                           <span className="flex items-center gap-2">
+                             {loginLink.icon && <loginLink.icon className="h-5 w-5" />}
+                             {loginLink.label}
+                           </span>
                           </Link>
                        </Button>
                   ) : null}
