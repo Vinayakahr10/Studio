@@ -11,7 +11,7 @@ import { ArrowLeft, Triangle as OpAmpIcon, Zap, AlertTriangle } from 'lucide-rea
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
-type OpAmpConfig = 'inverting' | 'non-inverting'; // Add more as needed
+type OpAmpConfig = 'inverting' | 'non-inverting';
 
 interface OpAmpResults {
   gain: string;
@@ -50,27 +50,51 @@ export default function OpAmpCalculatorPage() {
     setError(null);
     setResults(null);
 
-    // Placeholder for actual calculation logic
-    toast({
-      title: "Calculation Logic Placeholder",
-      description: "The actual Op-Amp calculations will be implemented here.",
-    });
+    const numRF = parseFloat(rF);
+    const numVIn = vIn !== '' ? parseFloat(vIn) : NaN;
 
-    // Example of how results might be set (replace with actual calculations)
-    // if (config === 'inverting' && rIn && rF) {
-    //   const gainVal = - (parseFloat(rF) / parseFloat(rIn));
-    //   let voutVal: number | undefined = undefined;
-    //   if (vIn) {
-    //      voutVal = gainVal * parseFloat(vIn);
-    //   }
-    //   setResults({
-    //     gain: gainVal.toFixed(2),
-    //     vout: voutVal !== undefined ? voutVal.toFixed(2) + " V" : "N/A (Vin not provided)",
-    //   });
-    // } // Add more for non-inverting, etc.
-    // else {
-    //    setError("Please enter all required resistor values for the selected configuration.");
-    // }
+    let calculatedGain: number | null = null;
+    let calculatedVout: number | null = null;
+
+    try {
+      if (isNaN(numRF) || numRF <= 0) {
+        throw new Error("Feedback Resistor (Rf) must be a positive number.");
+      }
+
+      if (config === 'inverting') {
+        const numRIn = parseFloat(rIn);
+        if (isNaN(numRIn) || numRIn <= 0) {
+          throw new Error("Input Resistor (Rin) must be a positive number for inverting configuration.");
+        }
+        calculatedGain = - (numRF / numRIn);
+      } else if (config === 'non-inverting') {
+        const numR1NonInverting = parseFloat(r1NonInverting);
+        if (isNaN(numR1NonInverting) || numR1NonInverting <= 0) {
+          throw new Error("Resistor R1 (to Ground) must be a positive number for non-inverting configuration.");
+        }
+        calculatedGain = 1 + (numRF / numR1NonInverting);
+      }
+
+      if (calculatedGain !== null) {
+        if (!isNaN(numVIn)) {
+          calculatedVout = calculatedGain * numVIn;
+        }
+        setResults({
+          gain: calculatedGain.toFixed(3),
+          vout: calculatedVout !== null && !isNaN(calculatedVout) ? `${calculatedVout.toFixed(3)} V` : "N/A (Vin not provided or invalid)",
+        });
+        toast({
+          title: "Calculation Complete",
+          description: `Gain: ${calculatedGain.toFixed(3)}${calculatedVout !== null && !isNaN(calculatedVout) ? `, Vout: ${calculatedVout.toFixed(3)} V` : ''}`,
+        });
+      } else {
+        throw new Error("Could not calculate gain. Check configuration and inputs.");
+      }
+
+    } catch (e: any) {
+      setError(e.message || "Calculation error.");
+      setResults(null);
+    }
   };
 
   return (
@@ -104,7 +128,6 @@ export default function OpAmpCalculatorPage() {
               <SelectContent>
                 <SelectItem value="inverting">Inverting Amplifier</SelectItem>
                 <SelectItem value="non-inverting">Non-Inverting Amplifier</SelectItem>
-                {/* Add more configurations like Summing, Difference, etc. later */}
               </SelectContent>
             </Select>
           </div>
@@ -161,6 +184,7 @@ export default function OpAmpCalculatorPage() {
                  <p><strong>Voltage Gain (Av):</strong> {results.gain}</p>
                 {results.vout && <p><strong>Output Voltage (Vout):</strong> {results.vout}</p>}
               </div>
+               <p className="text-xs text-muted-foreground text-center pt-2">Note: These calculations assume an ideal op-amp.</p>
             </div>
           )}
         </CardContent>
