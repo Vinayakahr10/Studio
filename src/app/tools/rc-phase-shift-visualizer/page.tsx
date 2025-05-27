@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-// Removed Slider import
-import { ArrowLeft, Activity, TrendingUp, Zap, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Activity, TrendingUp, Zap, AlertTriangle, Settings } from 'lucide-react'; // Added Settings icon
 import Link from 'next/link';
 import {
   LineChart,
@@ -33,10 +32,10 @@ const chartConfig = {
 };
 
 export default function RcPhaseShiftVisualizerPage() {
-  const [resistor, setResistor] = useState<string>('1000'); // Ohms - now string for input
-  const [capacitor, setCapacitor] = useState<string>('1'); // microFarads - now string for input
-  const [signalFrequency, setSignalFrequency] = useState<string>('1000'); // Hertz - now string for input
-  const [numberOfStages, setNumberOfStages] = useState<string>('3'); // N for oscillator - now string for input
+  const [resistor, setResistor] = useState<string>('1000'); // Ohms
+  const [capacitor, setCapacitor] = useState<string>('1'); // microFarads
+  const [signalFrequency, setSignalFrequency] = useState<string>('1000'); // Hertz
+  const [numberOfStages, setNumberOfStages] = useState<string>('3'); // N for oscillator
 
   const [cutoffFrequency, setCutoffFrequency] = useState<number>(0);
   const [phaseShift, setPhaseShift] = useState<number>(0); // degrees for the RC network
@@ -45,12 +44,25 @@ export default function RcPhaseShiftVisualizerPage() {
   const [chartData, setChartData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>, allowFloat: boolean = true) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Allow empty string for clearing, numbers, and optionally a single decimal point
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>, allowFloat: boolean = true, isIntegerOnly: boolean = false) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
     const pattern = allowFloat ? /^\d*\.?\d*$/ : /^\d*$/;
-    if (value === '' || pattern.test(value)) {
-      setter(value);
+    
+    if (value === '') {
+      setter('');
+      setError(null);
+      return;
+    }
+
+    if (pattern.test(value)) {
+      if (isIntegerOnly) {
+        const intVal = parseInt(value, 10);
+        if (!isNaN(intVal) && intVal.toString() === value) { // Check if it's a valid integer representation
+          setter(value);
+        }
+      } else {
+        setter(value);
+      }
       setError(null);
     }
   };
@@ -60,77 +72,72 @@ export default function RcPhaseShiftVisualizerPage() {
 
     const R_val = parseFloat(resistor);
     const C_val_uF = parseFloat(capacitor);
-    const f_signal_val = parseFloat(signalFrequency);
+    let f_signal_val = parseFloat(signalFrequency);
     const N_val = parseInt(numberOfStages, 10);
 
     if (isNaN(R_val) || isNaN(C_val_uF) || isNaN(f_signal_val) || isNaN(N_val)) {
       setError("Please enter valid numeric values for R, C, Signal Frequency, and N.");
-      setChartData([]);
-      setCutoffFrequency(0);
-      setPhaseShift(0);
-      setOutputGain(0);
-      setCalculatedOscillationFrequency(0);
+      setChartData([]); setCutoffFrequency(0); setPhaseShift(0); setOutputGain(0); setCalculatedOscillationFrequency(0);
       return;
     }
+    
+    if (f_signal_val <= 0) {
+        // setError("Signal frequency must be greater than 0."); // Or auto-correct
+        f_signal_val = 1; // Auto-correct to 1Hz to prevent errors if user enters 0
+        // setSignalFrequency('1'); // Optionally update the input field state
+    }
 
-    if (R_val <= 0 || C_val_uF <= 0 || f_signal_val <= 0 || N_val <= 0) {
-      setError("R, C, Signal Frequency, and N must be positive values greater than zero.");
-      setChartData([]);
-      setCutoffFrequency(0);
-      setPhaseShift(0);
-      setOutputGain(0);
-      setCalculatedOscillationFrequency(0);
+
+    if (R_val <= 0 || C_val_uF <= 0 || N_val <= 0) {
+      setError("R, C, and N must be positive values greater than zero.");
+      setChartData([]); setCutoffFrequency(0); setPhaseShift(0); setOutputGain(0); setCalculatedOscillationFrequency(0);
       return;
     }
 
     const C_farads = C_val_uF * 1e-6; // Convert µF to F
     
-    // Calculate Cutoff Frequency for the single RC network
     const fc = 1 / (2 * Math.PI * R_val * C_farads);
-    setCutoffFrequency(fc);
+    setCutoffFrequency(isFinite(fc) ? fc : 0);
 
-    // Calculate Angular Frequency of signal
     const omega_signal = 2 * Math.PI * f_signal_val;
     const RC = R_val * C_farads;
 
-    // Calculate Phase Shift for the single RC network (radians and degrees)
     const phi_rad_rc_network = -Math.atan(omega_signal * RC);
     const phi_deg_rc_network = phi_rad_rc_network * (180 / Math.PI);
-    setPhaseShift(phi_deg_rc_network);
+    setPhaseShift(isFinite(phi_deg_rc_network) ? phi_deg_rc_network : 0);
 
-    // Calculate Gain (Magnitude of Transfer Function H(jω)) for the single RC network
     const gain_rc_network = 1 / Math.sqrt(1 + Math.pow(omega_signal * RC, 2));
-    setOutputGain(gain_rc_network);
+    setOutputGain(isFinite(gain_rc_network) ? gain_rc_network : 0);
     
-    // Calculate Oscillation Frequency for N-stage RC phase-shift oscillator
     const sqrt2N = Math.sqrt(2 * N_val);
     if (RC > 0 && sqrt2N > 0) {
         const f_osc = 1 / (2 * Math.PI * RC * sqrt2N);
-        setCalculatedOscillationFrequency(f_osc);
+        setCalculatedOscillationFrequency(isFinite(f_osc) ? f_osc : 0);
     } else {
         setCalculatedOscillationFrequency(0);
     }
 
-    // Generate Chart Data for single stage response
-    const V_peak_input = 1; // Assume 1V peak input for simplicity
-    const numCycles = 3; // Number of cycles to display
+    const V_peak_input = 1;
+    const numCycles = 3;
     const signalPeriod = 1 / f_signal_val;
-    const timeEnd = numCycles * signalPeriod;
-    const numPoints = 200; // Number of data points for the chart
-    const timeStep = timeEnd / numPoints;
+    const timeEnd = isFinite(signalPeriod) ? numCycles * signalPeriod : numCycles; // Fallback if signalPeriod is not finite
+    const numPoints = 200;
+    const timeStep = isFinite(timeEnd) && numPoints > 0 ? timeEnd / numPoints : 0.01; // Fallback timeStep
     
     const data = [];
-    for (let i = 0; i <= numPoints; i++) {
-      const t = i * timeStep;
-      let inputV = V_peak_input * Math.sin(omega_signal * t);
-      let outputV_rc_filter = V_peak_input * gain_rc_network * Math.sin(omega_signal * t + phi_rad_rc_network);
-      let outputV_inverted = -1 * outputV_rc_filter;
+    if (isFinite(omega_signal) && isFinite(timeStep) && isFinite(gain_rc_network) && isFinite(phi_rad_rc_network)) {
+      for (let i = 0; i <= numPoints; i++) {
+        const t = i * timeStep;
+        let inputV = V_peak_input * Math.sin(omega_signal * t);
+        let outputV_rc_filter = V_peak_input * gain_rc_network * Math.sin(omega_signal * t + phi_rad_rc_network);
+        let outputV_inverted = -1 * outputV_rc_filter;
 
-      data.push({
-        time: isFinite(t) ? parseFloat((t * 1000).toFixed(3)) : 0, // Time in ms
-        inputVoltage: isFinite(inputV) ? parseFloat(inputV.toFixed(4)) : 0,
-        outputVoltage: isFinite(outputV_inverted) ? parseFloat(outputV_inverted.toFixed(4)) : 0,
-      });
+        data.push({
+          time: parseFloat((t * 1000).toFixed(3)), // Time in ms
+          inputVoltage: parseFloat(inputV.toFixed(4)),
+          outputVoltage: parseFloat(outputV_inverted.toFixed(4)),
+        });
+      }
     }
     setChartData(data);
     
@@ -166,61 +173,78 @@ export default function RcPhaseShiftVisualizerPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
-            <div className="space-y-2">
-              <Label htmlFor="resistor" className="text-base">Resistor (R) - Ohms</Label>
-              <Input
-                id="resistor"
-                type="number"
-                value={resistor}
-                onChange={handleInputChange(setResistor)}
-                placeholder="e.g., 1000"
-                className="h-10 text-base"
-                min="1" 
-                step="100"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="capacitor" className="text-base">Capacitor (C) - µF</Label>
-              <Input
-                id="capacitor"
-                type="number"
-                value={capacitor}
-                onChange={handleInputChange(setCapacitor)}
-                placeholder="e.g., 1"
-                className="h-10 text-base"
-                min="0.000001" // Smallest practical µF value, or adjust as needed
-                step="0.1"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="signalFrequency" className="text-base">Signal Frequency (f_signal) - Hz</Label>
-              <Input
-                id="signalFrequency"
-                type="number"
-                value={signalFrequency}
-                onChange={handleInputChange(setSignalFrequency)}
-                placeholder="e.g., 1000 Hz"
-                className="h-10 text-base"
-                min="1"
-              />
-               <p className="text-xs text-muted-foreground">Input for waveform graph.</p>
-            </div>
-             <div className="space-y-2">
-              <Label htmlFor="numberOfStages" className="text-base">Number of RC Stages (N)</Label>
-              <Input
-                id="numberOfStages"
-                type="number"
-                value={numberOfStages}
-                onChange={handleInputChange(setNumberOfStages, false)} // false for no float
-                placeholder="e.g., 3"
-                className="h-10 text-base"
-                min="1"
-                step="1"
-              />
-               <p className="text-xs text-muted-foreground">For oscillator frequency calculation.</p>
-            </div>
-          </div>
+          
+          <Card className="bg-background/70 dark:bg-muted/20 p-4 md:p-6 rounded-lg border shadow-sm">
+            <CardHeader className="p-0 pb-4 mb-4 border-b">
+              <CardTitle className="text-xl text-primary/90 flex items-center">
+                <Settings className="mr-2 h-5 w-5"/>Input Parameters
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+              {/* Column 1: Component Values */}
+              <div className="space-y-4">
+                <h4 className="text-md font-semibold text-muted-foreground border-b pb-1.5">Component Values</h4>
+                <div className="space-y-2">
+                  <Label htmlFor="resistor" className="text-base">Resistor (R) - Ohms</Label>
+                  <Input
+                    id="resistor"
+                    type="number"
+                    value={resistor}
+                    onChange={handleInputChange(setResistor, true, false)}
+                    placeholder="e.g., 1000"
+                    className="h-10 text-base"
+                    min="1" 
+                    step="100"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="capacitor" className="text-base">Capacitor (C) - µF</Label>
+                  <Input
+                    id="capacitor"
+                    type="number"
+                    value={capacitor}
+                    onChange={handleInputChange(setCapacitor, true, false)}
+                    placeholder="e.g., 1"
+                    className="h-10 text-base"
+                    min="0.000001"
+                    step="0.1"
+                  />
+                </div>
+              </div>
+              {/* Column 2: Signal & Oscillator Config */}
+              <div className="space-y-4">
+                <h4 className="text-md font-semibold text-muted-foreground border-b pb-1.5">Signal & Oscillator Config</h4>
+                <div className="space-y-2">
+                  <Label htmlFor="signalFrequency" className="text-base">Signal Frequency (f_signal) - Hz</Label>
+                  <Input
+                    id="signalFrequency"
+                    type="number"
+                    value={signalFrequency}
+                    onChange={handleInputChange(setSignalFrequency, true, false)}
+                    placeholder="e.g., 1000 Hz"
+                    className="h-10 text-base"
+                    min="1"
+                  />
+                   <p className="text-xs text-muted-foreground">Input for waveform graph.</p>
+                </div>
+                 <div className="space-y-2">
+                  <Label htmlFor="numberOfStages" className="text-base">Number of RC Stages (N)</Label>
+                  <Input
+                    id="numberOfStages"
+                    type="number" // Kept as number, but validation will handle integer logic if needed
+                    value={numberOfStages}
+                    onChange={handleInputChange(setNumberOfStages, false, true)}
+                    placeholder="e.g., 3"
+                    className="h-10 text-base"
+                    min="1"
+                    step="1"
+                  />
+                   <p className="text-xs text-muted-foreground">For oscillator frequency calculation.</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
 
           {error && (
             <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive flex items-center gap-2 justify-center">
@@ -258,7 +282,7 @@ export default function RcPhaseShiftVisualizerPage() {
             <CardTitle className="text-xl mb-4 text-primary flex items-center">
                 <TrendingUp className="mr-2 h-5 w-5"/>Voltage Waveforms (Single Stage Filter Response)
             </CardTitle>
-            {chartData.length > 0 && !error ? ( // Only show chart if data is present and no error
+            {chartData.length > 0 && !error ? ( 
               <ChartContainer config={chartConfig} className="h-[400px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
