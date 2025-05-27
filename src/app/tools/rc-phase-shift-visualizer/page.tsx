@@ -82,22 +82,19 @@ export default function RcPhaseShiftVisualizerPage() {
     let f_signal_val = parseFloat(signalFrequency);
     const N_val = parseInt(numberOfStages, 10);
 
-    if (isNaN(R_val) || R_val <= 0 || isNaN(C_val_uF) || C_val_uF <= 0) {
-      setError("R and C values must be positive and greater than zero.");
+    // Reverted validation logic
+    if (isNaN(R_val) || R_val <= 0 || isNaN(C_val_uF) || C_val_uF <= 0 || isNaN(N_val) || N_val <= 0) {
+      setError("R, C, and N must be positive values greater than zero."); // Reverted error message
       setChartData([]); setCutoffFrequency(0); setPhaseShift(0); setOutputGain(0); setCalculatedOscillationFrequency(0);
       return;
     }
     
-    // N_val validation is still important for f_osc, but the specific error message "R, C, and N..." is removed for this block.
-    // The f_osc calculation itself will handle invalid N by resulting in 0 Hz or "---".
-    // Chart generation does not depend on N.
-
      if (isNaN(f_signal_val) || f_signal_val <= 0) {
-        f_signal_val = 1; // Auto-correct to 1Hz to prevent errors if input is invalid
-        setSignalFrequency("1"); // Reflect the change in the input field
+        f_signal_val = 1; 
+        setSignalFrequency("1"); 
     }
 
-    const C_farads = C_val_uF * 1e-6; // Convert µF to F
+    const C_farads = C_val_uF * 1e-6; 
     const RC = R_val * C_farads;
     
     const fc = 1 / (2 * Math.PI * RC);
@@ -112,16 +109,14 @@ export default function RcPhaseShiftVisualizerPage() {
     const gain_rc_network = 1 / Math.sqrt(1 + Math.pow(omega_signal * RC, 2));
     setOutputGain(isFinite(gain_rc_network) ? gain_rc_network : 0);
     
-    if (!isNaN(N_val) && N_val > 0) {
-      const sqrt2N = Math.sqrt(2 * N_val);
-      if (RC > 0 && sqrt2N > 0) {
-          const f_osc = 1 / (2 * Math.PI * RC * sqrt2N);
-          setCalculatedOscillationFrequency(isFinite(f_osc) ? f_osc : 0);
-      } else {
-          setCalculatedOscillationFrequency(0);
-      }
+    // N_val is already validated by the check above for the main calculations
+    // For f_osc, N_val will be > 0 here.
+    const sqrt2N = Math.sqrt(2 * N_val);
+    if (RC > 0 && sqrt2N > 0) { // N_val is >0 from the initial check
+        const f_osc = 1 / (2 * Math.PI * RC * sqrt2N);
+        setCalculatedOscillationFrequency(isFinite(f_osc) ? f_osc : 0);
     } else {
-      setCalculatedOscillationFrequency(0); // N is invalid for f_osc calculation
+        setCalculatedOscillationFrequency(0); // Should not happen if R,C,N >0
     }
 
 
@@ -137,14 +132,14 @@ export default function RcPhaseShiftVisualizerPage() {
       for (let i = 0; i <= numPoints; i++) {
         const t = i * timeStep;
         let inputV = V_peak_input * Math.sin(omega_signal * t);
-        // Output voltage of the passive RC filter
+        
         let outputV_rc_filter = V_peak_input * gain_rc_network * Math.sin(omega_signal * t + phi_rad_rc_network);
-        // Invert for display, simulating an inverting amplifier stage
+        
         let outputV_inverted = -1 * outputV_rc_filter;
 
 
         data.push({
-          time: parseFloat((t * 1000).toFixed(3)), // Time in ms
+          time: parseFloat((t * 1000).toFixed(3)), 
           inputVoltage: isFinite(inputV) ? parseFloat(inputV.toFixed(4)) : 0,
           outputVoltage: isFinite(outputV_inverted) ? parseFloat(outputV_inverted.toFixed(4)) : 0,
         });
@@ -207,8 +202,8 @@ export default function RcPhaseShiftVisualizerPage() {
 
 
   const formatFrequency = (hz: number) => {
-    if (isNaN(hz) || !isFinite(hz)) return "---"; // Show "---" for NaN or Infinite
-    if (hz === 0 && calculatedOscillationFrequency === 0 && (parseInt(numberOfStages, 10) <=0 || isNaN(parseInt(numberOfStages, 10)))) return "---"; // Specifically for f_osc if N is bad
+    if (isNaN(hz) || !isFinite(hz)) return "---"; 
+    if (hz === 0 && calculatedOscillationFrequency === 0 && (parseInt(numberOfStages, 10) <=0 || isNaN(parseInt(numberOfStages, 10)))) return "---"; 
     if (hz === 0) return "0 Hz";
 
 
@@ -377,5 +372,3 @@ export default function RcPhaseShiftVisualizerPage() {
     </div>
   );
 }
-
-    
