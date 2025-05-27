@@ -11,6 +11,15 @@ import { ArrowLeft, RadioTower, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
+// Helper to format frequency
+const formatFrequency = (hertz: number): string => {
+  if (isNaN(hertz) || !isFinite(hertz) || hertz === 0) return "0 Hz";
+  if (hertz >= 1e9) return `${(hertz / 1e9).toPrecision(4)} GHz`;
+  if (hertz >= 1e6) return `${(hertz / 1e6).toPrecision(4)} MHz`;
+  if (hertz >= 1e3) return `${(hertz / 1e3).toPrecision(4)} kHz`;
+  return `${hertz.toPrecision(4)} Hz`;
+};
+
 export default function LcResonanceCalculatorPage() {
   const { toast } = useToast();
   const [inductance, setInductance] = useState<string>('');
@@ -34,24 +43,43 @@ export default function LcResonanceCalculatorPage() {
     setError(null);
     setResult(null);
 
-    const L = parseFloat(inductance);
-    const C = parseFloat(capacitance);
+    const L_val = parseFloat(inductance);
+    const C_val = parseFloat(capacitance);
 
-    if (isNaN(L) || isNaN(C)) {
+    if (isNaN(L_val) || isNaN(C_val)) {
       setError("Please enter valid numeric values for inductance and capacitance.");
       return;
     }
-    if (L <= 0 || C <= 0) {
-      setError("Inductance and Capacitance values must be positive.");
+    if (L_val <= 0 || C_val <= 0) {
+      setError("Inductance and Capacitance values must be positive and greater than zero.");
       return;
     }
 
-    // Placeholder logic
-    toast({
-      title: "Calculation Placeholder",
-      description: "LC resonance calculation logic needs to be implemented.",
-    });
-    setResult("Frequency: (Calculation pending)"); 
+    let L_henries: number;
+    switch (inductanceUnit) {
+      case 'uH': L_henries = L_val * 1e-6; break;
+      case 'mH': L_henries = L_val * 1e-3; break;
+      case 'H': L_henries = L_val; break;
+      default: L_henries = L_val * 1e-3; // Default to mH
+    }
+
+    let C_farads: number;
+    switch (capacitanceUnit) {
+      case 'pF': C_farads = C_val * 1e-12; break;
+      case 'nF': C_farads = C_val * 1e-9; break;
+      case 'uF': C_farads = C_val * 1e-6; break;
+      default: C_farads = C_val * 1e-6; // Default to uF
+    }
+    
+    const frequency = 1 / (2 * Math.PI * Math.sqrt(L_henries * C_farads));
+
+    if (isNaN(frequency) || !isFinite(frequency)) {
+      setError("Calculation resulted in an invalid number. Please check input values.");
+      return;
+    }
+
+    setResult(formatFrequency(frequency)); 
+    toast({ title: "Calculation Complete", description: `Resonant Frequency: ${formatFrequency(frequency)}` });
   };
 
   return (
@@ -135,3 +163,4 @@ export default function LcResonanceCalculatorPage() {
     </div>
   );
 }
+

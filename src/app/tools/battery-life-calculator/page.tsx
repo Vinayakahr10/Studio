@@ -10,6 +10,29 @@ import { ArrowLeft, Hourglass, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
+// Helper to format duration into a readable string
+const formatDuration = (hours: number): string => {
+  if (isNaN(hours) || !isFinite(hours) || hours <= 0) return "N/A";
+
+  if (hours < 1) {
+    const minutes = hours * 60;
+    return `${minutes.toFixed(1)} minutes`;
+  }
+  if (hours < 24) {
+    return `${hours.toFixed(1)} hours`;
+  }
+  
+  const days = Math.floor(hours / 24);
+  const remainingHours = hours % 24;
+  
+  let durationString = `${days} day${days > 1 ? 's' : ''}`;
+  if (remainingHours > 0.1) { // Only add hours if significant
+    durationString += ` and ${remainingHours.toFixed(1)} hour${remainingHours > 1 ? 's' : ''}`;
+  }
+  return durationString;
+};
+
+
 export default function BatteryLifeCalculatorPage() {
   const { toast } = useToast();
   const [batteryCapacity, setBatteryCapacity] = useState<string>(''); // in mAh
@@ -40,16 +63,23 @@ export default function BatteryLifeCalculatorPage() {
     }
 
     if (capacity <= 0 || consumption <= 0) {
-      setError("Battery capacity and current consumption must be positive values.");
+      setError("Battery capacity and current consumption must be positive and greater than zero.");
       return;
     }
     
-    // Placeholder logic
+    const estimatedHours = capacity / consumption;
+
+    if (isNaN(estimatedHours) || !isFinite(estimatedHours)) {
+      setError("Calculation resulted in an invalid number. Please check input values.");
+      return;
+    }
+    
+    const formattedDuration = formatDuration(estimatedHours);
+    setResult(formattedDuration);
     toast({
-      title: "Calculation Placeholder",
-      description: "Battery life calculation logic needs to be implemented.",
+      title: "Calculation Complete",
+      description: `Estimated Battery Life: ${formattedDuration}`,
     });
-    setResult("Estimated Life: (Calculation pending)");
   };
 
   return (
