@@ -1,25 +1,33 @@
 
 "use client";
 
-import Link from 'next/link';
-import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon } from 'lucide-react'; // Removed DatabaseZap
+import Link from "next/link";
+import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, ChevronDown } from 'lucide-react'; // Added ChevronDown
 import { Button } from '@/components/ui/button';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 
 const mainNavLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/tutorials', label: 'Tutorials' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/community', label: 'Community' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
-  // { href: '/data-demo', label: 'Data Demo', icon: DatabaseZap }, // Removed Data Demo link
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  { href: "/tutorials", label: "Tutorials" },
+  { href: "/blog", label: "Blog" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+  {
+    label: "Tools",
+    icon: undefined, // Explicitly set icon to undefined or a LucideIcon if needed
+    dropdown: [
+      { href: "/tools/ohms-law-calculator", label: "Ohm's Law Calculator" },
+      { href: "/tools/resistance-calculator", label: "Resistance Calculator" },
+    ],
+  },
 ];
 
 // Link for non-logged-in users
@@ -40,7 +48,6 @@ export function Header() {
   const handleLogout = async () => {
     await logout();
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
-    // Redirection to /login is handled in useAuth or AdminLayout
   };
 
   return (
@@ -53,15 +60,33 @@ export function Header() {
         
         <nav className="hidden md:flex gap-1 items-center">
           {mainNavLinks.map((link) => (
-            <Button variant="link" asChild key={link.href}>
-              <Link
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2"
-              >
-                {link.icon && <link.icon className="mr-1.5 h-4 w-4" />}
-                {link.label}
-              </Link>
-            </Button>
+            link.dropdown ? (
+              <DropdownMenu key={link.label}>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="link" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2">
+                    {link.icon && <link.icon className="mr-1.5 h-4 w-4" />}
+                    {link.label} <ChevronDown className="ml-1 h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {link.dropdown.map((item) => (
+                    <DropdownMenuItem key={item.href} asChild>
+                      <Link href={item.href}>{item.label}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button variant="link" asChild key={link.label}> {/* Changed key to link.label */}
+                <Link
+                  href={link.href!} 
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2"
+                >
+                  {link.icon && <link.icon className="mr-1.5 h-4 w-4" />}
+                  {link.label}
+                </Link>
+              </Button>
+            )
           ))}
         </nav>
 
@@ -83,13 +108,13 @@ export function Header() {
                   </Button>
                 </>
              ) : !loading && !user ? (
-                  <Button variant={loginLink.variant} asChild size="sm">
+                  <Button variant={loginLink.variant} asChild size="sm" key={loginLink.href}>
                     <Link href={loginLink.href}>
                       {loginLink.icon && <loginLink.icon className="mr-2 h-4 w-4" />}
                       {loginLink.label}
                     </Link>
                   </Button>
-             ) : null /* Show nothing while loading or if user is logged in but not admin */}
+             ) : null}
             <ThemeToggleButton />
           </div>
          
@@ -112,15 +137,41 @@ export function Header() {
                  </SheetHeader>
                 <div className="flex flex-col gap-1">
                   {mainNavLinks.map((link) => (
-                     <Button variant="ghost" asChild key={link.href} className="justify-start text-base py-2.5 h-auto">
-                        <Link
-                            href={link.href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                         {link.icon && <link.icon className="mr-2 h-5 w-5" />}
-                         {link.label}
-                        </Link>
-                     </Button>
+                    link.dropdown ? (
+                      <Accordion type="single" collapsible className="w-full" key={link.label}>
+                        <AccordionItem value={link.label} className="border-b-0">
+                          <AccordionTrigger className="text-base py-2.5 h-auto hover:no-underline hover:bg-muted/50 rounded-md px-3 font-medium text-muted-foreground justify-start group">
+                             {link.icon && <link.icon className="mr-2 h-5 w-5" />}
+                             <span>{link.label}</span>
+                             {/* Chevron is part of AccordionTrigger by default */}
+                          </AccordionTrigger>
+                          <AccordionContent className="pt-1 pb-0 pl-7">
+                            <div className="flex flex-col gap-0.5">
+                              {link.dropdown.map((item) => (
+                                <Button variant="ghost" asChild key={item.href} className="justify-start text-base py-2.5 h-auto font-normal text-muted-foreground">
+                                  <Link
+                                    href={item.href}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                  >
+                                    {item.label}
+                                  </Link>
+                                </Button>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    ) : (
+                       <Button variant="ghost" asChild key={link.label} className="justify-start text-base py-2.5 h-auto"> {/* Changed key to link.label */}
+                          <Link
+                              href={link.href!}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                           {link.icon && <link.icon className="mr-2 h-5 w-5" />}
+                           {link.label}
+                          </Link>
+                       </Button>
+                    )
                   ))}
 
                   <hr className="my-3" />
@@ -144,7 +195,7 @@ export function Header() {
                       </Button>
                     </>
                   ) : !loading && !user ? (
-                       <Button variant="ghost" asChild className="justify-start text-base py-2.5 h-auto">
+                       <Button variant="ghost" asChild className="justify-start text-base py-2.5 h-auto" key={loginLink.href}>
                           <Link
                               href={loginLink.href}
                               onClick={() => setIsMobileMenuOpen(false)}
@@ -153,7 +204,7 @@ export function Header() {
                            {loginLink.label}
                           </Link>
                        </Button>
-                  ) : null /* Show nothing while loading or if user is logged in but not admin */ }
+                  ) : null}
                 </div>
               </SheetContent>
             </Sheet>
