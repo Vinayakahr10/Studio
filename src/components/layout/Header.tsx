@@ -19,8 +19,8 @@ const mainNavLinks = [
   { href: "/blog", label: "Blog" },
   {
     label: "Tools",
-    icon: Wrench,
-    href: "/tools", // This will now be a direct link
+    href: "/tools", // This is now a direct link
+    // icon: Wrench, // Icon removed as per request
   },
   { href: "/faq", label: "FAQ" },
   { href: "/about", label: "About" },
@@ -57,48 +57,17 @@ export function Header() {
         
         <nav className="hidden md:flex gap-1 items-center">
           {mainNavLinks.map((link) => (
-            link.dropdown ? ( // This condition will now be false for "Tools"
-              <DropdownMenu key={link.label}>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="link" asChild={!link.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2">
-                     {link.href ? (
-                        <Link href={link.href} className="flex items-center gap-1.5">
-                            {link.icon && <link.icon className="h-4 w-4" />}
-                            {link.label} <ChevronDown className="ml-1 h-4 w-4" />
-                        </Link>
-                     ) : (
-                        <span className="flex items-center gap-1.5">
-                            {link.icon && <link.icon className="h-4 w-4" />}
-                            {link.label} <ChevronDown className="ml-1 h-4 w-4" />
-                        </span>
-                     )}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {link.dropdown.map((item, index) => (
-                    item.type === 'separator' ? (
-                      <DropdownMenuSeparator key={`separator-${index}`} />
-                    ) : (
-                    <DropdownMenuItem key={item.href} asChild>
-                      <Link href={item.href}>{item.label}</Link>
-                    </DropdownMenuItem>
-                    )
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button variant="link" asChild key={link.label}>
-                <Link
-                  href={link.href!} 
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2"
-                >
-                  <span className="flex items-center gap-1.5">
-                    {link.icon && <link.icon className="h-4 w-4" />}
-                    {link.label}
-                  </span>
-                </Link>
-              </Button>
-            )
+            <Button variant="link" asChild key={link.label}>
+              <Link
+                href={link.href!} 
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2"
+              >
+                <span className="flex items-center gap-1.5">
+                  {link.icon && <link.icon className="h-4 w-4" />}
+                  {link.label}
+                </span>
+              </Link>
+            </Button>
           ))}
         </nav>
 
@@ -153,42 +122,6 @@ export function Header() {
                  </SheetHeader>
                 <div className="flex flex-col gap-1">
                   {mainNavLinks.map((link) => (
-                    link.dropdown ? ( // This condition will now be false for "Tools"
-                      <Accordion type="single" collapsible className="w-full" key={link.label}>
-                        <AccordionItem value={link.label} className="border-b-0">
-                          <AccordionTrigger className="text-base py-2.5 h-auto hover:no-underline hover:bg-muted/50 rounded-md px-3 font-medium text-muted-foreground justify-start group">
-                             <span className="flex items-center">
-                                {link.icon && <link.icon className="mr-2 h-5 w-5" />}
-                                {link.href ? (
-                                  <Link href={link.href} onClick={(e) => { e.stopPropagation(); setIsMobileMenuOpen(false); }} className="group-hover:underline">
-                                    {link.label}
-                                  </Link>
-                                ) : (
-                                  <span>{link.label}</span>
-                                )}
-                             </span>
-                          </AccordionTrigger>
-                          <AccordionContent className="pt-1 pb-0 pl-7">
-                            <div className="flex flex-col gap-0.5">
-                              {link.dropdown.map((item, index) => (
-                                item.type === 'separator' ? (
-                                  <hr key={`separator-mobile-${index}`} className="my-1"/>
-                                ) : (
-                                <Button variant="ghost" asChild key={item.href} className="justify-start text-base py-2.5 h-auto font-normal text-muted-foreground">
-                                  <Link
-                                    href={item.href}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                  >
-                                    {item.label}
-                                  </Link>
-                                </Button>
-                                )
-                              ))}
-                            </div>
-                          </AccordionContent>
-                        </AccordionItem>
-                      </Accordion>
-                    ) : (
                        <Button variant="ghost" asChild key={link.label} className="justify-start text-base py-2.5 h-auto">
                           <Link
                               href={link.href!}
@@ -200,7 +133,6 @@ export function Header() {
                            </span>
                           </Link>
                        </Button>
-                    )
                   ))}
 
                   <hr className="my-3" />
