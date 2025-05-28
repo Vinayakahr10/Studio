@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart, Triangle } from 'lucide-react';
+import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart, Triangle, ArrowRightLeft } from 'lucide-react';
 
 const toolsData = [
   {
@@ -70,6 +70,12 @@ const toolsData = [
     description: "Calculate gain for common op-amp configurations like inverting and non-inverting amplifiers.",
     href: "/tools/op-amp-calculator",
     Icon: Triangle,
+  },
+  {
+    title: "Ideal Diode Calculator",
+    description: "Calculate current and voltage in a simple ideal diode circuit with a resistor.",
+    href: "/tools/ideal-diode-calculator",
+    Icon: ArrowRightLeft,
   }
 ];
 
