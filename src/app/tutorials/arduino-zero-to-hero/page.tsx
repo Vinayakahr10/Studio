@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'; // Added CardFooter
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Download, Youtube, BookOpen, PackageIcon, MessageSquare, Github, TwitterIcon, ListChecks, Lightbulb, AlertTriangle, Users, Rocket } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -306,7 +306,7 @@ export default function ArduinoZeroToHeroPage() {
               {/* Placeholder for Newsletter Signup */}
               <div className="p-4 border rounded-md bg-background w-full sm:w-auto max-w-sm">
                 <p className="font-semibold text-foreground mb-2">Subscribe for Arduino Tips!</p>
-                <Input type="email" placeholder="Enter your email" className="mb-2"/>
+                {/* <Input type="email" placeholder="Enter your email" className="mb-2"/> */}
                 <Button className="w-full">Subscribe</Button>
               </div>
             </div>
