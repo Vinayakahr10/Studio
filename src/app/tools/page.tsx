@@ -2,7 +2,10 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart, Triangle, ArrowRightLeft, Timer, Radio, GitMerge, Bolt } from 'lucide-react';
+import { 
+  Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, 
+  LineChart, Triangle, ArrowRightLeft, Timer, Radio, GitMerge, Bolt, Layers, Diamond, PieChart, Signal
+} from 'lucide-react';
 
 const toolsData = [
   {
@@ -100,6 +103,36 @@ const toolsData = [
     description: "Calculate charge stored and energy stored in a capacitor.",
     href: "/tools/capacitor-charge-energy-calculator",
     Icon: Bolt,
+  },
+  {
+    title: "Series Resistor Calculator",
+    description: "Calculate the total resistance of resistors connected in series.",
+    href: "/tools/series-resistor-calculator",
+    Icon: Network, // Re-using Network icon, or combine if better
+  },
+  {
+    title: "Capacitors in Series/Parallel",
+    description: "Calculate total capacitance for capacitors in series or parallel.",
+    href: "/tools/capacitors-series-parallel-calculator",
+    Icon: Layers,
+  },
+  {
+    title: "Decibel (dB) Calculator",
+    description: "Convert between power/voltage ratios and decibels.",
+    href: "/tools/decibel-calculator",
+    Icon: Signal,
+  },
+  {
+    title: "Wheatstone Bridge Calculator",
+    description: "Calculate unknown resistance in a balanced Wheatstone bridge.",
+    href: "/tools/wheatstone-bridge-calculator",
+    Icon: Diamond, // Abstract representation
+  },
+  {
+    title: "Power Factor Calculator",
+    description: "Calculate power factor from real and apparent power.",
+    href: "/tools/power-factor-calculator",
+    Icon: PieChart,
   }
 ];
 
@@ -115,7 +148,7 @@ export default function ToolsPage() {
         </p>
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
         {toolsData.map((tool) => (
           <Card key={tool.title} className="flex flex-col shadow-lg hover:shadow-xl transition-shadow hover:bg-muted/30">
             <CardHeader className="items-center text-center">
