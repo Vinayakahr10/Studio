@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart, Triangle, ArrowRightLeft } from 'lucide-react';
+import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart, Triangle, ArrowRightLeft, Timer, Radio } from 'lucide-react';
 
 const toolsData = [
   {
@@ -76,6 +76,18 @@ const toolsData = [
     description: "Calculate current and voltage in a simple ideal diode circuit with a resistor.",
     href: "/tools/ideal-diode-calculator",
     Icon: ArrowRightLeft,
+  },
+  {
+    title: "RC Time Constant Calculator",
+    description: "Calculate the time constant (τ) of a resistor-capacitor (RC) circuit.",
+    href: "/tools/rc-time-constant-calculator",
+    Icon: Timer,
+  },
+  {
+    title: "Reactance Calculator",
+    description: "Calculate capacitive (Xc) or inductive (Xl) reactance based on frequency and component value.",
+    href: "/tools/reactance-calculator",
+    Icon: Radio, // Using Radio icon as a proxy for AC signal/waves
   }
 ];
 
