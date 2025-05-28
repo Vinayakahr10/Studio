@@ -34,6 +34,18 @@ export default function CapacitorChargeEnergyCalculatorPage() {
     }
   };
 
+  const formatScientific = (val: number, unit: string, precision: number = 3): string => {
+      if (isNaN(val) || !isFinite(val)) return `--- ${unit.charAt(0)}`;
+      if (val === 0) return `0 ${unit}`;
+      
+      const absVal = Math.abs(val);
+      if (absVal < 1e-9 && unit !== 'J') return `${(val * 1e12).toPrecision(precision)} p${unit.charAt(0)}`;
+      if (absVal < 1e-6 && unit !== 'J') return `${(val * 1e9).toPrecision(precision)} n${unit.charAt(0)}`;
+      if (absVal < 1e-3) return `${(val * 1e6).toPrecision(precision)} µ${unit.charAt(0)}`;
+      if (absVal < 1) return `${(val * 1e3).toPrecision(precision)} m${unit.charAt(0)}`;
+      return `${val.toPrecision(precision)} ${unit}`;
+  };
+
   const calculateValues = () => {
     setError(null);
     setResults(null);
@@ -45,10 +57,15 @@ export default function CapacitorChargeEnergyCalculatorPage() {
       setError("Please enter valid numeric values for capacitance and voltage.");
       return;
     }
-    if (C_input <= 0 || V_input < 0) { // Voltage can be 0, but capacitance must be > 0
-      setError("Capacitance must be positive. Voltage must be non-negative.");
+    if (C_input <= 0) { 
+      setError("Capacitance must be positive and greater than zero.");
       return;
     }
+     if (V_input < 0) { 
+      setError("Voltage must be non-negative.");
+      return;
+    }
+
 
     let C_farads: number;
     switch (capacitanceUnit) {
@@ -57,7 +74,7 @@ export default function CapacitorChargeEnergyCalculatorPage() {
       case 'uF': C_farads = C_input * 1e-6; break;
       case 'mF': C_farads = C_input * 1e-3; break;
       case 'F': C_farads = C_input; break;
-      default: C_farads = C_input * 1e-6;
+      default: C_farads = C_input * 1e-6; // Should not happen with Select
     }
     
     const charge_coulombs = C_farads * V_input;
@@ -68,23 +85,17 @@ export default function CapacitorChargeEnergyCalculatorPage() {
       return;
     }
     
-    const formatScientific = (val: number, unit: string) => {
-        if (val === 0) return `0 ${unit}`;
-        if (Math.abs(val) < 1e-9) return `${(val * 1e12).toPrecision(3)} p${unit.charAt(0)}`; // pico
-        if (Math.abs(val) < 1e-6) return `${(val * 1e9).toPrecision(3)} n${unit.charAt(0)}`;  // nano
-        if (Math.abs(val) < 1e-3) return `${(val * 1e6).toPrecision(3)} µ${unit.charAt(0)}`; // micro
-        if (Math.abs(val) < 1) return `${(val * 1e3).toPrecision(3)} m${unit.charAt(0)}`;   // milli
-        return `${val.toPrecision(3)} ${unit}`;
-    }
+    const chargeResult = formatScientific(charge_coulombs, "C");
+    const energyResult = formatScientific(energy_joules, "J");
 
     setResults({
-      charge: formatScientific(charge_coulombs, "C"),
-      energy: formatScientific(energy_joules, "J"),
+      charge: chargeResult,
+      energy: energyResult,
     });
     
     toast({
-      title: "Calculation Complete (Placeholder Logic)",
-      description: `Charge: ${formatScientific(charge_coulombs, "C")}, Energy: ${formatScientific(energy_joules, "J")} (Logic needs to be implemented)`,
+      title: "Calculation Complete",
+      description: `Charge: ${chargeResult}, Energy: ${energyResult}`,
     });
   };
 
@@ -110,7 +121,7 @@ export default function CapacitorChargeEnergyCalculatorPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
+          <div className="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-4 items-end">
             <div className="space-y-1.5">
               <Label htmlFor="capacitance_charge">Capacitance (C)</Label>
               <Input id="capacitance_charge" type="text" placeholder="e.g., 100" value={capacitance} onChange={handleInputChange(setCapacitance)} className="h-10 text-base" inputMode="decimal" />

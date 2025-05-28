@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Layers, Zap, PlusCircle, Trash2 } from 'lucide-react';
+import { ArrowLeft, Layers, Zap, PlusCircle, Trash2, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
@@ -43,12 +43,49 @@ export default function CapacitorsSeriesParallelCalculatorPage() {
     }
   };
 
+  const formatCapacitance = (val: number, outputUnit: string): string => {
+      if (isNaN(val) || !isFinite(val)) return `--- ${outputUnit}`;
+      let displayVal = val;
+      // No automatic unit conversion for output, show in the input unit
+      return `${displayVal.toPrecision(4)} ${outputUnit}`;
+  };
 
   const calculateTotalCapacitance = () => {
     setError(null);
     setResult(null);
-    toast({ title: "Placeholder", description: "Calculation logic for capacitors needs to be implemented." });
-    // Logic to be added later
+
+    const numCapacitors = capacitors.map(c => parseFloat(c)).filter(cVal => !isNaN(cVal));
+
+    if (numCapacitors.length < 2) {
+      setError("Please enter at least two valid capacitor values.");
+      return;
+    }
+    if (numCapacitors.some(c => c <= 0)) {
+      setError("All capacitor values must be positive and greater than zero.");
+      return;
+    }
+
+    let totalCapacitance: number;
+
+    if (connectionType === 'parallel') {
+      totalCapacitance = numCapacitors.reduce((sum, cVal) => sum + cVal, 0);
+    } else { // Series
+      const sumOfReciprocals = numCapacitors.reduce((sum, cVal) => sum + (1 / cVal), 0);
+      if (sumOfReciprocals === 0) {
+        setError("Cannot calculate series capacitance: sum of reciprocals is zero.");
+        return;
+      }
+      totalCapacitance = 1 / sumOfReciprocals;
+    }
+    
+    if (isNaN(totalCapacitance) || !isFinite(totalCapacitance)) {
+        setError("Calculation resulted in an invalid number. Please check input values.");
+        return;
+    }
+
+    const formattedResult = formatCapacitance(totalCapacitance, unit);
+    setResult(formattedResult);
+    toast({ title: "Calculation Complete", description: `Total Capacitance (Ct): ${formattedResult}` });
   };
 
   return (
@@ -69,7 +106,8 @@ export default function CapacitorsSeriesParallelCalculatorPage() {
           </div>
           <CardTitle className="text-3xl">Capacitors in Series/Parallel Calculator</CardTitle>
           <CardDescription>
-            Calculate the total equivalent capacitance of capacitors connected in series or parallel.
+            Calculate the total equivalent capacitance of capacitors connected in series or parallel. 
+            All inputs should be in the same unit selected below.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -87,7 +125,7 @@ export default function CapacitorsSeriesParallelCalculatorPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-[3fr_1fr] gap-2 items-end mb-4">
-            <div className="font-medium text-sm">Capacitor Values</div>
+            <div className="font-medium text-sm">Capacitor Values (all in selected unit)</div>
             <div className="space-y-1.5">
                 <Label htmlFor="unit" className="sr-only">Unit</Label>
                 <Select value={unit} onValueChange={setUnit}>
@@ -134,8 +172,8 @@ export default function CapacitorsSeriesParallelCalculatorPage() {
           </Button>
 
           {error && (
-            <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive">
-              {error}
+            <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive flex items-center gap-2 justify-center">
+              <AlertTriangle className="h-4 w-4" /> {error}
             </div>
           )}
           
@@ -154,4 +192,3 @@ export default function CapacitorsSeriesParallelCalculatorPage() {
     </div>
   );
 }
-

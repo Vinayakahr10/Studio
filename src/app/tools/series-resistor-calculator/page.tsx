@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Network, Zap, PlusCircle, Trash2 } from 'lucide-react';
+import { ArrowLeft, Network, Zap, PlusCircle, Trash2, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
@@ -36,23 +36,38 @@ export default function SeriesResistorCalculatorPage() {
       setResistors(newResistors);
     }
   };
+  
+  const formatOhms = (ohms: number): string => {
+      if (isNaN(ohms) || !isFinite(ohms)) return "--- Ω";
+      if (ohms >= 1e9) return `${(ohms / 1e9).toPrecision(3)} GΩ`;
+      if (ohms >= 1e6) return `${(ohms / 1e6).toPrecision(3)} MΩ`;
+      if (ohms >= 1e3) return `${(ohms / 1e3).toPrecision(3)} kΩ`;
+      return `${ohms.toPrecision(3)} Ω`;
+  };
 
   const calculateSeriesResistance = () => {
     setError(null);
     setResult(null);
-    toast({ title: "Placeholder", description: "Calculation logic for series resistors needs to be implemented." });
-    // Actual logic to be added later
-    // Example:
-    // let totalResistance = 0;
-    // for (const rStr of resistors) {
-    //   const rVal = parseFloat(rStr);
-    //   if (isNaN(rVal) || rVal <= 0) {
-    //     setError("All resistor values must be positive numbers.");
-    //     return;
-    //   }
-    //   totalResistance += rVal;
-    // }
-    // setResult(`${totalResistance.toFixed(2)} Ω`);
+    
+    const numResistors = resistors.map(r => parseFloat(r)).filter(rVal => !isNaN(rVal));
+
+    if (numResistors.length < 2) {
+      setError("Please enter at least two valid resistor values.");
+      return;
+    }
+
+    if (numResistors.some(r => r <= 0)) {
+      setError("All resistor values must be positive and greater than zero.");
+      return;
+    }
+
+    let totalResistance = 0;
+    for (const rVal of numResistors) {
+      totalResistance += rVal;
+    }
+    
+    setResult(formatOhms(totalResistance));
+    toast({ title: "Calculation Complete", description: `Total Series Resistance: ${formatOhms(totalResistance)}` });
   };
 
   return (
@@ -107,8 +122,8 @@ export default function SeriesResistorCalculatorPage() {
           </Button>
 
           {error && (
-            <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive">
-              {error}
+            <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive flex items-center gap-2 justify-center">
+              <AlertTriangle className="h-4 w-4" /> {error}
             </div>
           )}
           

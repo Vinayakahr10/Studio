@@ -6,65 +6,82 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, GitMerge, Zap, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, GitMerge, Zap, AlertTriangle, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ParallelResistorCalculatorPage() {
   const { toast } = useToast();
-  const [r1, setR1] = useState<string>('');
-  const [r2, setR2] = useState<string>('');
-  // Add more states if supporting more than 2 resistors, e.g., an array of resistor values
-  
+  const [resistors, setResistors] = useState<string[]>(['', '']);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  const handleInputChange = (index: number, value: string) => {
+    const newResistors = [...resistors];
      if (/^\d*\.?\d*$/.test(value) || value === '') {
-      setter(value);
+      newResistors[index] = value;
+      setResistors(newResistors);
       setError(null); 
       setResult(null);
     }
+  };
+
+  const addResistorInput = () => {
+    setResistors([...resistors, '']);
+  };
+
+  const removeResistorInput = (index: number) => {
+    if (resistors.length > 2) { // Keep at least two inputs
+      const newResistors = resistors.filter((_, i) => i !== index);
+      setResistors(newResistors);
+    }
+  };
+
+  const formatOhms = (ohms: number): string => {
+      if (isNaN(ohms) || !isFinite(ohms)) return "--- Ω";
+      if (ohms >= 1e9) return `${(ohms / 1e9).toPrecision(3)} GΩ`;
+      if (ohms >= 1e6) return `${(ohms / 1e6).toPrecision(3)} MΩ`;
+      if (ohms >= 1e3) return `${(ohms / 1e3).toPrecision(3)} kΩ`;
+      return `${ohms.toPrecision(3)} Ω`;
   };
 
   const calculateParallelResistance = () => {
     setError(null);
     setResult(null);
 
-    const numR1 = parseFloat(r1);
-    const numR2 = parseFloat(r2);
+    const numResistors = resistors.map(r => parseFloat(r)).filter(r => !isNaN(r));
 
-    if (isNaN(numR1) || isNaN(numR2)) {
-      setError("Please enter valid numeric values for all resistor fields.");
+    if (numResistors.length < 2) {
+      setError("Please enter at least two valid resistor values.");
       return;
     }
 
-    if (numR1 <= 0 || numR2 <= 0) {
-      setError("Resistor values must be positive and greater than zero.");
+    if (numResistors.some(r => r <= 0)) {
+      setError("All resistor values must be positive and greater than zero.");
       return;
     }
     
-    // For two resistors: R_total = (R1 * R2) / (R1 + R2)
-    // For more: 1/R_total = 1/R1 + 1/R2 + 1/R3 + ...
-    const totalResistance = (numR1 * numR2) / (numR1 + numR2);
+    let sumOfReciprocals = 0;
+    for (const r of numResistors) {
+      sumOfReciprocals += (1 / r);
+    }
+
+    if (sumOfReciprocals === 0) {
+        setError("Total resistance calculation resulted in division by zero. Check inputs.");
+        return;
+    }
+    
+    const totalResistance = 1 / sumOfReciprocals;
 
     if (isNaN(totalResistance) || !isFinite(totalResistance)) {
       setError("Calculation resulted in an invalid number. Please check input values.");
       return;
     }
     
-    const formatOhms = (ohms: number): string => {
-        if (ohms >= 1e9) return `${(ohms / 1e9).toPrecision(3)} GΩ`;
-        if (ohms >= 1e6) return `${(ohms / 1e6).toPrecision(3)} MΩ`;
-        if (ohms >= 1e3) return `${(ohms / 1e3).toPrecision(3)} kΩ`;
-        return `${ohms.toPrecision(3)} Ω`;
-    };
-    
     setResult(formatOhms(totalResistance));
     toast({
-        title: "Calculation Complete (Placeholder Logic)",
-        description: `Total Resistance: ${formatOhms(totalResistance)} (Logic needs to be fully implemented if more than 2 resistors needed)`,
+        title: "Calculation Complete",
+        description: `Total Parallel Resistance (Rt): ${formatOhms(totalResistance)}`,
     });
   };
 
@@ -87,22 +104,36 @@ export default function ParallelResistorCalculatorPage() {
           <CardTitle className="text-3xl">Parallel Resistor Calculator</CardTitle>
           <CardDescription>
             Calculate the total equivalent resistance of resistors connected in parallel.
-            (Currently supports 2 resistors. For more, manually use 1/Rt = 1/R1 + 1/R2 + ...)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="r1_parallel">Resistor R1 (Ohms)</Label>
-              <Input id="r1_parallel" type="text" placeholder="e.g., 1000" value={r1} onChange={handleInputChange(setR1)} className="h-10 text-base" inputMode="decimal" />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="r2_parallel">Resistor R2 (Ohms)</Label>
-              <Input id="r2_parallel" type="text" placeholder="e.g., 2200" value={r2} onChange={handleInputChange(setR2)} className="h-10 text-base" inputMode="decimal" />
-            </div>
+           <div className="space-y-4">
+            {resistors.map((resValue, index) => (
+              <div key={index} className="flex items-center gap-2">
+                 <div className="flex-grow space-y-1.5">
+                  <Label htmlFor={`r${index + 1}_parallel`}>Resistor R{index + 1} (Ohms)</Label>
+                  <Input 
+                    id={`r${index + 1}_parallel`} 
+                    type="text" 
+                    placeholder="e.g., 1000" 
+                    value={resValue} 
+                    onChange={(e) => handleInputChange(index, e.target.value)} 
+                    className="h-10 text-base" 
+                    inputMode="decimal" 
+                  />
+                </div>
+                 {resistors.length > 2 && (
+                  <Button variant="ghost" size="icon" onClick={() => removeResistorInput(index)} className="mt-auto text-destructive hover:bg-destructive/10">
+                    <Trash2 className="h-5 w-5" />
+                     <span className="sr-only">Remove resistor</span>
+                  </Button>
+                )}
+              </div>
+            ))}
           </div>
-          {/* Placeholder for adding more resistor inputs dynamically if needed in future */}
-          {/* <Button variant="outline" size="sm" disabled>+ Add Resistor (Future)</Button> */}
+           <Button variant="outline" onClick={addResistorInput} className="w-full">
+            <PlusCircle className="mr-2 h-4 w-4" /> Add Another Resistor
+          </Button>
 
 
           {error && (

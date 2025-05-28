@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, PieChart, Zap } from 'lucide-react';
+import { ArrowLeft, PieChart, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
@@ -30,14 +30,46 @@ export default function PowerFactorCalculatorPage() {
   const calculatePowerFactor = () => {
     setError(null);
     setResult(null);
-    toast({ title: "Placeholder", description: "Power factor calculation logic needs to be implemented." });
-    // Logic to be added:
-    // const P = parseFloat(realPower);
-    // const S = parseFloat(apparentPower);
-    // if (isNaN(P) || isNaN(S) || P < 0 || S <= 0) { setError("Inputs must be valid positive numbers; Apparent Power > 0."); return; }
-    // if (P > S) { setError("Real Power cannot be greater than Apparent Power."); return; }
-    // const pf = P / S;
-    // setResult(`Power Factor (PF): ${pf.toFixed(3)} ${pf < 0.85 ? '(Lagging/Leading - Poor)' : '(Good)'}`);
+    
+    const P = parseFloat(realPower); // Real Power in Watts
+    const S = parseFloat(apparentPower); // Apparent Power in VA
+
+    if (isNaN(P) || isNaN(S)) {
+      setError("Please enter valid numeric values for Real Power and Apparent Power.");
+      return;
+    }
+
+    if (P < 0) {
+        setError("Real Power (P) must be non-negative.");
+        return;
+    }
+    if (S <= 0) {
+      setError("Apparent Power (S) must be positive and greater than zero.");
+      return;
+    }
+    if (P > S) {
+      setError("Real Power (P) cannot be greater than Apparent Power (S). Check inputs.");
+      return;
+    }
+    
+    const powerFactor = P / S;
+
+    if (isNaN(powerFactor) || !isFinite(powerFactor)) {
+      setError("Calculation resulted in an invalid number. Please check input values.");
+      return;
+    }
+    
+    let pfInterpretation = "";
+    if (powerFactor < 0.85) pfInterpretation = "(Poor - significant reactive power)";
+    else if (powerFactor < 0.95) pfInterpretation = "(Fair)";
+    else pfInterpretation = "(Good - efficient power usage)";
+
+
+    setResult(`Power Factor (PF): ${powerFactor.toFixed(3)} ${pfInterpretation}`);
+    toast({
+        title: "Calculation Complete",
+        description: `Power Factor (PF): ${powerFactor.toFixed(3)}`,
+    });
   };
 
   return (
@@ -74,8 +106,8 @@ export default function PowerFactorCalculatorPage() {
           </div>
 
           {error && (
-            <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive">
-              {error}
+            <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive flex items-center gap-2 justify-center">
+              <AlertTriangle className="h-4 w-4" /> {error}
             </div>
           )}
           
@@ -86,15 +118,14 @@ export default function PowerFactorCalculatorPage() {
           {result && (
             <div className="mt-6 p-6 bg-primary/5 rounded-lg space-y-2 border border-primary/20">
               <h3 className="text-lg font-semibold text-center text-primary mb-1">Calculated Power Factor:</h3>
-              <p className="text-center text-2xl font-mono font-bold tracking-wide">{result}</p>
+              <p className="text-center text-xl font-mono font-bold tracking-wide">{result}</p>
             </div>
           )}
-           <p className="text-xs text-muted-foreground text-center">
-            Note: Power Factor is unitless and ranges from 0 to 1. A value closer to 1 indicates efficient power usage.
+           <p className="text-xs text-muted-foreground text-center pt-2">
+            Note: Power Factor is unitless and typically ranges from 0 to 1. A value closer to 1 indicates more efficient power usage.
           </p>
         </CardContent>
       </Card>
     </div>
   );
 }
-
