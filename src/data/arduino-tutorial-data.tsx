@@ -189,9 +189,263 @@ void loop() {
       </>
     ),
   },
+  {
+    slug: 'analog-inputs',
+    title: 'Analog Inputs',
+    description: 'Reading analog signals with Arduino.',
+    mainTitle: 'Arduino: Reading Analog Inputs',
+    content: (
+      <>
+        <p className="mb-4 text-lg">
+          Many sensors and devices in the real world produce analog signals, which are continuous and can have any value within a certain range (unlike digital signals which are only HIGH or LOW). Arduino boards have dedicated analog input pins to read these signals.
+        </p>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">What are Analog Signals?</h3>
+        <p className="mb-4">
+          An analog signal is a continuous electrical signal for which the time varying feature (variable) of the signal is a representation of some other time varying quantity, i.e., analogous to another time varying signal. For example, the voltage from a potentiometer, the light level from a Light Dependent Resistor (LDR), or the temperature from an analog temperature sensor are all analog signals.
+        </p>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Arduino's Analog Pins</h3>
+        <p className="mb-4">
+          Most Arduino boards (like the Uno) have a set of analog input pins, usually labeled A0, A1, A2, etc. These pins are connected to an internal Analog-to-Digital Converter (ADC).
+        </p>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Analog-to-Digital Converter (ADC)</h3>
+        <p className="mb-2">
+          The ADC on an Arduino (e.g., Arduino Uno) is typically a 10-bit converter. This means it can map input voltages between 0 and the operating voltage (usually 5V or 3.3V) into integer values between 0 and 1023.
+        </p>
+        <ul className="list-disc list-inside space-y-1 mb-4">
+          <li>A voltage of 0V will result in an ADC reading of 0.</li>
+          <li>A voltage of 5V (on a 5V Arduino) will result in an ADC reading of 1023.</li>
+          <li>A voltage of 2.5V will result in an ADC reading of approximately 512.</li>
+        </ul>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Using <code className="bg-muted px-1 rounded">analogRead()</code></h3>
+        <p className="mb-2">
+          To read an analog voltage on one of these pins, you use the <code className="bg-muted px-1 rounded">analogRead(pin)</code> function. The `pin` argument is the analog pin number you want to read from (e.g., A0, A1). This function returns an integer value from 0 to 1023.
+        </p>
+        <p className="mb-4">
+          You don't need to use <code className="bg-muted px-1 rounded">pinMode()</code> to configure analog pins as inputs; they are analog inputs by default.
+        </p>
+        <CodeBlock language="cpp" code={`
+void setup() {
+  Serial.begin(9600); // Initialize serial communication to see the values
+}
+
+void loop() {
+  int sensorValue = analogRead(A0); // Read the input on analog pin A0
+  Serial.println(sensorValue);      // Print the value to the Serial Monitor
+  delay(100);                       // Wait for 100 milliseconds
+}
+        `} />
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Example: Reading a Potentiometer</h3>
+        <p className="mb-2">
+          A potentiometer is a variable resistor and a common way to provide a variable analog input. Connect its three pins as follows:
+        </p>
+        <ul className="list-disc list-inside space-y-1 mb-4">
+          <li>One outer pin to Ground (GND).</li>
+          <li>The other outer pin to 5V (or 3.3V).</li>
+          <li>The middle pin (wiper) to an analog input pin (e.g., A0).</li>
+        </ul>
+        <p className="mb-4">
+          As you turn the potentiometer knob, the voltage on the middle pin will vary between 0V and 5V, and the <code className="bg-muted px-1 rounded">analogRead(A0)</code> function will return values between 0 and 1023.
+        </p>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Mapping Analog Values</h3>
+        <p className="mb-2">
+          Often, you'll want to map the 0-1023 range to another range, for example, to control the brightness of an LED (0-255) or to display a voltage. The <code className="bg-muted px-1 rounded">map()</code> function is useful for this.
+        </p>
+        <CodeBlock language="cpp" code={`
+void loop() {
+  int sensorValue = analogRead(A0);
+  // Map the sensor reading to a 0-255 range for PWM output
+  int outputValue = map(sensorValue, 0, 1023, 0, 255);
+  // analogWrite(ledPin, outputValue); // Example usage for LED brightness
+
+  // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+  float voltage = sensorValue * (5.0 / 1023.0);
+  Serial.print("Sensor Value: ");
+  Serial.print(sensorValue);
+  Serial.print(", Voltage: ");
+  Serial.println(voltage);
+  delay(100);
+}
+        `} />
+        <p className="mt-4">
+          Analog inputs open up a vast range of possibilities for interacting with sensors and creating more nuanced control systems.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: 'pwm',
+    title: 'Pulse Width Modulation (PWM)',
+    description: 'Simulating analog outputs using PWM with analogWrite().',
+    mainTitle: 'Arduino: Pulse Width Modulation (PWM)',
+    content: (
+      <>
+        <p className="mb-4 text-lg">
+          While Arduino's digital pins can only output HIGH or LOW, Pulse Width Modulation (PWM) allows you to simulate an analog output. This is useful for tasks like controlling the brightness of an LED, the speed of a DC motor, or the position of a servo motor.
+        </p>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">What is PWM?</h3>
+        <p className="mb-4">
+          PWM is a technique where a digital signal is switched between ON (HIGH) and OFF (LOW) very rapidly. The "duty cycle" of the signal is the percentage of time the signal is ON compared to its total period. By varying the duty cycle, you can change the average power delivered to a device, effectively simulating an analog voltage level.
+        </p>
+        <ul className="list-disc list-inside space-y-1 mb-4">
+          <li>A 0% duty cycle means the signal is always OFF.</li>
+          <li>A 100% duty cycle means the signal is always ON.</li>
+          <li>A 50% duty cycle means the signal is ON for half the time and OFF for the other half. This results in an average voltage that is half of the HIGH voltage.</li>
+        </ul>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Arduino's PWM Pins</h3>
+        <p className="mb-4">
+          On most Arduino boards (like the Uno), not all digital pins support PWM. The PWM-capable pins are typically marked with a tilde (<code className="bg-muted px-1 rounded">~</code>) or "PWM" next to the pin number (e.g., pins 3, 5, 6, 9, 10, 11 on an Uno).
+        </p>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Using <code className="bg-muted px-1 rounded">analogWrite()</code></h3>
+        <p className="mb-2">
+          To generate a PWM signal on a PWM-capable pin, you use the <code className="bg-muted px-1 rounded">analogWrite(pin, value)</code> function.
+        </p>
+        <ul className="list-disc list-inside space-y-1 mb-4">
+          <li><code className="bg-muted px-1 rounded">pin</code>: The PWM pin number.</li>
+          <li><code className="bg-muted px-1 rounded">value</code>: The duty cycle, an integer from 0 (always off) to 255 (always on).</li>
+        </ul>
+        <p className="mb-4">
+          A value of 0 corresponds to a 0% duty cycle (signal is always LOW). A value of 255 corresponds to a 100% duty cycle (signal is always HIGH). A value of 127 is approximately a 50% duty cycle.
+        </p>
+        <p className="mb-4">
+          You don't need to call <code className="bg-muted px-1 rounded">pinMode()</code> to set the pin as an output before using <code className="bg-muted px-1 rounded">analogWrite()</code>; it's handled automatically.
+        </p>
+        <CodeBlock language="cpp" code={`
+int ledPin = 9; // PWM pin for the LED
+
+void setup() {
+  // No pinMode() needed for analogWrite()
+}
+
+void loop() {
+  // Fade an LED up and down
+  for (int brightness = 0; brightness <= 255; brightness++) {
+    analogWrite(ledPin, brightness);
+    delay(10); // Small delay to see the fading effect
+  }
+  for (int brightness = 255; brightness >= 0; brightness--) {
+    analogWrite(ledPin, brightness);
+    delay(10);
+  }
+}
+        `} />
+        <h3 className="text-2xl font-semibold mt-6 mb-3">PWM Frequency</h3>
+        <p className="mb-4">
+          The frequency of the PWM signal on Arduino Uno is approximately 490 Hz for pins 3, 9, 10, 11 and approximately 980 Hz for pins 5 and 6. This frequency is generally high enough that the switching is not noticeable for LEDs (they appear to dim smoothly) or for controlling DC motors (they run smoother).
+        </p>
+        <p className="mt-4">
+          PWM is a powerful technique for achieving "analog-like" control with digital outputs, making it essential for a wide variety of Arduino projects.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: 'serial-communication',
+    title: 'Serial Communication',
+    description: 'Sending and receiving data between Arduino and computer.',
+    mainTitle: 'Arduino: Serial Communication',
+    content: (
+      <>
+        <p className="mb-4 text-lg">
+          Serial communication is a fundamental way for your Arduino to exchange information with a computer or other devices. The most common use case for beginners is sending debugging information or sensor readings from the Arduino to the Arduino IDE's Serial Monitor.
+        </p>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">The Serial Object</h3>
+        <p className="mb-4">
+          Arduino has a built-in object called <code className="bg-muted px-1 rounded">Serial</code> that handles serial communication over the USB connection (on most boards like the Uno, pins 0 (RX) and 1 (TX) are used for this, so avoid using them for other digital I/O if you're using serial communication).
+        </p>
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Initializing Serial Communication: <code className="bg-muted px-1 rounded">Serial.begin()</code></h3>
+        <p className="mb-2">
+          Before you can use serial communication, you must initialize it in your <code className="bg-muted px-1 rounded">setup()</code> function using <code className="bg-muted px-1 rounded">Serial.begin(speed)</code>.
+        </p>
+        <ul className="list-disc list-inside space-y-1 mb-4">
+          <li><code className="bg-muted px-1 rounded">speed</code>: The baud rate (bits per second) for communication. A common value is 9600. Both the Arduino and the device it's communicating with (e.g., the Serial Monitor) must be set to the same baud rate.</li>
+        </ul>
+        <CodeBlock language="cpp" code={`
+void setup() {
+  Serial.begin(9600); // Initialize serial communication at 9600 baud
+  Serial.println("Arduino Serial Communication Initialized!");
+}
+
+void loop() {
+  // ... your main code ...
+}
+        `} />
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Sending Data from Arduino</h3>
+        <p className="mb-2">
+          You can send data from the Arduino to the connected device using several functions:
+        </p>
+        <ul className="list-disc list-inside space-y-2 mb-4">
+          <li>
+            <code className="bg-muted px-1 rounded">Serial.print(data)</code>: Prints data to the serial port. The data can be a string, number, or other variable types. It does not add a newline character at the end.
+          </li>
+          <li>
+            <code className="bg-muted px-1 rounded">Serial.println(data)</code>: Similar to <code className="bg-muted px-1 rounded">Serial.print()</code>, but it adds a carriage return (<code className="bg-muted px-1 rounded">\r</code>) and a newline character (<code className="bg-muted px-1 rounded">\n</code>) at the end, moving the cursor to the next line in the Serial Monitor.
+          </li>
+          <li>
+            <code className="bg-muted px-1 rounded">Serial.write(data)</code>: Sends binary data (a single byte or a series of bytes) to the serial port.
+          </li>
+        </ul>
+        <CodeBlock language="cpp" code={`
+void loop() {
+  int sensorValue = analogRead(A0);
+  
+  Serial.print("Sensor Value: ");
+  Serial.print(sensorValue);
+  Serial.print(" | Mapped Value: ");
+  int mappedValue = map(sensorValue, 0, 1023, 0, 100);
+  Serial.println(mappedValue); // Ends with a newline
+  
+  delay(500);
+}
+        `} />
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Receiving Data on Arduino</h3>
+        <p className="mb-2">
+          Arduino can also receive data sent from the computer (e.g., typed into the Serial Monitor's input field).
+        </p>
+        <ul className="list-disc list-inside space-y-2 mb-4">
+          <li>
+            <code className="bg-muted px-1 rounded">Serial.available()</code>: Returns the number of bytes (characters) available for reading from the serial port. Use this to check if there's incoming data before trying to read it.
+          </li>
+          <li>
+            <code className="bg-muted px-1 rounded">Serial.read()</code>: Reads a single byte (character) of incoming serial data. It returns -1 if no data is available.
+          </li>
+          <li>
+            <code className="bg-muted px-1 rounded">Serial.parseInt()</code>, <code className="bg-muted px-1 rounded">Serial.parseFloat()</code>: These functions can be used to read numbers from the serial buffer, skipping non-numeric characters.
+          </li>
+          <li>
+            <code className="bg-muted px-1 rounded">Serial.readString()</code>, <code className="bg-muted px-1 rounded">Serial.readStringUntil(terminator)</code>: Read incoming data as a String object.
+          </li>
+        </ul>
+        <CodeBlock language="cpp" code={`
+void loop() {
+  if (Serial.available() > 0) { // Check if data is available
+    char incomingByte = Serial.read(); // Read the oldest byte
+    Serial.print("I received: ");
+    Serial.println(incomingByte);
+
+    // Example: Turn LED on/off based on received character
+    if (incomingByte == '1') {
+      digitalWrite(LED_BUILTIN, HIGH);
+    } else if (incomingByte == '0') {
+      digitalWrite(LED_BUILTIN, LOW);
+    }
+  }
+}
+        `} />
+         <h3 className="text-2xl font-semibold mt-6 mb-3">Using the Serial Monitor</h3>
+        <p className="mb-4">
+          The Arduino IDE includes a Serial Monitor (Tools {'>'} Serial Monitor, or click the magnifying glass icon). Make sure the baud rate selected in the Serial Monitor matches the one set in <code className="bg-muted px-1 rounded">Serial.begin()</code> in your sketch. You can use it to view data sent by Arduino and to send data to Arduino.
+        </p>
+        <p className="mt-4">
+          Serial communication is invaluable for debugging, controlling your Arduino from a computer, and for communication between multiple microcontrollers or devices.
+        </p>
+      </>
+    ),
+  },
 ];
 
 // Helper function to get a lesson by its slug
 export function getArduinoLessonBySlug(slug: string): ArduinoLesson | undefined {
   return arduinoTutorialLessons.find(lesson => lesson.slug === slug);
 }
+
+      
