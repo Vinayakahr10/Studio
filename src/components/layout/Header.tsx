@@ -2,14 +2,11 @@
 "use client";
 
 import Link from "next/link";
-import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, ChevronDown, Wrench } from 'lucide-react';
+import { BrainCircuit, Menu, LogIn, Shield, LogOut as LogOutIcon, Wrench, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
-import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 
 const mainNavLinks = [
@@ -17,11 +14,8 @@ const mainNavLinks = [
   { href: "/projects", label: "Projects" },
   { href: "/tutorials", label: "Tutorials" },
   { href: "/blog", label: "Blog" },
-  {
-    label: "Tools",
-    href: "/tools", // This is now a direct link
-    // icon: Wrench, // Icon removed as per request
-  },
+  { href: "/tools", label: "Tools"},
+  { href: "/notes", label: "Notes", icon: FileText },
   { href: "/faq", label: "FAQ" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -39,8 +33,6 @@ const adminUtilityLinks = [
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, isAdmin, logout, loading } = useAuth();
-  const router = useRouter();
-  const pathname = usePathname();
 
   const handleLogout = async () => {
     await logout();
@@ -113,7 +105,7 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full max-w-xs">
-                <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
+                 <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
                  <SheetHeader className="mb-4 border-b pb-4">
                     <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                         <BrainCircuit className="h-7 w-7 text-primary" />
@@ -164,7 +156,7 @@ export function Header() {
                               onClick={() => setIsMobileMenuOpen(false)}
                           >
                            <span className="flex items-center gap-2">
-                             {loginLink.icon && <loginLink.icon className="h-5 w-5" />}
+                             {loginLink.icon && <link.icon className="h-5 w-5" />}
                              {loginLink.label}
                            </span>
                           </Link>
