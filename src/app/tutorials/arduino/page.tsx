@@ -1,11 +1,11 @@
 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Cpu } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Cpu, BookOpen, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { arduinoTutorialLessons } from '@/data/arduino-tutorial-data.tsx'; // Updated import
+import { arduinoTutorialLessons } from '@/data/arduino-tutorial-data.tsx'; 
 
 export default function ArduinoTutorialPage() {
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -41,9 +41,31 @@ export default function ArduinoTutorialPage() {
         />
       </section>
 
+      {/* New "Zero to Hero" Guide Callout */}
+      <Card className="mb-12 shadow-lg bg-primary/5 border-primary/20">
+        <CardHeader>
+          <CardTitle className="text-2xl md:text-3xl text-primary flex items-center">
+            <BookOpen className="mr-3 h-8 w-8"/>
+            New! Arduino from Zero to Hero: A Complete Beginner's Guide
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-muted-foreground space-y-3">
+          <p className="text-lg">
+            Ready to master Arduino from the ground up? Our comprehensive "Zero to Hero" guide will take you step-by-step through everything you need to know, from basic setup to advanced projects.
+          </p>
+          <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground transition-transform hover:scale-105 shadow-md">
+            <Link href="/tutorials/arduino-zero-to-hero">
+              Start the Complete Guide <ChevronRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
+        </CardContent>
+      </Card>
+
+
       <Card className="shadow-md">
         <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl">Get Started with Arduino</CardTitle>
+          <CardTitle className="text-2xl md:text-3xl">Individual Lessons & Quick Starts</CardTitle>
+          <CardDescription>Or, jump straight into specific topics with our lessons below.</CardDescription>
         </CardHeader>
         <CardContent className="text-muted-foreground space-y-4">
           <p className="text-lg">
@@ -65,7 +87,7 @@ export default function ArduinoTutorialPage() {
           <div className="pt-4">
             <Button asChild size="lg" className="transition-transform hover:scale-105">
               <Link href={`/tutorials/arduino/${firstLessonSlug}`}>
-                Start with the Introduction <ChevronRight className="ml-2 h-5 w-5" />
+                Start with the First Lesson <ChevronRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
           </div>
@@ -74,5 +96,4 @@ export default function ArduinoTutorialPage() {
     </div>
   );
 }
-// Helper icon, not used in UI directly but might be needed by other components
-import { ChevronRight } from 'lucide-react'; 
+
