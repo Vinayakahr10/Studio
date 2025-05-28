@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart, Triangle, ArrowRightLeft, Timer, Radio } from 'lucide-react';
+import { Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, LineChart, Triangle, ArrowRightLeft, Timer, Radio, GitMerge, Bolt } from 'lucide-react';
 
 const toolsData = [
   {
@@ -87,7 +87,19 @@ const toolsData = [
     title: "Reactance Calculator",
     description: "Calculate capacitive (Xc) or inductive (Xl) reactance based on frequency and component value.",
     href: "/tools/reactance-calculator",
-    Icon: Radio, // Using Radio icon as a proxy for AC signal/waves
+    Icon: Radio,
+  },
+  {
+    title: "Parallel Resistor Calculator",
+    description: "Calculate the total resistance of resistors connected in parallel.",
+    href: "/tools/parallel-resistor-calculator",
+    Icon: GitMerge,
+  },
+  {
+    title: "Capacitor Charge & Energy Calculator",
+    description: "Calculate charge stored and energy stored in a capacitor.",
+    href: "/tools/capacitor-charge-energy-calculator",
+    Icon: Bolt,
   }
 ];
 
