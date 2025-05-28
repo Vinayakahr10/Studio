@@ -21,7 +21,7 @@ const mainNavLinks = [
   { href: "/tutorials", label: "Tutorials" },
   { href: "/blog", label: "Blog" },
   { href: "/tools", label: "Tools" },
-  { href: "/notes", label: "Notes", icon: FileText },
+  { href: "/notes", label: "Notes" }, // Icon removed here
   { href: "/faq", label: "FAQ" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -82,7 +82,7 @@ export function Header() {
           {mainNavLinks.map((link) => (
             <Button variant="link" asChild key={link.label}>
               <Link
-                href={link.href!} 
+                href={link.href} 
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary px-3 py-2"
               >
                 <span className="flex items-center gap-1.5">
@@ -136,7 +136,7 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full max-w-xs">
-                 <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
+                <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
                  <SheetHeader className="mb-4 border-b pb-4">
                     <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                         <BrainCircuit className="h-7 w-7 text-primary" />
@@ -147,7 +147,7 @@ export function Header() {
                   {mainNavLinks.map((link) => (
                        <Button variant="ghost" asChild key={link.label} className="justify-start text-base py-2.5 h-auto">
                           <Link
-                              href={link.href!}
+                              href={link.href}
                               onClick={() => setIsMobileMenuOpen(false)}
                           >
                            <span className="flex items-center">
@@ -187,7 +187,7 @@ export function Header() {
                               onClick={() => setIsMobileMenuOpen(false)}
                           >
                            <span className="flex items-center gap-2">
-                             {loginLink.icon && <loginLink.icon className="h-5 w-5" />} {/* Corrected this line */}
+                             {loginLink.icon && <loginLink.icon className="h-5 w-5" />}
                              {loginLink.label}
                            </span>
                           </Link>
