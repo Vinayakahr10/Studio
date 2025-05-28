@@ -10,31 +10,40 @@ export default function NotesPage() {
           <FileText className="h-10 w-10 text-primary" />
         </div>
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-primary">
-          Notes Section
+          Electronics Concept Notes
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-xl">
-          A place for your thoughts, quick references, or important information.
+          A collection of curated notes, quick references, and important concepts in electronics from EletronicswithVK.
         </p>
       </section>
 
       <section className="max-w-3xl mx-auto">
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl">My Notes</CardTitle>
+            <CardTitle className="text-2xl">Browse Notes</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              This is a placeholder for the Notes page. You can expand this page to include features like:
+              This section will feature a variety of notes covering fundamental electronics principles, component guides, circuit analysis techniques, and more.
             </p>
-            <ul className="list-disc list-inside text-muted-foreground space-y-2 mt-4">
-              <li>A rich text editor for creating and saving notes.</li>
-              <li>Organizing notes into categories or notebooks.</li>
-              <li>Searching through your notes.</li>
-              <li>If user accounts are implemented, notes could be saved per user.</li>
-            </ul>
             <p className="mt-4 text-muted-foreground">
-              For now, this page serves as a structural placeholder.
+              Currently, this page serves as a placeholder. Future updates will include organized categories and individual notes for you to explore.
             </p>
+            {/* Placeholder for future listing of notes or categories */}
+            <div className="mt-6 space-y-3">
+                <div className="p-4 bg-muted/50 rounded-md">
+                    <h3 className="font-semibold text-primary">Ohm's Law Explained (Coming Soon)</h3>
+                    <p className="text-sm text-muted-foreground">A quick reference guide to understanding and applying Ohm's Law.</p>
+                </div>
+                 <div className="p-4 bg-muted/50 rounded-md">
+                    <h3 className="font-semibold text-primary">Capacitor Basics (Coming Soon)</h3>
+                    <p className="text-sm text-muted-foreground">Notes on capacitor types, markings, and common applications.</p>
+                </div>
+                 <div className="p-4 bg-muted/50 rounded-md">
+                    <h3 className="font-semibold text-primary">Transistor Fundamentals (Coming Soon)</h3>
+                    <p className="text-sm text-muted-foreground">An overview of BJT and MOSFET transistors and their operating principles.</p>
+                </div>
+            </div>
           </CardContent>
         </Card>
       </section>
