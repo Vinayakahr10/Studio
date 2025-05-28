@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-import type { Timestamp } from 'firebase/firestore';
+// Removed: import type { Timestamp } from 'firebase/firestore';
 
 export interface NavItem {
   href: string;
@@ -19,29 +19,28 @@ export interface Project {
 export interface Category {
   id: string;
   name: string;
-  Icon: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element); // Allow custom SVGs too
+  Icon: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element);
   href: string;
   description?: string;
 }
 
 export interface Article {
-  id: string; // Firestore document ID
+  id: string; 
   title: string;
   summary: string;
   imageUrl: string;
   imageHint?: string;
-  href: string; // Will likely be /blog/[slug] or /blog/[id]
+  href: string; 
   category?: string;
-  date?: string; // Could be derived from createdAt for display
+  date?: string; 
   author?: string;
-  // Firestore specific fields
   slug?: string;
   status?: 'draft' | 'published' | 'archived';
   content?: string;
-  tags?: string[]; // Or a comma-separated string
-  featuredImage?: string; // Could be same as imageUrl or a different one
-  createdAt?: Timestamp | Date | string; // Firestore Timestamp, or Date/string after conversion
-  updatedAt?: Timestamp | Date | string;
+  tags?: string[];
+  featuredImage?: string;
+  createdAt?: Date | string; // Changed from Timestamp | Date | string
+  updatedAt?: Date | string; // Changed from Timestamp | Date | string
 }
 
 export interface Tag {
