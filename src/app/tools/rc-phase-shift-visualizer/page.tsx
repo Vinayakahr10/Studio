@@ -18,7 +18,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 import { useToast } from '@/hooks/use-toast';
 
 const chartConfig = {
@@ -26,11 +26,15 @@ const chartConfig = {
     label: 'Input Voltage (Vin)',
     color: 'hsl(var(--chart-1))',
   },
-  outputVoltage: {
-    label: 'Output Voltage (Vout - Inverted)',
+  outputVoltageActual: { // Direct output from RC filter
+    label: 'Output Voltage (RC Filter)',
+    color: 'hsl(var(--chart-3))',
+  },
+  outputVoltageInverted: { // Inverted output
+    label: 'Output Voltage (Inverted)',
     color: 'hsl(var(--chart-2))',
   },
-};
+} satisfies ChartConfig;
 
 export default function RcPhaseShiftVisualizerPage() {
   const { toast } = useToast();
@@ -60,12 +64,12 @@ export default function RcPhaseShiftVisualizerPage() {
     if (pattern.test(value)) {
       if (isIntegerOnly) {
         const intVal = parseInt(value, 10);
-        if (!isNaN(intVal) && intVal.toString() === value && intVal > 0) { // Ensure positive for N
+        if (!isNaN(intVal) && intVal.toString() === value && intVal > 0) { 
           setter(value);
-        } else if (value === '' || (parseInt(value, 10).toString() !== value && value !=='0')) { // Allow empty or partial valid int
-           setter(value); // Let validation catch it later if still invalid
+        } else if (value === '' || (parseInt(value, 10).toString() !== value && value !=='0')) { 
+           setter(value); 
         } else if (intVal <=0) {
-           setter(value); // Let validation catch it
+           setter(value); 
         }
       } else {
         setter(value);
@@ -82,16 +86,19 @@ export default function RcPhaseShiftVisualizerPage() {
     let f_signal_val = parseFloat(signalFrequency);
     const N_val = parseInt(numberOfStages, 10);
 
-    // Reverted validation logic
-    if (isNaN(R_val) || R_val <= 0 || isNaN(C_val_uF) || C_val_uF <= 0 || isNaN(N_val) || N_val <= 0) {
-      setError("R, C, and N must be positive values greater than zero."); // Reverted error message
+    if (isNaN(R_val) || R_val <= 0 || isNaN(C_val_uF) || C_val_uF <= 0) {
+      setError("R and C values must be positive and greater than zero."); 
       setChartData([]); setCutoffFrequency(0); setPhaseShift(0); setOutputGain(0); setCalculatedOscillationFrequency(0);
       return;
+    }
+    if (isNaN(N_val) || N_val <= 0) {
+      // Don't set a global error for N, just ensure f_osc calculation handles it
+      setCalculatedOscillationFrequency(0);
     }
     
      if (isNaN(f_signal_val) || f_signal_val <= 0) {
         f_signal_val = 1; 
-        setSignalFrequency("1"); 
+        // setSignalFrequency("1"); // Avoid direct state update in useEffect based on another state unless careful
     }
 
     const C_farads = C_val_uF * 1e-6; 
@@ -109,16 +116,17 @@ export default function RcPhaseShiftVisualizerPage() {
     const gain_rc_network = 1 / Math.sqrt(1 + Math.pow(omega_signal * RC, 2));
     setOutputGain(isFinite(gain_rc_network) ? gain_rc_network : 0);
     
-    // N_val is already validated by the check above for the main calculations
-    // For f_osc, N_val will be > 0 here.
-    const sqrt2N = Math.sqrt(2 * N_val);
-    if (RC > 0 && sqrt2N > 0) { // N_val is >0 from the initial check
-        const f_osc = 1 / (2 * Math.PI * RC * sqrt2N);
-        setCalculatedOscillationFrequency(isFinite(f_osc) ? f_osc : 0);
+    if (N_val > 0 && RC > 0) {
+        const sqrt2N = Math.sqrt(2 * N_val);
+        if (sqrt2N > 0) {
+            const f_osc = 1 / (2 * Math.PI * RC * sqrt2N);
+            setCalculatedOscillationFrequency(isFinite(f_osc) ? f_osc : 0);
+        } else {
+            setCalculatedOscillationFrequency(0);
+        }
     } else {
-        setCalculatedOscillationFrequency(0); // Should not happen if R,C,N >0
+        setCalculatedOscillationFrequency(0);
     }
-
 
     const V_peak_input = 1;
     const numCycles = 3;
@@ -133,15 +141,14 @@ export default function RcPhaseShiftVisualizerPage() {
         const t = i * timeStep;
         let inputV = V_peak_input * Math.sin(omega_signal * t);
         
-        let outputV_rc_filter = V_peak_input * gain_rc_network * Math.sin(omega_signal * t + phi_rad_rc_network);
-        
-        let outputV_inverted = -1 * outputV_rc_filter;
-
+        let outputV_rc_filter_actual = V_peak_input * gain_rc_network * Math.sin(omega_signal * t + phi_rad_rc_network);
+        let outputV_inverted = -1 * outputV_rc_filter_actual;
 
         data.push({
           time: parseFloat((t * 1000).toFixed(3)), 
           inputVoltage: isFinite(inputV) ? parseFloat(inputV.toFixed(4)) : 0,
-          outputVoltage: isFinite(outputV_inverted) ? parseFloat(outputV_inverted.toFixed(4)) : 0,
+          outputVoltageActual: isFinite(outputV_rc_filter_actual) ? parseFloat(outputV_rc_filter_actual.toFixed(4)) : 0,
+          outputVoltageInverted: isFinite(outputV_inverted) ? parseFloat(outputV_inverted.toFixed(4)) : 0,
         });
       }
     }
@@ -200,12 +207,10 @@ export default function RcPhaseShiftVisualizerPage() {
     }
   };
 
-
   const formatFrequency = (hz: number) => {
     if (isNaN(hz) || !isFinite(hz)) return "---"; 
     if (hz === 0 && calculatedOscillationFrequency === 0 && (parseInt(numberOfStages, 10) <=0 || isNaN(parseInt(numberOfStages, 10)))) return "---"; 
     if (hz === 0) return "0 Hz";
-
 
     if (hz >= 1e6) return `${(hz / 1e6).toPrecision(3)} MHz`;
     if (hz >= 1e3) return `${(hz / 1e3).toPrecision(3)} kHz`;
@@ -231,7 +236,7 @@ export default function RcPhaseShiftVisualizerPage() {
           <CardTitle className="text-3xl">RC Circuit Phase Shift Visualizer & Oscillator Calculator</CardTitle>
           <CardDescription>
             Visualize phase shift in a passive RC low-pass filter and calculate theoretical oscillation frequency for an N-stage RC oscillator.
-            The graphed output waveform is shown inverted (180° shift) for contexts like an inverting amplifier stage.
+            The graph shows Vin, the direct RC filter output (Vout Filter), and an inverted version (Vout Inverted).
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
@@ -258,8 +263,8 @@ export default function RcPhaseShiftVisualizerPage() {
                  <h4 className="text-md font-semibold text-muted-foreground border-b pb-1.5">Signal & Oscillator Config</h4>
                  <div className="space-y-2">
                   <Label htmlFor="signalFrequency" className="text-base">Signal Frequency (f_signal) - Hz</Label>
-                  <Input id="signalFrequency" type="text" value={signalFrequency} onChange={handleInputChange(setSignalFrequency, true, false)} placeholder="e.g., 1000 Hz" className="h-10 text-base" inputMode="decimal"/>
-                   <p className="text-xs text-muted-foreground">Input for waveform graph visualization.</p>
+                  <Input id="signalFrequency" type="text" value={signalFrequency} onChange={(e) => { const val = parseFloat(e.target.value); setSignalFrequency( (isNaN(val) || val <=0) ? "1" : e.target.value ); }} placeholder="e.g., 1000 Hz" className="h-10 text-base" inputMode="decimal"/>
+                   <p className="text-xs text-muted-foreground">Input for waveform graph visualization. Min 1 Hz.</p>
                 </div>
                  <div className="space-y-2">
                   <Label htmlFor="numberOfStages" className="text-base">Number of RC Stages (N)</Label>
@@ -277,7 +282,6 @@ export default function RcPhaseShiftVisualizerPage() {
               </div>
             </CardContent>
           </Card>
-
 
           {error && (
             <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive flex items-center gap-2 justify-center">
@@ -297,7 +301,7 @@ export default function RcPhaseShiftVisualizerPage() {
                 <p className="font-mono text-primary">{formatFrequency(cutoffFrequency)}</p>
               </div>
               <div>
-                <p className="font-semibold">Single Stage Phase Shift (ϕ) at {formatFrequency(parseFloat(signalFrequency))}:</p>
+                <p className="font-semibold">Single Stage Phase Shift (ϕ) at {formatFrequency(parseFloat(signalFrequency) || 1)}:</p>
                 <p className="font-mono text-primary">{phaseShift.toFixed(2)}°</p>
               </div>
               <div>
@@ -352,11 +356,20 @@ export default function RcPhaseShiftVisualizerPage() {
                     />
                     <Line
                       type="monotone"
-                      dataKey="outputVoltage"
-                      stroke={chartConfig.outputVoltage.color}
+                      dataKey="outputVoltageActual"
+                      stroke={chartConfig.outputVoltageActual.color}
                       strokeWidth={2}
                       dot={false}
-                      name={chartConfig.outputVoltage.label}
+                      name={chartConfig.outputVoltageActual.label}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="outputVoltageInverted"
+                      stroke={chartConfig.outputVoltageInverted.color}
+                      strokeWidth={2}
+                      dot={false}
+                      name={chartConfig.outputVoltageInverted.label}
+                      strokeDasharray="3 3" // Differentiate the inverted line
                     />
                   </LineChart>
                 </ResponsiveContainer>
