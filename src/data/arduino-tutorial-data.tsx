@@ -1,6 +1,7 @@
 
 import type { ReactNode } from 'react';
 import { CodeBlock } from '@/components/content/CodeBlock';
+import Image from 'next/image'; // Added Image import
 
 export interface ArduinoLesson {
   slug: string;
@@ -332,8 +333,42 @@ void loop() {
         <p className="mb-4">
           The frequency of the PWM signal on Arduino Uno is approximately 490 Hz for pins 3, 9, 10, 11 and approximately 980 Hz for pins 5 and 6. This frequency is generally high enough that the switching is not noticeable for LEDs (they appear to dim smoothly) or for controlling DC motors (they run smoother).
         </p>
+        
+        <h3 className="text-2xl font-semibold mt-6 mb-3">Generating PWM with a 555 Timer IC</h3>
+        <p className="mb-2">
+          Beyond microcontrollers, the versatile 555 Timer IC can also be configured to produce PWM signals. In such a setup, the control voltage (CV, pin 5) is typically modulated by an external analog signal (e.g., from a sensor or potentiometer). This control voltage influences the threshold and trigger levels of the internal comparators, thereby varying the duty cycle of the output signal (pin 3).
+        </p>
+        <p className="mb-4">
+          The circuit usually involves configuring the 555 timer in an astable mode, but with the control voltage input (pin 5) used to adjust the pulse width.
+        </p>
+        <div className="my-6 flex flex-col items-center gap-4">
+          <Image
+            src="https://placehold.co/600x350.png"
+            alt="555 Timer PWM Circuit Diagram"
+            data-ai-hint="555 timer pwm circuit"
+            width={600}
+            height={350}
+            className="rounded-lg border shadow-md object-contain"
+          />
+          <p className="text-sm text-muted-foreground italic text-center">Typical 555 Timer PWM generation circuit.</p>
+        </div>
+        <div className="my-6 flex flex-col items-center gap-4">
+          <Image
+            src="https://placehold.co/600x400.png"
+            alt="555 Timer PWM Waveforms"
+            data-ai-hint="pwm waveforms control trigger output"
+            width={600}
+            height={400}
+            className="rounded-lg border shadow-md object-contain"
+          />
+          <p className="text-sm text-muted-foreground italic text-center">Waveforms: Control voltage, internal trigger/threshold, and resulting PWM output.</p>
+        </div>
+        <p className="mb-4">
+          By varying the analog voltage applied to the Control Voltage pin (Pin 5), you directly influence the width of the output pulses, achieving pulse width modulation. This is a common technique in analog electronics for controlling motor speed or dimming lights without a microcontroller.
+        </p>
+
         <p className="mt-4">
-          PWM is a powerful technique for achieving "analog-like" control with digital outputs, making it essential for a wide variety of Arduino projects.
+          PWM is a powerful technique for achieving "analog-like" control with digital outputs, making it essential for a wide variety of Arduino and discrete electronics projects.
         </p>
       </>
     ),
@@ -447,5 +482,3 @@ void loop() {
 export function getArduinoLessonBySlug(slug: string): ArduinoLesson | undefined {
   return arduinoTutorialLessons.find(lesson => lesson.slug === slug);
 }
-
-      
