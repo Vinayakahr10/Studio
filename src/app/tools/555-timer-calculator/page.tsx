@@ -1,15 +1,26 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Settings2, Zap, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Settings2, Zap, AlertTriangle, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+import { ChartContainer, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 
 type OperatingMode = 'astable' | 'monostable';
 
@@ -19,6 +30,9 @@ interface AstableResults {
   timeHigh: string;
   timeLow: string;
   dutyCycle: string;
+  // Raw values for charting
+  rawPeriodSeconds: number;
+  rawTimeHighSeconds: number;
 }
 
 interface MonostableResults {
@@ -43,36 +57,64 @@ const formatFrequency = (hertz: number): string => {
   return `${hertz.toPrecision(3)} Hz`;                             // Hertz
 };
 
+const chartConfig = {
+  pwmOutput: {
+    label: 'PWM Output',
+    color: 'hsl(var(--chart-1))',
+  },
+} satisfies ChartConfig;
+
 
 export default function Timer555CalculatorPage() {
   const { toast } = useToast();
   const [mode, setMode] = useState<OperatingMode>('astable');
   
-  // Astable inputs
   const [r1Astable, setR1Astable] = useState<string>('');
   const [r2Astable, setR2Astable] = useState<string>('');
   const [cAstable, setCAstable] = useState<string>('');
   
-  // Monostable inputs
   const [rMonostable, setRMonostable] = useState<string>('');
   const [cMonostable, setCMonostable] = useState<string>('');
 
   const [resultsAstable, setResultsAstable] = useState<AstableResults | null>(null);
   const [resultsMonostable, setResultsMonostable] = useState<MonostableResults | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [chartData, setChartData] = useState<Array<{time: number, voltage: number}>>([]);
 
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-     if (/^\d*\.?\d*$/.test(value) || value === '') { // Allow numbers and one decimal
+     if (/^\d*\.?\d*$/.test(value) || value === '') { 
       setter(value);
-      setError(null); // Clear error on valid input change
+      setError(null); 
+      setResultsAstable(null);
+      setResultsMonostable(null);
+      setChartData([]);
     }
   };
+
+  const handleModeChange = (value: OperatingMode) => {
+    setMode(value);
+    setError(null);
+    setResultsAstable(null);
+    setResultsMonostable(null);
+    setChartData([]);
+    // Clear specific inputs when mode changes
+    if (value === 'astable') {
+      setRMonostable('');
+      setCMonostable('');
+    } else {
+      setR1Astable('');
+      setR2Astable('');
+      setCAstable('');
+    }
+  };
+
 
   const calculateValues = () => {
     setError(null);
     setResultsAstable(null);
     setResultsMonostable(null);
+    setChartData([]);
 
     if (mode === 'astable') {
       const r1 = parseFloat(r1Astable);
@@ -91,22 +133,38 @@ export default function Timer555CalculatorPage() {
         toast({ title: "Note", description: "R1 values below 1kΩ can sometimes lead to excessive current draw for the 555 timer.", variant: "default" });
       }
 
+      const c = cMicro * 1e-6; 
 
-      const c = cMicro * 1e-6; // Convert µF to F
+      const timeHigh_s = 0.693 * (r1 + r2) * c;
+      const timeLow_s = 0.693 * r2 * c;
+      const period_s = timeHigh_s + timeLow_s;
+      const frequency_hz = 1 / period_s;
+      const dutyCycle_percent = (timeHigh_s / period_s) * 100;
 
-      const timeHigh = 0.693 * (r1 + r2) * c;
-      const timeLow = 0.693 * r2 * c;
-      const period = timeHigh + timeLow;
-      const frequency = 1 / period;
-      const dutyCycle = (timeHigh / period) * 100;
+      const newResultsAstable = {
+        frequency: formatFrequency(frequency_hz),
+        period: formatTime(period_s),
+        timeHigh: formatTime(timeHigh_s),
+        timeLow: formatTime(timeLow_s),
+        dutyCycle: `${dutyCycle_percent.toFixed(2)} %`,
+        rawPeriodSeconds: period_s,
+        rawTimeHighSeconds: timeHigh_s,
+      };
+      setResultsAstable(newResultsAstable);
+      
+      // Generate chart data for Astable mode
+      const timeHighMs = newResultsAstable.rawTimeHighSeconds * 1000;
+      const periodMs = newResultsAstable.rawPeriodSeconds * 1000;
+      
+      if (isFinite(timeHighMs) && isFinite(periodMs) && periodMs > 0) {
+        setChartData([
+          { time: 0, voltage: 1 },
+          { time: timeHighMs, voltage: 1 },
+          { time: timeHighMs, voltage: 0 }, // Creates the vertical drop
+          { time: periodMs, voltage: 0 },
+        ]);
+      }
 
-      setResultsAstable({
-        frequency: formatFrequency(frequency),
-        period: formatTime(period),
-        timeHigh: formatTime(timeHigh),
-        timeLow: formatTime(timeLow),
-        dutyCycle: `${dutyCycle.toFixed(2)} %`,
-      });
 
     } else if (mode === 'monostable') {
       const r = parseFloat(rMonostable);
@@ -121,11 +179,11 @@ export default function Timer555CalculatorPage() {
         return;
       }
 
-      const c = cMicro * 1e-6; // Convert µF to F
-      const timePeriod = 1.1 * r * c;
+      const c = cMicro * 1e-6; 
+      const timePeriod_s = 1.1 * r * c;
 
       setResultsMonostable({
-        timePeriod: formatTime(timePeriod),
+        timePeriod: formatTime(timePeriod_s),
       });
     }
   };
@@ -155,7 +213,7 @@ export default function Timer555CalculatorPage() {
         <CardContent className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="mode">Operating Mode</Label>
-            <Select value={mode} onValueChange={(value) => setMode(value as OperatingMode)}>
+            <Select value={mode} onValueChange={(value) => handleModeChange(value as OperatingMode)}>
               <SelectTrigger id="mode" className="h-11 text-base">
                 <SelectValue placeholder="Select mode" />
               </SelectTrigger>
@@ -220,6 +278,51 @@ export default function Timer555CalculatorPage() {
                 <p><strong>Time Low (Tl):</strong> {resultsAstable.timeLow}</p>
                 <p className="sm:col-span-2"><strong>Duty Cycle:</strong> {resultsAstable.dutyCycle}</p>
               </div>
+
+              {chartData.length > 0 && (
+                <div className="mt-6">
+                  <CardTitle className="text-lg mb-4 text-primary flex items-center justify-center">
+                      <TrendingUp className="mr-2 h-5 w-5"/>PWM Output Waveform (1 Cycle)
+                  </CardTitle>
+                  <ChartContainer config={chartConfig} className="h-[250px] w-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 20 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                          <XAxis 
+                              dataKey="time" 
+                              type="number" 
+                              name="Time" 
+                              unit="ms"
+                              label={{ value: "Time (ms)", position: 'insideBottom', dy:10, fill: 'hsl(var(--muted-foreground))' }}
+                              stroke="hsl(var(--muted-foreground))"
+                              domain={[0, 'dataMax']}
+                          />
+                          <YAxis 
+                              type="number" 
+                              name="Voltage" 
+                              label={{ value: "Voltage (Norm.)", angle: -90, position: 'insideLeft', dx:-5, fill: 'hsl(var(--muted-foreground))' }}
+                              stroke="hsl(var(--muted-foreground))"
+                              domain={[ -0.1, 1.1 ]} 
+                              ticks={[0, 1]}
+                          />
+                          <Tooltip 
+                            content={<ChartTooltipContent hideIndicator />} 
+                            cursor={{stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3'}}
+                          />
+                          <Legend verticalAlign="top" height={36} wrapperStyle={{color: 'hsl(var(--foreground))'}}/>
+                          <Line 
+                              type="linear" 
+                              dataKey="voltage" 
+                              stroke={chartConfig.pwmOutput.color} 
+                              strokeWidth={2} 
+                              name={chartConfig.pwmOutput.label} 
+                              dot={false} 
+                          />
+                      </LineChart>
+                      </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
+              )}
             </div>
           )}
 
@@ -235,5 +338,4 @@ export default function Timer555CalculatorPage() {
     </div>
   );
 }
-
     
