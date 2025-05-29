@@ -162,9 +162,90 @@ void loop() {
   ],
 };
 
+const project555PwmGenerator: ProjectDetail = {
+  id: 'project-555-pwm-generator',
+  title: 'Build a 555 Timer PWM Generator',
+  mainImageUrl: 'https://placehold.co/800x450.png',
+  mainImageHint: '555 timer pwm circuit breadboard',
+  introduction:
+    'Learn how to build a Pulse Width Modulation (PWM) generator using the versatile 555 Timer IC. This project will guide you through constructing a circuit that allows you to control the duty cycle of an output signal, perfect for applications like dimming an LED or controlling the speed of a small DC motor without a microcontroller.',
+  difficulty: 'Beginner',
+  estimatedTime: '1-2 hours',
+  tags: ['555 Timer', 'PWM', 'Analog Electronics', 'LED Dimmer', 'Motor Control'],
+  componentsNeeded: [
+    '555 Timer IC (e.g., NE555, LM555)',
+    'Resistors: 1 kΩ (x2), 10 kΩ Potentiometer',
+    'Capacitors: 0.1 µF (100nF) (x1 for decoupling), 0.01 µF (10nF) (x1 for timing)',
+    'LED (any color)',
+    'Current-limiting resistor for LED (e.g., 220 Ω - 470 Ω)',
+    'Breadboard',
+    'Jumper Wires',
+    'Power Supply (5V to 15V, e.g., 9V battery with snap connector)',
+  ],
+  toolsNeeded: [
+    'Breadboard and jumper wires (for assembly)',
+    'Multimeter (optional, for testing voltages)',
+    'Oscilloscope (optional, to view the PWM waveform)',
+  ],
+  circuitDiagramUrl: 'https://placehold.co/600x400.png',
+  circuitDiagramHint: '555 timer pwm generator circuit',
+  steps: [
+    {
+      title: '1. Understand the 555 Timer Pinout',
+      description:
+        'Familiarize yourself with the 8 pins of the 555 Timer IC: GND (1), TRIG (2), OUT (3), RESET (4), CTRL (Control Voltage - 5), THRES (Threshold - 6), DISCH (Discharge - 7), VCC (8).',
+      imageUrl: 'https://placehold.co/400x250.png',
+      imageHint: '555 timer pinout diagram',
+    },
+    {
+      title: '2. Assemble the Core Astable Circuit',
+      description:
+        'Start by building a basic astable multivibrator. Connect Pin 4 (RESET) and Pin 8 (VCC) to the positive supply. Connect Pin 1 (GND) to ground. Connect a 0.01µF capacitor from Pin 5 (CTRL) to ground (this helps stabilize the control voltage, though for basic PWM it can sometimes be omitted or used as the control input).',
+    },
+    {
+      title: '3. Configure for PWM Output',
+      description:
+        'To achieve PWM, the charging and discharging paths of the timing capacitor are controlled differently. Typically, Pin 7 (DISCH) and Pin 6 (THRES) are connected together. The timing capacitor (e.g., 0.1µF) connects from Pin 6/2 to ground. A fixed resistor (R1, e.g., 1kΩ) connects from VCC to Pin 7. Then, connect two diodes and a potentiometer (e.g., 10kΩ) to control the charge and discharge paths independently. One diode points from Pin 7 to one end of the potentiometer, and the other diode points from the wiper of the potentiometer to Pin 7. The other end of the pot goes to Pin 6/2. This setup allows the pot to vary the ratio of charge time to discharge time.',
+      imageUrl: 'https://placehold.co/500x350.png',
+      imageHint: '555 timer pwm components wiring',
+    },
+    {
+      title: 'Alternative: PWM via Control Voltage Pin 5',
+      description: 'A simpler way to achieve PWM (often used for external control) is to set up a standard astable circuit and then apply a variable DC voltage to Pin 5 (Control Voltage). This voltage, typically varying between 1/3 VCC and 2/3 VCC, will directly alter the threshold and trigger levels, thus modulating the pulse width. For this project, we will focus on the diode/potentiometer method for direct manual control.',
+    },
+    {
+      title: '4. Connect the LED Output',
+      description:
+        'Connect an LED in series with a current-limiting resistor (e.g., 330Ω) from Pin 3 (OUT) to ground. Ensure the LED is oriented correctly (long leg/anode to Pin 3, short leg/cathode to the resistor then ground).',
+    },
+    {
+      title: '5. Power Up and Test',
+      description:
+        'Connect your power supply (5-15V). Adjust the potentiometer. You should see the brightness of the LED change as you turn the potentiometer knob. This demonstrates the varying duty cycle of the PWM signal.',
+      imageUrl: 'https://placehold.co/400x300.png',
+      imageHint: 'led dimming 555 timer pwm',
+    },
+    {
+      title: '6. Observe with an Oscilloscope (Optional)',
+      description:
+        'If you have an oscilloscope, connect its probe to Pin 3 (OUT) and ground. You will be able to see the square wave and how its duty cycle changes as you adjust the potentiometer.',
+      imageUrl: 'https://placehold.co/500x300.png',
+      imageHint: 'oscilloscope pwm waveform 555',
+    },
+  ],
+  conclusion:
+    'You have successfully built a 555 Timer PWM generator! This circuit is a fundamental building block in analog electronics and can be used to control LED brightness, motor speeds, or as a basis for more complex signal generation. Experiment with different resistor and capacitor values to change the frequency and range of PWM control.',
+  learnMoreLinks: [
+    { text: '555 Timer IC Datasheet (e.g., NE555)', href: '#' },
+    { text: 'Understanding PWM in Depth', href: '#' },
+  ],
+};
+
+
 // A map to hold all project details, keyed by project ID
 export const allProjectDetails: Record<string, ProjectDetail> = {
   'esp32-weather-station': esp32WeatherStationDetail,
+  'project-555-pwm-generator': project555PwmGenerator,
   // You can add details for other projects here, for example:
   // 'arduino-weather-station': { ... details for arduino weather station ... },
   // 'pi-home-automation': { ... details for pi home automation ... },
@@ -175,5 +256,4 @@ export const allProjectDetails: Record<string, ProjectDetail> = {
 export function getProjectById(id: string): ProjectDetail | undefined {
   return allProjectDetails[id];
 }
-
     

@@ -13,7 +13,7 @@ export const featuredProjectsData: Project[] = [
     description: 'Learn to build your own weather station using an Arduino board and various sensors. Track temperature, humidity, and pressure.',
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'weather station electronics',
-    tutorialLink: '/projects/arduino-weather-station',
+    tutorialLink: '/projects/arduino-weather-station', // Placeholder
   },
   {
     id: '2',
@@ -21,7 +21,7 @@ export const featuredProjectsData: Project[] = [
     description: 'Control your home appliances remotely using a Raspberry Pi. This project covers setting up the Pi and basic automation scripts.',
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'raspberry pi smart home',
-    tutorialLink: '/projects/pi-home-automation',
+    tutorialLink: '/projects/pi-home-automation', // Placeholder
   },
   {
     id: '3',
@@ -29,15 +29,23 @@ export const featuredProjectsData: Project[] = [
     description: 'Build an IoT system to monitor your plants soil moisture, light, and temperature, sending data to the cloud.',
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'iot plant sensor',
-    tutorialLink: '/projects/iot-plant-monitor',
+    tutorialLink: '/projects/iot-plant-monitor', // Placeholder
   },
   {
-    id: '4',
+    id: 'esp32-weather-station',
     title: 'ESP32 Based Weather Station',
     description: 'Build a comprehensive weather station using the ESP32 to monitor various environmental conditions like temperature, humidity, pressure, and potentially air quality.',
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'esp32 weather station',
     tutorialLink: '/projects/esp32-weather-station',
+  },
+  {
+    id: 'project-555-pwm-generator',
+    title: 'Build a 555 Timer PWM Generator',
+    description: 'Control LED brightness or motor speed using the classic 555 timer IC configured for Pulse Width Modulation.',
+    imageUrl: 'https://placehold.co/400x300.png',
+    imageHint: '555 timer pwm circuit breadboard',
+    tutorialLink: '/projects/project-555-pwm-generator',
   },
 ];
 
@@ -96,3 +104,4 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
     </section>
   );
 }
+    
