@@ -26,8 +26,8 @@ export default function ArduinoTutorialLayout({
       </div>
       
       {/* Mobile Sidebar Section */}
-      <div className="md:hidden px-4 py-4 border-b border-border"> {/* Adjusted padding */}
-         <h2 className="text-2xl font-bold text-primary mb-4"> {/* Larger font, primary color, bottom margin */}
+      <div className="md:hidden p-4 border-b border-border bg-card shadow-sm"> {/* Changed styling for the container */}
+         <h2 className="text-xl font-semibold text-primary mb-3"> {/* Changed heading style */}
             Arduino Tutorial
         </h2>
         <div>
@@ -38,7 +38,7 @@ export default function ArduinoTutorialLayout({
             />
         </div>
       </div>
-      <main className="flex-grow px-2 sm:px-4 md:px-6 lg:px-8 py-6 md:py-8 overflow-y-auto"> {/* Ensured consistent py-8 for md */}
+      <main className="flex-grow px-2 sm:px-4 md:px-6 lg:px-8 py-6 md:py-8 overflow-y-auto">
         {children}
       </main>
     </div>
