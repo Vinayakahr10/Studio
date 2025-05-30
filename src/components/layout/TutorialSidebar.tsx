@@ -13,7 +13,7 @@ interface TutorialSidebarProps {
   basePath: string;
   className?: string;
   tutorialTitle?: string;
-  showSidebarHeader?: boolean; // New prop
+  showSidebarHeader?: boolean; 
 }
 
 export function TutorialSidebar({ 
@@ -21,7 +21,7 @@ export function TutorialSidebar({
   basePath, 
   className, 
   tutorialTitle = "Tutorial Lessons", 
-  showSidebarHeader = true // Default to true
+  showSidebarHeader = true 
 }: TutorialSidebarProps) {
   const pathname = usePathname();
 
@@ -33,7 +33,7 @@ export function TutorialSidebar({
         </div>
       )}
       <ScrollArea className="flex-grow">
-        <nav className="py-4 px-2">
+        <nav className={cn("py-0 md:py-4", showSidebarHeader ? "px-2" : "px-0")}> {/* Remove horizontal padding if header is hidden */}
           <ul>
             {lessons.map((lesson) => {
               const lessonPath = `${basePath}/${lesson.slug}`;
@@ -45,12 +45,12 @@ export function TutorialSidebar({
                     className={cn(
                       "flex items-center justify-between w-full px-3 py-2.5 text-sm rounded-md transition-colors",
                       isActive
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                        ? "bg-primary/10 text-primary font-medium" // Light blue background for active
+                        : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
                     )}
                   >
                     <span className="truncate pr-2">{lesson.title}</span>
-                    <ChevronRight className={cn("h-4 w-4 shrink-0 transition-transform", isActive ? "text-primary" : "text-muted-foreground/70", { "transform rotate-0": !isActive })} />
+                    <ChevronRight className={cn("h-4 w-4 shrink-0 transition-transform", isActive ? "text-primary" : "text-muted-foreground/70")} />
                   </Link>
                 </li>
               );
