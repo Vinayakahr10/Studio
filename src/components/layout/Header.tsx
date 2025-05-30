@@ -2,10 +2,10 @@
 "use client";
 
 import Link from "next/link";
-import { BrainCircuit, Menu, ChevronDown } from 'lucide-react';
+import { BrainCircuit, Menu, ChevronDown, FileText, Users, Settings, LogOut, LogIn, LayoutDashboard, Wrench, Cpu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import {
   Accordion,
@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+// Removed: import { useAuth } from '@/hooks/useAuth';
 
 const mainNavLinks = [
   { href: "/", label: "Home" },
@@ -28,6 +29,10 @@ const mainNavLinks = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // Removed: const { user, isAdmin, logout } = useAuth();
+  // Removed: const [isClient, setIsClient] = useState(false);
+
+  // Removed: useEffect for isClient
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -50,6 +55,7 @@ export function Header() {
               </Link>
             </Button>
           ))}
+          {/* Removed conditional login/admin/logout links */}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -87,6 +93,17 @@ export function Header() {
                           </Link>
                        </Button>
                   ))}
+                  <Button variant="ghost" asChild key="arduino-tutorial-mobile" className="justify-start text-base py-2.5 h-auto">
+                    <Link
+                      href="/tutorials/arduino"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <span className="flex items-center">
+                        Arduino Tutorial
+                      </span>
+                    </Link>
+                  </Button>
+                  {/* Removed conditional login/admin/logout links from mobile menu */}
                 </div>
               </SheetContent>
             </Sheet>
