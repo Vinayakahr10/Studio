@@ -5,13 +5,14 @@ import React, { useState } from 'react';
 import { Highlight, themes } from 'prism-react-renderer';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Ensure prism has CPP language if not already included by default
 // import 'prismjs/components/prism-cpp'; // Example, actual import path might vary
 
 export const CodeBlock = ({ code, language }: { code: string; language: string }) => {
   const [isCopied, setIsCopied] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   // Fallback to 'clike' if language is not directly supported or for general C-like syntax
   const prismLanguage = language.toLowerCase() as any; 
 
@@ -32,9 +33,18 @@ export const CodeBlock = ({ code, language }: { code: string; language: string }
     }
   };
 
+  const lineCount = React.useMemo(() => code.split('\n').length, [code]);
+  const needsExpansion = lineCount > 15; // Show "View More" if more than 15 lines
+
   return (
-    <div className="relative group rounded-md bg-[#1e1e1e] my-6 shadow-lg"> {/* Added my-6 for margin */}
-      <div className="overflow-x-auto">
+    <div className="relative group rounded-md bg-[#1e1e1e] my-6 shadow-lg">
+      <div
+        className={cn(
+          "overflow-x-auto", // Horizontal scroll for long lines
+          !isExpanded && needsExpansion ? "max-h-72 overflow-y-hidden" : "overflow-y-auto max-h-[70vh]", // Vertical scroll/limit
+          needsExpansion ? (isExpanded ? "rounded-t-md" : "rounded-t-md") : "rounded-md" // Conditional rounding
+        )}
+      >
         <Highlight
           theme={themes.vsDark} // You can change themes here e.g. themes.github, themes.dracula
           code={code.trimEnd()}
@@ -94,6 +104,25 @@ export const CodeBlock = ({ code, language }: { code: string; language: string }
           <Copy className="h-5 w-5" />
         )}
       </Button>
+      {needsExpansion && (
+        <div className="text-center py-2 border-t border-slate-700/50 rounded-b-md">
+          <Button
+            variant="link"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-slate-300 hover:text-slate-100 text-sm h-auto p-1"
+          >
+            {isExpanded ? (
+              <>
+                <ChevronUp className="mr-1 h-4 w-4" /> View Less
+              </>
+            ) : (
+              <>
+                <ChevronDown className="mr-1 h-4 w-4" /> View More
+              </>
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
