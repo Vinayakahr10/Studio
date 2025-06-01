@@ -247,134 +247,293 @@ const esp32WeatherStationVinayakahr10: ProjectDetail = {
   mainImageUrl: 'https://placehold.co/800x450.png',
   mainImageHint: 'esp32 weather station custom',
   introduction:
-    "This project, based on Vinayakahr10's GitHub repository, guides you through building an ESP32-based weather station using I2C communication for the BME280 sensor (temperature, humidity, pressure) and an SSD1306 OLED display. View real-time environmental data on the compact display.",
+    "This project, based on Vinayakahr10's GitHub repository, guides you through building an ESP32-based weather station using I2C communication for the BME280 sensor (temperature, humidity, pressure) and an SSD1306 OLED display. View real-time environmental data on the compact display. This version now incorporates WiFi connectivity to fetch weather data from OpenWeatherMap API and display time from an NTP server.",
   difficulty: 'Intermediate',
-  estimatedTime: '3-5 hours',
-  tags: ['ESP32', 'Weather Station', 'BME280', 'OLED', 'I2C', 'IoT', 'GitHub Project'],
+  estimatedTime: '4-6 hours',
+  tags: ['ESP32', 'Weather Station', 'BME280', 'OLED', 'I2C', 'IoT', 'WiFi', 'API', 'NTP', 'GitHub Project'],
   componentsNeeded: [
     'ESP32 Development Board',
-    'BME280 Sensor Module (I2C)',
-    'SSD1306 OLED Display Module (I2C, 128x64)',
+    'BME280 Sensor Module (I2C)', // This might be redundant if OpenWeatherMap is the primary source. Or can be used for local vs API comparison.
+    'LiquidCrystal_I2C LCD Display (20x4 or 16x2, ensure address is 0x27 or adjust code)',
     'Breadboard',
     'Jumper Wires',
     'Micro USB Cable',
+    'Access to WiFi Network',
+    'OpenWeatherMap API Key',
   ],
   toolsNeeded: [
     'Computer with Arduino IDE installed',
     'Soldering iron and solder (optional, if modules need headers)',
   ],
-  circuitDiagramUrl: 'https://placehold.co/600x400.png',
-  circuitDiagramHint: 'esp32 bme280 oled i2c wiring diagram',
+  circuitDiagramUrl: 'https://placehold.co/600x400.png', // Update if the GitHub link provides a specific one for LCD
+  circuitDiagramHint: 'esp32 lcd i2c weather station wiring',
   codeSections: [
     {
-      title: 'ESP32 Arduino Sketch (by Vinayakahr10)',
+      title: 'ESP32 Arduino Sketch (WiFi & API Version)',
       language: 'cpp',
       code: `
-#include<Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <LiquidCrystal_I2C.h>
+#include <ArduinoJson.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 
+LiquidCrystal_I2C lcd(0x27, 20, 4);
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+const char *ssid = "YOUR_SSID";
+const char *password = "YOUR_PASSWORD";
 
-// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+#define offset 19800
 
-Adafruit_BME280 bme; // I2C
+String URL = "http://api.openweathermap.org/data/2.5/weather?";
+String ApiKey = "PUT_YOUR_API_KEY_HERE";
 
-void setup() {
-  Serial.begin(115200);
+// PUT_YOUR_LOCATION_CREDENTIALS
+String lat = "YOUR_LATITUDE";
+String lon = "YOUR_LONGITUDE";
 
-  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;); // Don't proceed, loop forever
-  }
-  bool status;
-    
-    // default settings
-    // (you can also pass in a Wire library object like &Wire2)
-    status = bme.begin(0x76);  //0x76 is default address of BME280
-    if (!status) {
-        Serial.println("Could not find a valid BME280 sensor, check wiring!");
-        while (1);
+const int ledPin = 2; // Built-in LED on many ESP32 boards
+
+// Initialize WiFi and NTP
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "asia.pool.ntp.org", offset);
+
+void setup()
+{
+    Serial.begin(115200);
+
+    lcd.init();
+    lcd.backlight();
+
+    pinMode(ledPin, OUTPUT);
+
+    lcd.setCursor(0, 0);
+    lcd.print("Connecting to WiFi");
+    Serial.print("Connecting to WiFi");
+    WiFi.begin(ssid, password);
+
+    int attempts = 0;
+    while (WiFi.status() != WL_CONNECTED && attempts < 20) // Max 10 seconds
+    {
+        delay(500);
+        Serial.print(".");
+        lcd.print(".");
+        attempts++;
     }
-  
-  display.display();
-  delay(2000); // Pause for 2 seconds
 
-  // Clear the buffer
-  display.clearDisplay();
+    if(WiFi.status() == WL_CONNECTED) {
+      Serial.println("");
+      Serial.println("WiFi connected.");
+      Serial.println("IP address: ");
+      Serial.println(WiFi.localIP());
 
+      lcd.clear();
+      lcd.setCursor(0, 1);
+      lcd.print("WiFi Connected!");
+      lcd.setCursor(0, 2);
+      lcd.print(WiFi.localIP());
+    } else {
+      Serial.println("");
+      Serial.println("WiFi connection failed.");
+      lcd.clear();
+      lcd.setCursor(0, 1);
+      lcd.print("WiFi Failed!");
+      // You might want to handle this case, e.g., by not proceeding or showing an error
+    }
+    
+    delay(2000);
+
+    timeClient.begin();
+
+    lcd.clear();
+    lcd.setCursor(1, 0); // Centered approx
+    lcd.print("WEATHER STATION");
+    lcd.setCursor(4, 1); // Centered approx
+    lcd.print("SRINGERI, IN"); // Example location
+    delay(2000);
 }
 
-void loop() { 
-  display.clearDisplay();
+void loop()
+{
+    lcd.noCursor();
+    lcd.noBlink();
+    
+    if (WiFi.status() == WL_CONNECTED)
+    {
+        digitalWrite(ledPin, HIGH); // Indicate WiFi is connected
 
-  display.setTextSize(1);             // Normal 1:1 pixel scale
-  display.setTextColor(WHITE);        // Draw white text
-  display.setCursor(0,0);             // Start at top-left corner
-  display.print(F("Temp: "));
-  display.print(bme.readTemperature());
-  display.println(F(" C"));
+        timeClient.update();
+        time_t epochTime = timeClient.getEpochTime();
+        struct tm *ptm = gmtime((time_t *)&epochTime);
+        String formattedTime = timeClient.getFormattedTime();
 
-  display.print(F("Humidity: "));
-  display.print(bme.readHumidity());
-  display.println(F(" %"));
+        // Display date and time
+        int monthDay = ptm->tm_mday;
+        int currentMonth = ptm->tm_mon + 1;
+        int currentYear = ptm->tm_year + 1900;
+        String currentDate = String(monthDay) + "/" + String(currentMonth) + "/" + String(currentYear);
 
-  display.print(F("Pressure: "));
-  display.print(bme.readPressure() / 100.0F); // hPa
-  display.println(F(" hPa"));
-  
-  display.display();
-  delay(2000);
+        // Determine day of the week
+        String weekDays[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        String dayName = weekDays[ptm->tm_wday];
 
+        // Determine AM/PM
+        int hours = ptm->tm_hour;
+        String ampm = (hours >= 12) ? "PM" : "AM";
+        if (hours > 12)
+        {
+            hours -= 12;
+        }
+        else if (hours == 0)
+        {
+            hours = 12;
+        }
+        String displayTime = String(hours) + formattedTime.substring(2,5); // HH:MM format
+
+        HTTPClient http;
+        String serverPath = URL + "lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + ApiKey;
+        http.begin(serverPath.c_str());
+
+        int httpCode = http.GET();
+
+        if (httpCode == HTTP_CODE_OK)
+        {
+            String JSON_Data = http.getString();
+            Serial.println(JSON_Data);
+
+            DynamicJsonDocument doc(2048); // Adjust size if needed
+            DeserializationError error = deserializeJson(doc, JSON_Data);
+
+            if (error) {
+              Serial.print(F("deserializeJson() failed: "));
+              Serial.println(error.f_str());
+              lcd.clear();
+              lcd.setCursor(0,0);
+              lcd.print("JSON Error");
+              delay(2000);
+              http.end();
+              return;
+            }
+
+            JsonObject obj = doc.as<JsonObject>();
+
+            const char *description = obj["weather"][0]["description"];
+            const float temp = obj["main"]["temp"];
+            const int humidity = obj["main"]["humidity"];
+
+            lcd.clear();
+            // Line 0: Date and Day
+            lcd.setCursor(0, 0);
+            lcd.print(currentDate);
+            lcd.setCursor(13, 0); // Adjusted for 20x4
+            lcd.print(dayName);
+
+            // Line 1: Time
+            lcd.setCursor(0, 1);
+            lcd.print(displayTime);
+            lcd.setCursor(7, 1); // Adjusted for 20x4
+            lcd.print(ampm);
+            
+            // Line 2: Weather Description
+            lcd.setCursor(0, 2);
+            String weatherDesc = String(description);
+            weatherDesc.toUpperCase(); // Make it uppercase
+             // Simple scrolling for long descriptions
+            if (weatherDesc.length() > 20) {
+                static int scrollIndex = 0;
+                String sub = weatherDesc.substring(scrollIndex);
+                if (sub.length() < 20) {
+                    sub += " " + weatherDesc.substring(0, 20 - sub.length() -1 );
+                }
+                lcd.print(sub.substring(0,20));
+                scrollIndex++;
+                if (scrollIndex >= weatherDesc.length()) scrollIndex = 0;
+            } else {
+                 lcd.print(weatherDesc);
+            }
+
+
+            // Line 3: Temp and Humidity
+            lcd.setCursor(0, 3);
+            lcd.print("T:");
+            lcd.print(temp, 1); // Temp with 1 decimal place
+            lcd.write((byte)0xDF); // Degree symbol
+            lcd.print("C ");
+            lcd.print("H:");
+            lcd.print(humidity);
+            lcd.print("%");
+        }
+        else
+        {
+            Serial.print("HTTP Error code: ");
+            Serial.println(httpCode);
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("API Error: ");
+            lcd.print(httpCode);
+        }
+        http.end();
+    } else {
+        digitalWrite(ledPin, LOW); // Indicate WiFi is not connected
+        lcd.clear();
+        lcd.setCursor(0,1);
+        lcd.print("WiFi Disconnected!");
+        // Attempt to reconnect
+        WiFi.begin(ssid, password);
+        int reconnAttempts = 0;
+        while(WiFi.status() != WL_CONNECTED && reconnAttempts < 5) {
+            delay(500);
+            Serial.print("*");
+            reconnAttempts++;
+        }
+        if(WiFi.status() == WL_CONNECTED) Serial.println("\nReconnected to WiFi.");
+        else Serial.println("\nFailed to reconnect WiFi.");
+    }
+    delay(10000); // Update every 10 seconds
 }
       `,
     },
   ],
   steps: [
     {
-      title: '1. Gather Components',
+      title: '1. Gather Components & API Key',
       description:
-        'Ensure you have all the listed components: ESP32 board, BME280 sensor, SSD1306 OLED display, breadboard, and jumper wires.',
+        'Ensure you have all listed components, including the ESP32, LiquidCrystal_I2C LCD, and breadboard. Crucially, sign up for a free API key at OpenWeatherMap.',
       imageUrl: 'https://placehold.co/400x250.png',
-      imageHint: 'esp32 oled bme280 components',
+      imageHint: 'esp32 lcd components api',
     },
     {
       title: '2. Install Libraries in Arduino IDE',
       description:
-        'Open your Arduino IDE. Go to Sketch > Include Library > Manage Libraries. Search for and install the following: "Adafruit BME280 Library" by Adafruit, "Adafruit GFX Library" by Adafruit, and "Adafruit SSD1306" by Adafruit. Also ensure you have the ESP32 board support installed.',
+        'Open Arduino IDE. Via Library Manager, install: "LiquidCrystal_I2C" by Frank de Brabander, "ArduinoJson" by Benoit Blanchon, "NTPClient" by Fabrice Weinberg. Ensure ESP32 board support is installed.',
     },
     {
-      title: '3. Wire the Circuit',
+      title: '3. Update Code with Credentials',
       description:
-        'Connect the components using I2C. Typically: \n- ESP32 3.3V to BME280 VCC and OLED VCC.\n- ESP32 GND to BME280 GND and OLED GND.\n- ESP32 SDA (usually GPIO21) to BME280 SDA and OLED SDA.\n- ESP32 SCL (usually GPIO22) to BME280 SCL and OLED SCL.\n (Refer to your ESP32 board\'s pinout for exact SDA/SCL pins). Your provided circuit diagram link (https://github.com/Vinayakahr10/ESP32_weather_station_I2C/blob/main/ESP32_Weather_Station_I2C/circuit_diagram.png) should be followed.',
+        'In the Arduino sketch: \n- Replace "YOUR_SSID" and "YOUR_PASSWORD" with your WiFi credentials.\n- Replace "PUT_YOUR_API_KEY_HERE" with your OpenWeatherMap API key.\n- Replace "YOUR_LATITUDE" and "YOUR_LONGITUDE" with your location coordinates (you can find these on Google Maps). \n- Adjust the LCD address if `0x27` is not correct for your module (common alternatives are `0x3F`). Use an I2C scanner sketch to find the address if unsure.',
+    },
+    {
+      title: '4. Wire the Circuit',
+      description:
+        'Connect the components: \n- ESP32 3.3V to LCD VCC.\n- ESP32 GND to LCD GND.\n- ESP32 SDA (usually GPIO21) to LCD SDA.\n- ESP32 SCL (usually GPIO22) to LCD SCL.\n (Refer to your ESP32 board\'s pinout for exact SDA/SCL pins and check your LCD module documentation).',
       imageUrl: 'https://placehold.co/400x300.png',
-      imageHint: 'wiring esp32 i2c sensors oled',
+      imageHint: 'wiring esp32 i2c lcd display',
     },
     {
-      title: '4. Upload the Sketch',
+      title: '5. Upload the Sketch & Observe',
       description:
-        'Copy the provided Arduino sketch into the Arduino IDE. Select your ESP32 board model and the correct COM port under the "Tools" menu. Click the "Upload" button.',
-    },
-    {
-      title: '5. Observe the Output',
-      description:
-        'Once uploaded, the ESP32 will start reading data from the BME280 sensor and display the temperature, humidity, and pressure on the OLED screen. The Serial Monitor (baud rate 115200) can be used for debugging if needed.',
+        'Select your ESP32 board model and COM port in Arduino IDE. Upload the sketch. The ESP32 will connect to WiFi, fetch time and weather data, and display it on the LCD. The built-in LED (GPIO2) will light up if WiFi is connected. Check Serial Monitor (115200 baud) for logs.',
       imageUrl: 'https://placehold.co/400x250.png',
-      imageHint: 'oled displaying weather data',
+      imageHint: 'lcd displaying time weather data',
     },
   ],
   conclusion:
-    'You have successfully replicated the ESP32 I2C Weather Station from Vinayakahr10\'s repository. This project showcases how to integrate multiple I2C devices with an ESP32 and display real-time sensor data. It\'s a great starting point for more complex IoT projects.',
+    'You\'ve built an advanced ESP32 Weather Station that connects to the internet to display real-time weather and time! This project demonstrates API integration, NTP time synchronization, and data display on an I2C LCD, opening doors for many more connected projects.',
   learnMoreLinks: [
-    { text: 'Original GitHub Repository by Vinayakahr10', href: 'https://github.com/Vinayakahr10/ESP32_weather_station_I2C/' },
-    { text: 'Adafruit BME280 Library Guide', href: 'https://learn.adafruit.com/adafruit-bme280-humidity-barometric-pressure-temperature-sensor-breakout' },
-    { text: 'Adafruit SSD1306 OLED Display Guide', href: 'https://learn.adafruit.com/adafruit-oled-displays-for-arduino/overview' },
+    { text: 'Original GitHub Repository by Vinayakahr10 (for the base concept)', href: 'https://github.com/Vinayakahr10/ESP32_weather_station_I2C/' },
+    { text: 'OpenWeatherMap API Documentation', href: 'https://openweathermap.org/api' },
+    { text: 'ArduinoJson Assistant (for calculating buffer size)', href: 'https://arduinojson.org/v6/assistant/' },
   ],
 };
 
