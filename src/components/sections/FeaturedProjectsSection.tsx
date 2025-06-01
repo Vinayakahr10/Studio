@@ -47,6 +47,14 @@ export const featuredProjectsData: Project[] = [
     imageHint: '555 timer pwm circuit breadboard',
     tutorialLink: '/projects/project-555-pwm-generator',
   },
+  {
+    id: 'esp32-weather-station-vinayakahr10',
+    title: 'ESP32 I2C Weather Station (GitHub: Vinayakahr10)',
+    description: "Build an ESP32 weather station using I2C for BME280 sensor and OLED display, based on Vinayakahr10's repository.",
+    imageUrl: 'https://placehold.co/400x300.png',
+    imageHint: 'esp32 weather project custom',
+    tutorialLink: '/projects/esp32-weather-station-vinayakahr10',
+  },
 ];
 
 interface FeaturedProjectsSectionProps {

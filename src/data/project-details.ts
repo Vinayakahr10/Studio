@@ -241,11 +241,149 @@ const project555PwmGenerator: ProjectDetail = {
   ],
 };
 
+const esp32WeatherStationVinayakahr10: ProjectDetail = {
+  id: 'esp32-weather-station-vinayakahr10',
+  title: 'ESP32 I2C Weather Station (GitHub: Vinayakahr10)',
+  mainImageUrl: 'https://placehold.co/800x450.png',
+  mainImageHint: 'esp32 weather station custom',
+  introduction:
+    "This project, based on Vinayakahr10's GitHub repository, guides you through building an ESP32-based weather station using I2C communication for the BME280 sensor (temperature, humidity, pressure) and an SSD1306 OLED display. View real-time environmental data on the compact display.",
+  difficulty: 'Intermediate',
+  estimatedTime: '3-5 hours',
+  tags: ['ESP32', 'Weather Station', 'BME280', 'OLED', 'I2C', 'IoT', 'GitHub Project'],
+  componentsNeeded: [
+    'ESP32 Development Board',
+    'BME280 Sensor Module (I2C)',
+    'SSD1306 OLED Display Module (I2C, 128x64)',
+    'Breadboard',
+    'Jumper Wires',
+    'Micro USB Cable',
+  ],
+  toolsNeeded: [
+    'Computer with Arduino IDE installed',
+    'Soldering iron and solder (optional, if modules need headers)',
+  ],
+  circuitDiagramUrl: 'https://placehold.co/600x400.png',
+  circuitDiagramHint: 'esp32 bme280 oled i2c wiring diagram',
+  codeSections: [
+    {
+      title: 'ESP32 Arduino Sketch (by Vinayakahr10)',
+      language: 'cpp',
+      code: `
+#include<Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+Adafruit_BME280 bme; // I2C
+
+void setup() {
+  Serial.begin(115200);
+
+  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;); // Don't proceed, loop forever
+  }
+  bool status;
+    
+    // default settings
+    // (you can also pass in a Wire library object like &Wire2)
+    status = bme.begin(0x76);  //0x76 is default address of BME280
+    if (!status) {
+        Serial.println("Could not find a valid BME280 sensor, check wiring!");
+        while (1);
+    }
+  
+  display.display();
+  delay(2000); // Pause for 2 seconds
+
+  // Clear the buffer
+  display.clearDisplay();
+
+}
+
+void loop() { 
+  display.clearDisplay();
+
+  display.setTextSize(1);             // Normal 1:1 pixel scale
+  display.setTextColor(WHITE);        // Draw white text
+  display.setCursor(0,0);             // Start at top-left corner
+  display.print(F("Temp: "));
+  display.print(bme.readTemperature());
+  display.println(F(" C"));
+
+  display.print(F("Humidity: "));
+  display.print(bme.readHumidity());
+  display.println(F(" %"));
+
+  display.print(F("Pressure: "));
+  display.print(bme.readPressure() / 100.0F); // hPa
+  display.println(F(" hPa"));
+  
+  display.display();
+  delay(2000);
+
+}
+      `,
+    },
+  ],
+  steps: [
+    {
+      title: '1. Gather Components',
+      description:
+        'Ensure you have all the listed components: ESP32 board, BME280 sensor, SSD1306 OLED display, breadboard, and jumper wires.',
+      imageUrl: 'https://placehold.co/400x250.png',
+      imageHint: 'esp32 oled bme280 components',
+    },
+    {
+      title: '2. Install Libraries in Arduino IDE',
+      description:
+        'Open your Arduino IDE. Go to Sketch > Include Library > Manage Libraries. Search for and install the following: "Adafruit BME280 Library" by Adafruit, "Adafruit GFX Library" by Adafruit, and "Adafruit SSD1306" by Adafruit. Also ensure you have the ESP32 board support installed.',
+    },
+    {
+      title: '3. Wire the Circuit',
+      description:
+        'Connect the components using I2C. Typically: \n- ESP32 3.3V to BME280 VCC and OLED VCC.\n- ESP32 GND to BME280 GND and OLED GND.\n- ESP32 SDA (usually GPIO21) to BME280 SDA and OLED SDA.\n- ESP32 SCL (usually GPIO22) to BME280 SCL and OLED SCL.\n (Refer to your ESP32 board\'s pinout for exact SDA/SCL pins). Your provided circuit diagram link (https://github.com/Vinayakahr10/ESP32_weather_station_I2C/blob/main/ESP32_Weather_Station_I2C/circuit_diagram.png) should be followed.',
+      imageUrl: 'https://placehold.co/400x300.png',
+      imageHint: 'wiring esp32 i2c sensors oled',
+    },
+    {
+      title: '4. Upload the Sketch',
+      description:
+        'Copy the provided Arduino sketch into the Arduino IDE. Select your ESP32 board model and the correct COM port under the "Tools" menu. Click the "Upload" button.',
+    },
+    {
+      title: '5. Observe the Output',
+      description:
+        'Once uploaded, the ESP32 will start reading data from the BME280 sensor and display the temperature, humidity, and pressure on the OLED screen. The Serial Monitor (baud rate 115200) can be used for debugging if needed.',
+      imageUrl: 'https://placehold.co/400x250.png',
+      imageHint: 'oled displaying weather data',
+    },
+  ],
+  conclusion:
+    'You have successfully replicated the ESP32 I2C Weather Station from Vinayakahr10\'s repository. This project showcases how to integrate multiple I2C devices with an ESP32 and display real-time sensor data. It\'s a great starting point for more complex IoT projects.',
+  learnMoreLinks: [
+    { text: 'Original GitHub Repository by Vinayakahr10', href: 'https://github.com/Vinayakahr10/ESP32_weather_station_I2C/' },
+    { text: 'Adafruit BME280 Library Guide', href: 'https://learn.adafruit.com/adafruit-bme280-humidity-barometric-pressure-temperature-sensor-breakout' },
+    { text: 'Adafruit SSD1306 OLED Display Guide', href: 'https://learn.adafruit.com/adafruit-oled-displays-for-arduino/overview' },
+  ],
+};
+
 
 // A map to hold all project details, keyed by project ID
 export const allProjectDetails: Record<string, ProjectDetail> = {
   'esp32-weather-station': esp32WeatherStationDetail,
   'project-555-pwm-generator': project555PwmGenerator,
+  'esp32-weather-station-vinayakahr10': esp32WeatherStationVinayakahr10,
   // You can add details for other projects here, for example:
   // 'arduino-weather-station': { ... details for arduino weather station ... },
   // 'pi-home-automation': { ... details for pi home automation ... },
