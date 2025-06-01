@@ -34,7 +34,7 @@ export const CodeBlock = ({ code, language }: { code: string; language: string }
   };
 
   const lineCount = React.useMemo(() => code.split('\n').length, [code]);
-  const needsExpansion = lineCount > 15; // Show "View More" if more than 15 lines
+  const needsExpansion = lineCount > 15; // Show expansion button if more than 15 lines
 
   return (
     <div className="relative group rounded-md bg-[#1e1e1e] my-6 shadow-lg">
@@ -113,11 +113,11 @@ export const CodeBlock = ({ code, language }: { code: string; language: string }
           >
             {isExpanded ? (
               <>
-                <ChevronUp className="mr-1 h-4 w-4" /> View Less
+                <ChevronUp className="mr-1 h-4 w-4" /> Read Less
               </>
             ) : (
               <>
-                <ChevronDown className="mr-1 h-4 w-4" /> View More
+                <ChevronDown className="mr-1 h-4 w-4" /> Read More
               </>
             )}
           </Button>
