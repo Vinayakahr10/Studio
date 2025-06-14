@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from 'lucide-react';
-// Removed: import type { Timestamp } from 'firebase/firestore';
+import type { ReactNode } from 'react';
 
 export interface NavItem {
   href: string;
@@ -39,12 +39,30 @@ export interface Article {
   content?: string;
   tags?: string[];
   featuredImage?: string;
-  createdAt?: Date | string; // Changed from Timestamp | Date | string
-  updatedAt?: Date | string; // Changed from Timestamp | Date | string
+  createdAt?: Date | string; 
+  updatedAt?: Date | string; 
 }
 
 export interface Tag {
   id: string;
   name: string;
   href: string;
+}
+
+export interface ArduinoLesson { // Keep this if used elsewhere or for distinction
+  slug: string;
+  title: string;
+  description: string; 
+  mainTitle?: string; 
+  content: ReactNode;
+}
+
+export interface DCCircuitLesson {
+  slug: string;
+  title: string; // Title for cards, sidebar, and default H1
+  mainTitle?: string; // Optional override for H1 on lesson page
+  description: string; // Description for cards, meta
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  Icon?: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element); // Allow for functional SVG components too
+  content: ReactNode; // JSX content for the lesson page
 }
