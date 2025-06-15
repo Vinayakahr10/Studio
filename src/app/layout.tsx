@@ -1,16 +1,18 @@
 
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Poppins, Geist_Mono } from 'next/font/google'; // Changed Geist to Poppins
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from '@/components/theme-provider';
-import { TopProgressBar } from '@/components/layout/TopProgressBar'; // Added import
+import { TopProgressBar } from '@/components/layout/TopProgressBar';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+// Configure Poppins font
+const poppins = Poppins({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'], // Added more weights for flexibility
+  variable: '--font-poppins', // CSS variable for Poppins
 });
 
 const geistMono = Geist_Mono({
@@ -30,14 +32,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
+      {/* Updated className to use Poppins variable */}
+      <body className={`${poppins.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light" // Changed from dark to light
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <TopProgressBar /> {/* Added TopProgressBar */}
+          <TopProgressBar />
           <Header />
           <main className="flex-grow">
             {children}
