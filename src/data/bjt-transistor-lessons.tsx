@@ -166,10 +166,78 @@ export const bjtTutorialLessons: BJTLesson[] = [
     mainTitle: 'Using BJT Transistors as Electronic Switches',
     content: comingSoonContent,
   },
+  {
+    slug: 'bipolar-transistor-overview',
+    title: '3. Bipolar Transistor Overview',
+    description: 'A general overview of bipolar transistors, revisiting key characteristics and behaviors.',
+    mainTitle: 'Bipolar Transistor: A Deeper Overview',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'npn-transistor-details',
+    title: '4. NPN Transistor In-Depth',
+    description: 'Detailed look at NPN transistor operation, biasing, and typical applications.',
+    mainTitle: 'NPN Transistor: In-Depth Analysis',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'pnp-transistor-details',
+    title: '5. PNP Transistor In-Depth',
+    description: 'Detailed look at PNP transistor operation, biasing, and typical applications.',
+    mainTitle: 'PNP Transistor: In-Depth Analysis',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'junction-field-effect-transistor-jfet',
+    title: '6. Junction Field Effect Transistor (JFET)',
+    description: 'Introduction to JFETs, their types (N-channel, P-channel), operation, and characteristics.',
+    mainTitle: 'Understanding Junction Field Effect Transistors (JFETs)',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'mosfet-basics',
+    title: '7. MOSFET Basics',
+    description: 'Introduction to Metal-Oxide-Semiconductor Field-Effect Transistors (MOSFETs), types (enhancement, depletion), and operation.',
+    mainTitle: 'Fundamentals of MOSFETs',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'mosfet-as-a-switch',
+    title: '8. MOSFET as a Switch',
+    description: 'Using MOSFETs as efficient electronic switches, including gate driving considerations.',
+    mainTitle: 'Utilizing MOSFETs as Switches',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'transistor-tutorial-summary',
+    title: '9. Transistor Tutorial Summary',
+    description: 'A recap of key concepts covered in the transistor tutorials.',
+    mainTitle: 'Transistor Tutorials: Summary and Key Takeaways',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'darlington-transistors',
+    title: '10. Darlington Transistors',
+    description: 'Understanding Darlington pairs, their high current gain, and applications.',
+    mainTitle: 'Exploring Darlington Transistors',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'fet-current-source',
+    title: '11. FET Current Source',
+    description: 'Designing and understanding constant current sources using FETs.',
+    mainTitle: 'Field-Effect Transistors as Current Sources',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'open-collector-outputs',
+    title: '12. Open Collector Outputs',
+    description: 'Understanding open collector (and open drain) transistor outputs and their uses, such as interfacing different logic levels.',
+    mainTitle: 'Open Collector and Open Drain Outputs',
+    content: comingSoonContent,
+  },
 ];
 
 export function getBJTLessonBySlug(slug: string): BJTLesson | undefined {
   return bjtTutorialLessons.find(lesson => lesson.slug === slug);
 }
-
-    
