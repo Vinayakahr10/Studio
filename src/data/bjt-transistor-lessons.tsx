@@ -71,7 +71,7 @@ export const bjtTutorialLessons: BJTLesson[] = [
           <li><strong>Active Region:</strong> The transistor acts as an amplifier. The collector current (I<sub>C</sub>) is proportional to the base current (I<sub>B</sub>), related by the current gain (β or h<sub>FE</sub>): I<sub>C</sub> = β * I<sub>B</sub>. The base-emitter junction is forward-biased, and the base-collector junction is reverse-biased.</li>
           <li><strong>Saturation Region:</strong> The transistor is fully "ON" and acts like a closed switch. Collector current is at its maximum, limited primarily by the external circuit. Both base-emitter and base-collector junctions are forward-biased.</li>
         </ol>
-        <div className="my-6 flex justify-center">
+        <div className="my-6 flex flex-col items-center gap-2">
           <Image
             src="https://placehold.co/600x400.png"
             alt="BJT Operating Regions Characteristic Curve"
@@ -80,7 +80,7 @@ export const bjtTutorialLessons: BJTLesson[] = [
             height={400}
             className="rounded-lg border shadow-md object-contain bg-white p-2"
           />
-           <p className="text-sm text-muted-foreground italic mt-2 text-center">Conceptual BJT Output Characteristic Curves showing operating regions.</p>
+           <p className="text-sm text-muted-foreground italic mt-1 text-center">Conceptual BJT Output Characteristic Curves showing operating regions.</p>
         </div>
 
         <p className="mt-4">
