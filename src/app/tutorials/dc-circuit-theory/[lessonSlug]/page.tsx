@@ -1,6 +1,7 @@
 
 import { getDCCircuitLessonBySlug, dcCircuitLessons, DCCircuitLesson } from '@/data/dc-circuit-theory-lessons'; 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
+import { Card, CardContent } from '@/components/ui/card'; // Added Card and CardContent
 import { Zap, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -85,15 +86,19 @@ export default function DCCircuitLessonPage({ params }: LessonPageProps) {
         )}
       </header>
 
-      <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert max-w-none 
-                      prose-headings:font-semibold prose-headings:text-foreground 
-                      prose-p:text-muted-foreground prose-li:text-muted-foreground
-                      prose-a:text-primary hover:prose-a:underline
-                      prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm prose-code:text-foreground
-                      prose-pre:bg-background prose-pre:shadow-md
-                      ">
-        {lesson.content}
-      </div>
+      <Card className="mt-6 shadow-lg">
+        <CardContent className="pt-6">
+          <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert max-w-none 
+                          prose-headings:font-semibold prose-headings:text-foreground 
+                          prose-p:text-muted-foreground prose-li:text-muted-foreground
+                          prose-a:text-primary hover:prose-a:underline
+                          prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm prose-code:text-foreground
+                          prose-pre:bg-background prose-pre:shadow-md
+                          ">
+            {lesson.content}
+          </div>
+        </CardContent>
+      </Card>
 
       <Separator className="my-8 md:my-12" />
 
@@ -123,4 +128,3 @@ export default function DCCircuitLessonPage({ params }: LessonPageProps) {
     </article>
   );
 }
-
