@@ -1,7 +1,7 @@
 
 import type { ReactNode } from 'react';
 import type { ACCircuitLesson } from '@/types';
-import { Activity, BookOpen, Sigma, Zap, TrendingUp, Filter, Magnet, RefreshCw, CircuitBoard, Waves, Combine, BarChartBig } from 'lucide-react'; // Added more icons
+import { Activity, BookOpen, Sigma, Zap, TrendingUp, Filter, Magnet, RefreshCw, CircuitBoard, Waves, Combine, BarChartBig, Network, SlidersHorizontal } from 'lucide-react'; // Added more icons
 
 // Helper function to generate slugs
 const toSlug = (title: string): string => {
@@ -61,17 +61,26 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     )
   },
   {
-    slug: toSlug("2. Capacitors in AC Circuits"),
-    title: "2. Capacitors in AC Circuits",
-    mainTitle: "Capacitive Reactance and Behavior",
-    description: "Explore how capacitors behave in AC circuits, understanding capacitive reactance (Xc) and phase relationships.",
-    difficulty: "Intermediate",
-    Icon: Zap,
+    slug: toSlug("2. Electromagnetism for AC Circuits"),
+    title: "2. Electromagnetism for AC Circuits",
+    mainTitle: "Electromagnetism: The Basis of AC Components",
+    description: "Fundamental principles of electromagnetism relevant to understanding inductors, transformers, and AC phenomena.",
+    difficulty: "Beginner",
+    Icon: Magnet,
     content: comingSoonContent
   },
   {
-    slug: toSlug("3. Inductors in AC Circuits"),
-    title: "3. Inductors in AC Circuits",
+    slug: toSlug("3. Capacitors in AC Circuits"),
+    title: "3. Capacitors in AC Circuits",
+    mainTitle: "Capacitive Reactance and Behavior",
+    description: "Explore how capacitors behave in AC circuits, understanding capacitive reactance (Xc) and phase relationships.",
+    difficulty: "Intermediate",
+    Icon: Zap, // Placeholder for capacitor icon
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("4. Inductors in AC Circuits"),
+    title: "4. Inductors in AC Circuits",
     mainTitle: "Inductive Reactance and Behavior",
     description: "Learn about inductors in AC circuits, inductive reactance (XL), and their phase characteristics.",
     difficulty: "Intermediate",
@@ -79,8 +88,8 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("4. Impedance and Phasors"),
-    title: "4. Impedance and Phasors",
+    slug: toSlug("5. Impedance and Phasors"),
+    title: "5. Impedance and Phasors",
     mainTitle: "Combining Resistance and Reactance",
     description: "Understand impedance (Z) as the total opposition to AC current flow and use phasors for AC circuit analysis.",
     difficulty: "Intermediate",
@@ -88,8 +97,8 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("5. Series RLC Circuits"),
-    title: "5. Series RLC Circuits",
+    slug: toSlug("6. Series RLC Circuits"),
+    title: "6. Series RLC Circuits",
     mainTitle: "Analyzing Series RLC Configurations",
     description: "Analyze circuits containing resistors, inductors, and capacitors connected in series under AC conditions.",
     difficulty: "Intermediate",
@@ -97,8 +106,8 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("6. Parallel RLC Circuits"),
-    title: "6. Parallel RLC Circuits",
+    slug: toSlug("7. Parallel RLC Circuits"),
+    title: "7. Parallel RLC Circuits",
     mainTitle: "Analyzing Parallel RLC Configurations",
     description: "Analyze circuits containing resistors, inductors, and capacitors connected in parallel under AC conditions.",
     difficulty: "Intermediate",
@@ -106,8 +115,8 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("7. Resonance in AC Circuits"),
-    title: "7. Resonance in AC Circuits",
+    slug: toSlug("8. Resonance in AC Circuits"),
+    title: "8. Resonance in AC Circuits",
     mainTitle: "Series and Parallel Resonance",
     description: "Explore the phenomenon of resonance in series and parallel RLC circuits, including resonant frequency and Q factor.",
     difficulty: "Advanced",
@@ -115,8 +124,8 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("8. AC Filters"),
-    title: "8. AC Filters",
+    slug: toSlug("9. AC Filters"),
+    title: "9. AC Filters",
     mainTitle: "Passive Low-Pass, High-Pass, and Band-Pass Filters",
     description: "Learn about different types of passive AC filters (low-pass, high-pass, band-pass) and their frequency response.",
     difficulty: "Advanced",
@@ -124,8 +133,35 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("9. Transformers"),
-    title: "9. Transformers",
+    slug: toSlug("10. RC Networks in AC Circuits"),
+    title: "10. RC Networks in AC Circuits",
+    mainTitle: "RC Network Analysis: Phase Shift & Time Constants",
+    description: "Detailed analysis of RC networks, including phase shift, time constants, and applications like coupling/decoupling.",
+    difficulty: "Intermediate",
+    Icon: Network,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("11. Attenuators in AC Circuits"),
+    title: "11. Attenuators in AC Circuits",
+    mainTitle: "Designing and Analyzing AC Attenuators",
+    description: "Learn about resistive attenuators (e.g., T-type, Pi-type) for reducing AC signal levels.",
+    difficulty: "Intermediate",
+    Icon: SlidersHorizontal,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("12. AC Oscillators"),
+    title: "12. AC Oscillators",
+    mainTitle: "Generating AC Signals: Oscillator Circuits",
+    description: "Explore principles of AC oscillators like LC tank circuits and RC phase-shift oscillators.",
+    difficulty: "Advanced",
+    Icon: Waves,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("13. Transformers"),
+    title: "13. Transformers",
     mainTitle: "Principles and Applications of Transformers",
     description: "Understand the operating principles of transformers, voltage/current transformation, and their applications in AC systems.",
     difficulty: "Intermediate",
@@ -133,8 +169,8 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("10. AC Power and Power Factor"),
-    title: "10. AC Power and Power Factor",
+    slug: toSlug("14. AC Power and Power Factor"),
+    title: "14. AC Power and Power Factor",
     mainTitle: "Understanding Real, Reactive, and Apparent Power",
     description: "Delve into AC power calculations, including real power, reactive power, apparent power, and the concept of power factor correction.",
     difficulty: "Advanced",
@@ -146,3 +182,5 @@ export const acCircuitLessons: ACCircuitLesson[] = [
 export function getACCircuitLessonBySlug(slug: string): ACCircuitLesson | undefined {
   return acCircuitLessons.find(lesson => lesson.slug === slug);
 }
+
+    

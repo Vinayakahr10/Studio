@@ -1,7 +1,7 @@
 
 import type { ReactNode } from 'react';
 import type { OpAmpLesson } from '@/types';
-import { Triangle, ListChecks, SlidersHorizontal, Sigma, MinusSquare, PlusSquare, Filter } from 'lucide-react';
+import { Triangle, ListChecks, SlidersHorizontal, Sigma, MinusSquare, PlusSquare, Filter, Waves, Activity } from 'lucide-react';
 
 const comingSoonContent = <p>Content for this lesson is coming soon. Check back later!</p>;
 
@@ -88,8 +88,28 @@ export const opAmpLessons: OpAmpLesson[] = [
     Icon: SlidersHorizontal,
     content: comingSoonContent
   },
+  {
+    slug: 'op-amp-oscillators',
+    title: '8. Op-Amp Based Oscillators',
+    mainTitle: 'Generating Waveforms with Op-Amp Oscillators',
+    description: 'Learn about various Op-Amp oscillator circuits like Wien bridge, phase-shift, and relaxation oscillators.',
+    difficulty: 'Advanced',
+    Icon: Waves,
+    content: comingSoonContent
+  },
+  {
+    slug: 'op-amp-waveform-generators',
+    title: '9. Op-Amp Waveform Generators',
+    mainTitle: 'Creating Square, Triangle, and Sawtooth Waves',
+    description: 'Designing circuits using Op-Amps to generate specific waveforms like square waves, triangle waves, and sawtooth waves.',
+    difficulty: 'Advanced',
+    Icon: Activity,
+    content: comingSoonContent
+  },
 ];
 
 export function getOpAmpLessonBySlug(slug: string): OpAmpLesson | undefined {
   return opAmpLessons.find(lesson => lesson.slug === slug);
 }
+
+    
