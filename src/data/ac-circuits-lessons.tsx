@@ -75,7 +75,7 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     mainTitle: "Capacitive Reactance and Behavior",
     description: "Explore how capacitors behave in AC circuits, understanding capacitive reactance (Xc) and phase relationships.",
     difficulty: "Intermediate",
-    Icon: Zap, // Placeholder for capacitor icon
+    Icon: Zap, 
     content: comingSoonContent
   },
   {
@@ -151,17 +151,8 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("12. AC Oscillators"),
-    title: "12. AC Oscillators",
-    mainTitle: "Generating AC Signals: Oscillator Circuits",
-    description: "Explore principles of AC oscillators like LC tank circuits and RC phase-shift oscillators.",
-    difficulty: "Advanced",
-    Icon: Waves,
-    content: comingSoonContent
-  },
-  {
-    slug: toSlug("13. Transformers"),
-    title: "13. Transformers",
+    slug: toSlug("12. Transformers"),
+    title: "12. Transformers",
     mainTitle: "Principles and Applications of Transformers",
     description: "Understand the operating principles of transformers, voltage/current transformation, and their applications in AC systems.",
     difficulty: "Intermediate",
@@ -169,8 +160,8 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     content: comingSoonContent
   },
   {
-    slug: toSlug("14. AC Power and Power Factor"),
-    title: "14. AC Power and Power Factor",
+    slug: toSlug("13. AC Power and Power Factor"),
+    title: "13. AC Power and Power Factor",
     mainTitle: "Understanding Real, Reactive, and Apparent Power",
     description: "Delve into AC power calculations, including real power, reactive power, apparent power, and the concept of power factor correction.",
     difficulty: "Advanced",
@@ -182,5 +173,3 @@ export const acCircuitLessons: ACCircuitLesson[] = [
 export function getACCircuitLessonBySlug(slug: string): ACCircuitLesson | undefined {
   return acCircuitLessons.find(lesson => lesson.slug === slug);
 }
-
-    

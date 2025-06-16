@@ -88,28 +88,8 @@ export const opAmpLessons: OpAmpLesson[] = [
     Icon: SlidersHorizontal,
     content: comingSoonContent
   },
-  {
-    slug: 'op-amp-oscillators',
-    title: '8. Op-Amp Based Oscillators',
-    mainTitle: 'Generating Waveforms with Op-Amp Oscillators',
-    description: 'Learn about various Op-Amp oscillator circuits like Wien bridge, phase-shift, and relaxation oscillators.',
-    difficulty: 'Advanced',
-    Icon: Waves,
-    content: comingSoonContent
-  },
-  {
-    slug: 'op-amp-waveform-generators',
-    title: '9. Op-Amp Waveform Generators',
-    mainTitle: 'Creating Square, Triangle, and Sawtooth Waves',
-    description: 'Designing circuits using Op-Amps to generate specific waveforms like square waves, triangle waves, and sawtooth waves.',
-    difficulty: 'Advanced',
-    Icon: Activity,
-    content: comingSoonContent
-  },
 ];
 
 export function getOpAmpLessonBySlug(slug: string): OpAmpLesson | undefined {
   return opAmpLessons.find(lesson => lesson.slug === slug);
 }
-
-    

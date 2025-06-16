@@ -70,3 +70,4 @@ export interface DigitalElectronicsLesson extends GenericLesson {}
 export interface OpAmpLesson extends GenericLesson {}
 export interface SemiconductorDeviceLesson extends GenericLesson {}
 export interface PowerElectronicsLesson extends GenericLesson {}
+export interface OscillatorLesson extends GenericLesson {}
