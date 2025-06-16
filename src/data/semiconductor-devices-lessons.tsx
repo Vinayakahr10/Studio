@@ -1,7 +1,7 @@
 
 import type { ReactNode } from 'react';
 import type { SemiconductorDeviceLesson } from '@/types';
-import { Chip, DivideSquare, ToggleRight, Thermometer, Power, Waves } from 'lucide-react';
+import { MemoryStick as SemiconductorIcon, DivideSquare, ToggleRight, Thermometer, Power, Waves } from 'lucide-react';
 
 const comingSoonContent = <p>Content for this lesson is coming soon. Check back later!</p>;
 
@@ -12,7 +12,7 @@ export const semiconductorDeviceLessons: SemiconductorDeviceLesson[] = [
     mainTitle: 'The Foundation: Semiconductor Materials',
     description: 'Understanding semiconductor materials, intrinsic vs. extrinsic, P-type, N-type, and the concept of energy bands.',
     difficulty: 'Beginner',
-    Icon: Chip,
+    Icon: SemiconductorIcon,
     content: (
       <>
         <p className="mb-4 text-lg">

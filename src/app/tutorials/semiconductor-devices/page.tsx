@@ -2,7 +2,7 @@
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Chip as SemiconductorIcon, BookOpen, ChevronRight } from 'lucide-react';
+import { MemoryStick as SemiconductorIcon, BookOpen, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { semiconductorDeviceLessons } from '@/data/semiconductor-devices-lessons'; 
