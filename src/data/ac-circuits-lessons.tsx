@@ -1,7 +1,7 @@
 
 import type { ReactNode } from 'react';
 import type { ACCircuitLesson } from '@/types';
-import { Activity, BookOpen, Sigma, Zap, TrendingUp, Filter, Magnet, RefreshCw } from 'lucide-react'; // Example icons
+import { Activity, BookOpen, Sigma, Zap, TrendingUp, Filter, Magnet, RefreshCw, CircuitBoard, Waves, Combine, BarChartBig } from 'lucide-react'; // Added more icons
 
 // Helper function to generate slugs
 const toSlug = (title: string): string => {
@@ -10,18 +10,18 @@ const toSlug = (title: string): string => {
     .replace(/^\d+\.\s*/, '') // Remove numbering like "1. "
     .replace(/[^a-z0-9\s-]/g, '') // Remove special chars except space and hyphen
     .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-'); // Replace multiple hyphens with single
+    .replace(/-+/g, '-');
 };
 
 const comingSoonContent = <p>Content for this lesson is coming soon. Check back later!</p>;
 
 export const acCircuitLessons: ACCircuitLesson[] = [
-  { 
-    slug: toSlug("1. Introduction to AC Circuits"), 
-    title: "1. Introduction to AC Circuits", 
+  {
+    slug: toSlug("1. Introduction to AC Circuits"),
+    title: "1. Introduction to AC Circuits",
     mainTitle: "Fundamentals of AC Circuit Theory",
-    description: "Understanding alternating current, sine waves, frequency, phase, and RMS values.", 
-    difficulty: "Beginner", 
+    description: "Understanding alternating current, sine waves, frequency, phase, and RMS values.",
+    difficulty: "Beginner",
     Icon: Activity,
     content: (
       <>
@@ -32,7 +32,7 @@ export const acCircuitLessons: ACCircuitLesson[] = [
         <p className="mb-4">
           Alternating Current (AC) is an electric current which periodically reverses direction, in contrast to Direct Current (DC) which flows only in one direction. The most common waveform for AC is a sine wave.
         </p>
-        
+
         <h3 className="text-2xl font-semibold mt-6 mb-3">Key Characteristics of AC Sine Waves</h3>
         <ul className="list-disc list-inside space-y-2 mb-4 pl-4">
           <li><strong>Frequency (f):</strong> The number of cycles per second, measured in Hertz (Hz). Standard power line frequency is 50 Hz or 60 Hz depending on the region.</li>
@@ -42,7 +42,7 @@ export const acCircuitLessons: ACCircuitLesson[] = [
           <li><strong>RMS (Root Mean Square) Value:</strong> The effective value of an AC voltage or current. For a sine wave, V<sub>RMS</sub> = V<sub>peak</sub> / √2. This is the value typically quoted for AC supplies (e.g., 120V AC or 230V AC).</li>
           <li><strong>Phase:</strong> The position of a point in time on a waveform cycle. Phase difference describes the time shift between two waveforms of the same frequency.</li>
         </ul>
-        
+
         <h3 className="text-2xl font-semibold mt-6 mb-3">Why Use AC?</h3>
         <p className="mb-4">
           AC is widely used for power distribution because its voltage can be easily stepped up or down using transformers. This allows for efficient transmission of power over long distances at high voltages (reducing resistive losses) and then stepping down to safer, usable voltages for consumers.
@@ -60,10 +60,87 @@ export const acCircuitLessons: ACCircuitLesson[] = [
       </>
     )
   },
-  // Add more lessons here as they are developed, for example:
-  // { slug: toSlug("2. Capacitors in AC Circuits"), title: "2. Capacitors in AC Circuits", description: "Behavior of capacitors with AC, capacitive reactance.", difficulty: "Intermediate", Icon: Zap, content: comingSoonContent },
-  // { slug: toSlug("3. Inductors in AC Circuits"), title: "3. Inductors in AC Circuits", description: "Behavior of inductors with AC, inductive reactance.", difficulty: "Intermediate", Icon: Magnet, content: comingSoonContent },
-  // { slug: toSlug("4. Impedance and Phasors"), title: "4. Impedance and Phasors", description: "Understanding impedance, reactance, and using phasors for AC analysis.", difficulty: "Intermediate", Icon: Sigma, content: comingSoonContent },
+  {
+    slug: toSlug("2. Capacitors in AC Circuits"),
+    title: "2. Capacitors in AC Circuits",
+    mainTitle: "Capacitive Reactance and Behavior",
+    description: "Explore how capacitors behave in AC circuits, understanding capacitive reactance (Xc) and phase relationships.",
+    difficulty: "Intermediate",
+    Icon: Zap,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("3. Inductors in AC Circuits"),
+    title: "3. Inductors in AC Circuits",
+    mainTitle: "Inductive Reactance and Behavior",
+    description: "Learn about inductors in AC circuits, inductive reactance (XL), and their phase characteristics.",
+    difficulty: "Intermediate",
+    Icon: Magnet,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("4. Impedance and Phasors"),
+    title: "4. Impedance and Phasors",
+    mainTitle: "Combining Resistance and Reactance",
+    description: "Understand impedance (Z) as the total opposition to AC current flow and use phasors for AC circuit analysis.",
+    difficulty: "Intermediate",
+    Icon: Sigma,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("5. Series RLC Circuits"),
+    title: "5. Series RLC Circuits",
+    mainTitle: "Analyzing Series RLC Configurations",
+    description: "Analyze circuits containing resistors, inductors, and capacitors connected in series under AC conditions.",
+    difficulty: "Intermediate",
+    Icon: CircuitBoard,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("6. Parallel RLC Circuits"),
+    title: "6. Parallel RLC Circuits",
+    mainTitle: "Analyzing Parallel RLC Configurations",
+    description: "Analyze circuits containing resistors, inductors, and capacitors connected in parallel under AC conditions.",
+    difficulty: "Intermediate",
+    Icon: Combine,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("7. Resonance in AC Circuits"),
+    title: "7. Resonance in AC Circuits",
+    mainTitle: "Series and Parallel Resonance",
+    description: "Explore the phenomenon of resonance in series and parallel RLC circuits, including resonant frequency and Q factor.",
+    difficulty: "Advanced",
+    Icon: Waves,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("8. AC Filters"),
+    title: "8. AC Filters",
+    mainTitle: "Passive Low-Pass, High-Pass, and Band-Pass Filters",
+    description: "Learn about different types of passive AC filters (low-pass, high-pass, band-pass) and their frequency response.",
+    difficulty: "Advanced",
+    Icon: Filter,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("9. Transformers"),
+    title: "9. Transformers",
+    mainTitle: "Principles and Applications of Transformers",
+    description: "Understand the operating principles of transformers, voltage/current transformation, and their applications in AC systems.",
+    difficulty: "Intermediate",
+    Icon: RefreshCw,
+    content: comingSoonContent
+  },
+  {
+    slug: toSlug("10. AC Power and Power Factor"),
+    title: "10. AC Power and Power Factor",
+    mainTitle: "Understanding Real, Reactive, and Apparent Power",
+    description: "Delve into AC power calculations, including real power, reactive power, apparent power, and the concept of power factor correction.",
+    difficulty: "Advanced",
+    Icon: BarChartBig,
+    content: comingSoonContent
+  },
 ];
 
 export function getACCircuitLessonBySlug(slug: string): ACCircuitLesson | undefined {
