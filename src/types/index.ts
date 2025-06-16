@@ -49,30 +49,24 @@ export interface Tag {
   href: string;
 }
 
-export interface ArduinoLesson { // Keep this if used elsewhere or for distinction
+// Generic Lesson Type for simplicity, can be specialized if needed
+export interface GenericLesson {
   slug: string;
-  title: string;
-  description: string; 
-  mainTitle?: string; 
+  title: string; // For sidebar, cards
+  mainTitle?: string; // For H1 on lesson page
+  description: string; // For meta, cards
+  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+  Icon?: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element);
   content: ReactNode;
 }
 
-export interface DCCircuitLesson {
-  slug: string;
-  title: string; // Title for cards, sidebar, and default H1
-  mainTitle?: string; // Optional override for H1 on lesson page
-  description: string; // Description for cards, meta
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  Icon?: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element); // Allow for functional SVG components too
-  content: ReactNode; // JSX content for the lesson page
-}
 
-export interface ACCircuitLesson {
-  slug: string;
-  title: string; 
-  mainTitle?: string; 
-  description: string; 
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  Icon?: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element);
-  content: ReactNode; 
-}
+export interface ArduinoLesson extends GenericLesson {}
+export interface DCCircuitLesson extends GenericLesson {}
+export interface ACCircuitLesson extends GenericLesson {}
+export interface ESP32Lesson extends GenericLesson {}
+export interface BJTLesson extends GenericLesson {}
+export interface DigitalElectronicsLesson extends GenericLesson {}
+export interface OpAmpLesson extends GenericLesson {}
+export interface SemiconductorDeviceLesson extends GenericLesson {}
+export interface PowerElectronicsLesson extends GenericLesson {}

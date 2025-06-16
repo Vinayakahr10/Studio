@@ -2,14 +2,18 @@
 import type { Category } from '@/types';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Cpu, Pi, Wifi, Gauge, CircuitBoard, Component, Network, Router, ToggleRight, Activity } from 'lucide-react'; // Added Activity
+import { Cpu, Pi, Wifi, Gauge, CircuitBoard, Component, Network, Router, ToggleRight, Activity, Triangle as OpAmpIcon, Binary as DigitalIcon, Chip as SemiconductorIcon, BatteryCharging as PowerIcon } from 'lucide-react';
 
 export const categoriesData: Category[] = [
   { id: 'arduino', name: 'Arduino', Icon: Cpu, href: '/tutorials/arduino', description: 'Microcontroller projects and guides.' },
   { id: 'dc-circuit-theory', name: 'DC Circuit Theory', Icon: Network, href: '/tutorials/dc-circuit-theory', description: 'Fundamentals of DC circuits and analysis.' },
   { id: 'ac-circuits', name: 'AC Circuits', Icon: Activity, href: '/tutorials/ac-circuits', description: 'Explore alternating current, phasors, and impedance.' },
-  { id: 'esp32', name: 'ESP32 & ESP8266 Tutorials', Icon: Router, href: '/tutorials/esp32', description: 'WiFi, Bluetooth, and IoT projects.' },
-  { id: 'bjt-transistors', name: 'BJT Transistors', Icon: ToggleRight, href: '/tutorials/bjt-transistors', description: 'Understanding Bipolar Junction Transistors.' },
+  { id: 'digital-electronics', name: 'Digital Electronics', Icon: DigitalIcon, href: '/tutorials/digital-electronics', description: 'Binary, logic gates, Boolean algebra, and more.' },
+  { id: 'semiconductor-devices', name: 'Semiconductor Devices', Icon: SemiconductorIcon, href: '/tutorials/semiconductor-devices', description: 'Diodes, transistors (BJT, FET), and thyristors.' },
+  { id: 'operational-amplifiers', name: 'Operational Amplifiers', Icon: OpAmpIcon, href: '/tutorials/operational-amplifiers', description: 'Op-amp basics, configurations, and applications.' },
+  { id: 'power-electronics', name: 'Power Electronics', Icon: PowerIcon, href: '/tutorials/power-electronics', description: 'Power supplies, converters, and control.' },
+  { id: 'esp32', name: 'ESP32 & ESP8266', Icon: Router, href: '/tutorials/esp32', description: 'WiFi, Bluetooth, and IoT projects.' },
+  { id: 'bjt-transistors', name: 'BJT Transistors (Legacy)', Icon: ToggleRight, href: '/tutorials/bjt-transistors', description: 'Understanding Bipolar Junction Transistors. (Content may be merged into Semiconductor Devices)' },
   { id: 'raspberry-pi', name: 'Raspberry Pi', Icon: Pi, href: '/categories/raspberry-pi', description: 'Single-board computer applications.' },
   { id: 'iot', name: 'IoT', Icon: Wifi, href: '/categories/iot', description: 'Internet of Things devices and concepts.' },
   { id: 'sensors', name: 'Sensors', Icon: Gauge, href: '/categories/sensors', description: 'Interfacing with various sensors.' },
@@ -36,16 +40,16 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
           </div>
         )}
         {categoriesToDisplay.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-6"> {/* Adjusted to 4 columns for lg */}
             {categoriesToDisplay.map((category) => (
               <Link key={category.id} href={category.href} className="group">
                 <Card className="h-full flex flex-col items-center justify-center p-6 text-center shadow-md transition-all hover:shadow-xl hover:bg-muted/30 hover:scale-105">
                   <CardHeader className="p-0 mb-4">
-                    <category.Icon className="h-12 w-12 text-primary transition-colors" />
+                    <category.Icon className="h-10 w-10 text-primary transition-colors" /> {/* Slightly smaller icon */}
                   </CardHeader>
                   <CardContent className="p-0">
-                    <CardTitle className="text-lg font-semibold">{category.name}</CardTitle>
-                    {category.description && <p className="text-sm text-muted-foreground mt-1">{category.description}</p>}
+                    <CardTitle className="text-md font-semibold">{category.name}</CardTitle> {/* Smaller title */}
+                    {category.description && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{category.description}</p>} {/* Smaller desc, line clamp */}
                   </CardContent>
                 </Card>
               </Link>
