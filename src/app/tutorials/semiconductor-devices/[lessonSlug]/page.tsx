@@ -2,7 +2,7 @@
 import { getSemiconductorDeviceLessonBySlug, semiconductorDeviceLessons, type SemiconductorDeviceLesson } from '@/data/semiconductor-devices-lessons'; 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Chip as SemiconductorIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MemoryStick as SemiconductorIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -130,3 +130,4 @@ export default function SemiconductorDeviceLessonPage({ params }: LessonPageProp
     </article>
   );
 }
+
