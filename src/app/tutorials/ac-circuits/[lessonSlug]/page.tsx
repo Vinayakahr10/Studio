@@ -66,20 +66,6 @@ export default function ACCircuitLessonPage({ params }: LessonPageProps) {
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
             {lesson.mainTitle || lesson.title}
             </h1>
-            <Badge 
-                variant={
-                    lesson.difficulty === 'Beginner' ? 'default' : 
-                    lesson.difficulty === 'Intermediate' ? 'secondary' : 
-                    'destructive'
-                }
-                className={`text-xs sm:text-sm whitespace-nowrap mt-2 sm:mt-0
-                    ${lesson.difficulty === 'Beginner' ? 'bg-green-500/80 hover:bg-green-600/80 text-white' :
-                    lesson.difficulty === 'Intermediate' ? 'bg-yellow-500/80 hover:bg-yellow-600/80 text-black' :
-                    'bg-red-500/80 hover:bg-red-600/80 text-white'}`
-                }
-            >
-                {lesson.difficulty}
-            </Badge>
         </div>
         {lesson.description && (
             <p className="mt-3 text-lg text-muted-foreground">{lesson.description}</p>

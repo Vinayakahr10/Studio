@@ -11,7 +11,6 @@ export const powerElectronicsLessons: PowerElectronicsLesson[] = [
     title: '1. Introduction to Power Electronics',
     mainTitle: 'The Realm of Power Conversion',
     description: 'Overview of power electronics, its applications, and the key types of power electronic converters.',
-    difficulty: 'Beginner',
     Icon: BatteryCharging,
     content: (
       <>
@@ -38,7 +37,6 @@ export const powerElectronicsLessons: PowerElectronicsLesson[] = [
     title: '2. Power Semiconductor Devices',
     mainTitle: 'Key Components in Power Electronics',
     description: 'Introduction to power diodes, SCRs, TRIACs, GTOs, power BJTs, MOSFETs, and IGBTs used in power converters.',
-    difficulty: 'Intermediate',
     Icon: Zap,
     content: comingSoonContent
   },
@@ -47,7 +45,6 @@ export const powerElectronicsLessons: PowerElectronicsLesson[] = [
     title: '3. Rectifiers (AC-DC Conversion)',
     mainTitle: 'Converting AC to DC: Rectifier Circuits',
     description: 'Study of single-phase and three-phase rectifiers, including half-wave, full-wave, and bridge rectifiers.',
-    difficulty: 'Intermediate',
     Icon: ArrowRightLeft, // Symbolizing AC to DC flow
     content: comingSoonContent
   },
@@ -56,7 +53,6 @@ export const powerElectronicsLessons: PowerElectronicsLesson[] = [
     title: '4. DC-DC Converters (Choppers)',
     mainTitle: 'Step-Up and Step-Down DC Converters',
     description: 'Analysis of buck, boost, buck-boost, Cuk, and SEPIC converters for DC voltage level control.',
-    difficulty: 'Advanced',
     Icon: Repeat, // Symbolizing DC to DC transformation
     content: comingSoonContent
   },
@@ -65,7 +61,6 @@ export const powerElectronicsLessons: PowerElectronicsLesson[] = [
     title: '5. Inverters (DC-AC Conversion)',
     mainTitle: 'Generating AC from DC: Inverter Circuits',
     description: 'Principles of voltage source inverters (VSI), current source inverters (CSI), and PWM techniques for waveform generation.',
-    difficulty: 'Advanced',
     Icon: ArrowRightLeft, // DC to AC, reverse of rectifier icon
     content: comingSoonContent
   },
@@ -74,7 +69,6 @@ export const powerElectronicsLessons: PowerElectronicsLesson[] = [
     title: '6. Power Supply Design',
     mainTitle: 'Designing Linear and Switched-Mode Power Supplies',
     description: 'Fundamentals of linear power supplies (LPS) and switched-mode power supplies (SMPS), including design considerations and topologies.',
-    difficulty: 'Advanced',
     Icon: Settings2,
     content: comingSoonContent
   },

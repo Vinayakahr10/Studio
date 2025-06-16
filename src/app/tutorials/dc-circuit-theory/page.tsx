@@ -94,20 +94,6 @@ export default function DCCircuitsTutorialPage() {
                     <Button asChild variant="link" className="p-0 h-auto text-primary hover:underline">
                       <Link href={`/tutorials/dc-circuit-theory/${topic.slug}`}>Learn More &rarr;</Link>
                     </Button>
-                    <Badge 
-                      variant={
-                        topic.difficulty === 'Beginner' ? 'default' : 
-                        topic.difficulty === 'Intermediate' ? 'secondary' : 
-                        'destructive'
-                      }
-                      className={
-                        topic.difficulty === 'Beginner' ? 'bg-green-500/80 hover:bg-green-600/80 text-white' :
-                        topic.difficulty === 'Intermediate' ? 'bg-yellow-500/80 hover:bg-yellow-600/80 text-black' :
-                        'bg-red-500/80 hover:bg-red-600/80 text-white' 
-                      }
-                    >
-                      {topic.difficulty}
-                    </Badge>
                   </CardFooter>
                 </Card>
               );

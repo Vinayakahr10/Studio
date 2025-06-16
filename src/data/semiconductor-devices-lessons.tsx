@@ -11,7 +11,6 @@ export const semiconductorDeviceLessons: SemiconductorDeviceLesson[] = [
     title: '1. Introduction to Semiconductors',
     mainTitle: 'The Foundation: Semiconductor Materials',
     description: 'Understanding semiconductor materials, intrinsic vs. extrinsic, P-type, N-type, and the concept of energy bands.',
-    difficulty: 'Beginner',
     Icon: SemiconductorIcon,
     content: (
       <>
@@ -40,7 +39,6 @@ export const semiconductorDeviceLessons: SemiconductorDeviceLesson[] = [
     title: '2. Diodes: The PN Junction',
     mainTitle: 'Understanding Diodes and the PN Junction',
     description: 'How PN junctions form diodes, forward and reverse bias, and basic diode characteristics.',
-    difficulty: 'Beginner',
     Icon: DivideSquare, // Represents a diode symbol
     content: comingSoonContent
   },
@@ -49,7 +47,6 @@ export const semiconductorDeviceLessons: SemiconductorDeviceLesson[] = [
     title: '3. Zener Diodes',
     mainTitle: 'Zener Diodes: Voltage Regulation',
     description: 'Principles of Zener breakdown, Zener diode characteristics, and their use in voltage regulation.',
-    difficulty: 'Intermediate',
     Icon: DivideSquare,
     content: comingSoonContent
   },
@@ -58,7 +55,6 @@ export const semiconductorDeviceLessons: SemiconductorDeviceLesson[] = [
     title: '4. LEDs and Photodiodes',
     mainTitle: 'Light Emitting and Light Detecting Diodes',
     description: 'Exploring Light Emitting Diodes (LEDs), their operation, and photodiodes for light detection.',
-    difficulty: 'Beginner',
     Icon: Thermometer, // Placeholder, better icon needed for light
     content: comingSoonContent
   },
@@ -67,7 +63,6 @@ export const semiconductorDeviceLessons: SemiconductorDeviceLesson[] = [
     title: '5. BJT (Bipolar Junction Transistors) Revisited',
     mainTitle: 'Deep Dive into BJT Operation',
     description: 'A comprehensive look at BJT structure (NPN, PNP), operating modes (cutoff, active, saturation), and basic biasing.',
-    difficulty: 'Intermediate',
     Icon: ToggleRight,
     content: comingSoonContent // This could link to or consolidate content from the separate BJT series
   },
@@ -76,7 +71,6 @@ export const semiconductorDeviceLessons: SemiconductorDeviceLesson[] = [
     title: '6. FETs: JFETs and MOSFETs',
     mainTitle: 'Introduction to Field-Effect Transistors',
     description: 'Overview of Field-Effect Transistors, including JFETs and MOSFETs (enhancement and depletion modes).',
-    difficulty: 'Intermediate',
     Icon: Power, // Placeholder, needs a FET symbol icon
     content: comingSoonContent
   },
@@ -85,7 +79,6 @@ export const semiconductorDeviceLessons: SemiconductorDeviceLesson[] = [
     title: '7. Thyristors: SCRs and TRIACs',
     mainTitle: 'Power Control with Thyristors',
     description: 'Understanding Silicon Controlled Rectifiers (SCRs) and TRIACs for high-power switching applications.',
-    difficulty: 'Advanced',
     Icon: Waves, // Placeholder
     content: comingSoonContent
   },

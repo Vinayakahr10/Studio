@@ -21,7 +21,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "1. Introduction to AC Circuits",
     mainTitle: "Fundamentals of AC Circuit Theory",
     description: "Understanding alternating current, sine waves, frequency, phase, and RMS values.",
-    difficulty: "Beginner",
     Icon: Activity,
     content: (
       <>
@@ -65,7 +64,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "2. Electromagnetism for AC Circuits",
     mainTitle: "Electromagnetism: The Basis of AC Components",
     description: "Fundamental principles of electromagnetism relevant to understanding inductors, transformers, and AC phenomena.",
-    difficulty: "Beginner",
     Icon: Magnet,
     content: comingSoonContent
   },
@@ -74,7 +72,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "3. Capacitors in AC Circuits",
     mainTitle: "Capacitive Reactance and Behavior",
     description: "Explore how capacitors behave in AC circuits, understanding capacitive reactance (Xc) and phase relationships.",
-    difficulty: "Intermediate",
     Icon: Zap, 
     content: comingSoonContent
   },
@@ -83,7 +80,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "4. Inductors in AC Circuits",
     mainTitle: "Inductive Reactance and Behavior",
     description: "Learn about inductors in AC circuits, inductive reactance (XL), and their phase characteristics.",
-    difficulty: "Intermediate",
     Icon: Magnet,
     content: comingSoonContent
   },
@@ -92,7 +88,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "5. Impedance and Phasors",
     mainTitle: "Combining Resistance and Reactance",
     description: "Understand impedance (Z) as the total opposition to AC current flow and use phasors for AC circuit analysis.",
-    difficulty: "Intermediate",
     Icon: Sigma,
     content: comingSoonContent
   },
@@ -101,7 +96,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "6. Series RLC Circuits",
     mainTitle: "Analyzing Series RLC Configurations",
     description: "Analyze circuits containing resistors, inductors, and capacitors connected in series under AC conditions.",
-    difficulty: "Intermediate",
     Icon: CircuitBoard,
     content: comingSoonContent
   },
@@ -110,7 +104,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "7. Parallel RLC Circuits",
     mainTitle: "Analyzing Parallel RLC Configurations",
     description: "Analyze circuits containing resistors, inductors, and capacitors connected in parallel under AC conditions.",
-    difficulty: "Intermediate",
     Icon: Combine,
     content: comingSoonContent
   },
@@ -119,7 +112,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "8. Resonance in AC Circuits",
     mainTitle: "Series and Parallel Resonance",
     description: "Explore the phenomenon of resonance in series and parallel RLC circuits, including resonant frequency and Q factor.",
-    difficulty: "Advanced",
     Icon: Waves,
     content: comingSoonContent
   },
@@ -128,7 +120,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "9. AC Filters",
     mainTitle: "Passive Low-Pass, High-Pass, and Band-Pass Filters",
     description: "Learn about different types of passive AC filters (low-pass, high-pass, band-pass) and their frequency response.",
-    difficulty: "Advanced",
     Icon: Filter,
     content: comingSoonContent
   },
@@ -137,7 +128,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "10. RC Networks in AC Circuits",
     mainTitle: "RC Network Analysis: Phase Shift & Time Constants",
     description: "Detailed analysis of RC networks, including phase shift, time constants, and applications like coupling/decoupling.",
-    difficulty: "Intermediate",
     Icon: Network,
     content: comingSoonContent
   },
@@ -146,7 +136,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "11. Attenuators in AC Circuits",
     mainTitle: "Designing and Analyzing AC Attenuators",
     description: "Learn about resistive attenuators (e.g., T-type, Pi-type) for reducing AC signal levels.",
-    difficulty: "Intermediate",
     Icon: SlidersHorizontal,
     content: comingSoonContent
   },
@@ -155,7 +144,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "12. Transformers",
     mainTitle: "Principles and Applications of Transformers",
     description: "Understand the operating principles of transformers, voltage/current transformation, and their applications in AC systems.",
-    difficulty: "Intermediate",
     Icon: RefreshCw,
     content: comingSoonContent
   },
@@ -164,7 +152,6 @@ export const acCircuitLessons: ACCircuitLesson[] = [
     title: "13. AC Power and Power Factor",
     mainTitle: "Understanding Real, Reactive, and Apparent Power",
     description: "Delve into AC power calculations, including real power, reactive power, apparent power, and the concept of power factor correction.",
-    difficulty: "Advanced",
     Icon: BarChartBig,
     content: comingSoonContent
   },

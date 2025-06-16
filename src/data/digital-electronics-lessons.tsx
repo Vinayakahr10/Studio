@@ -21,7 +21,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '1. Introduction to Digital Electronics',
     mainTitle: 'The World of Digital Systems',
     description: 'Understanding the basics of digital signals, logic levels, and their importance in modern electronics.',
-    difficulty: 'Beginner',
     Icon: Binary,
     content: (
       <>
@@ -44,7 +43,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '2. Binary Numbers',
     mainTitle: 'Understanding the Binary System',
     description: 'Learn about the binary number system (base-2), its relationship to digital logic, and conversions to/from decimal.',
-    difficulty: 'Beginner',
     Icon: Binary,
     content: comingSoonContent
   },
@@ -53,7 +51,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '3. Logic Gates',
     mainTitle: 'Fundamental Building Blocks: Logic Gates',
     description: 'Explore basic logic gates (AND, OR, NOT, XOR, NAND, NOR), their symbols, truth tables, and functions.',
-    difficulty: 'Beginner',
     Icon: Atom, 
     content: comingSoonContent
   },
@@ -62,7 +59,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '4. Boolean Algebra Introduction',
     mainTitle: 'The Mathematics of Digital Logic',
     description: 'General introduction to Boolean algebra, its postulates, basic theorems, and its role in digital circuit analysis and simplification.',
-    difficulty: 'Intermediate',
     Icon: FunctionSquare,
     content: comingSoonContent
   },
@@ -71,7 +67,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '5. Logic AND Function',
     mainTitle: 'The AND Gate and its Function',
     description: 'Detailed explanation of the AND logic function, its symbol, truth table, and common uses.',
-    difficulty: 'Beginner',
     Icon: Atom,
     content: comingSoonContent
   },
@@ -80,7 +75,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '6. Logic OR Function',
     mainTitle: 'The OR Gate and its Function',
     description: 'Detailed explanation of the OR logic function, its symbol, truth table, and common uses.',
-    difficulty: 'Beginner',
     Icon: Atom,
     content: comingSoonContent
   },
@@ -89,7 +83,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '7. Logic NOT Function (Inverter)',
     mainTitle: 'The NOT Gate (Inverter) and its Function',
     description: 'Detailed explanation of the NOT logic function (inverter), its symbol, truth table, and importance.',
-    difficulty: 'Beginner',
     Icon: Atom,
     content: comingSoonContent
   },
@@ -98,7 +91,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '8. Logic NAND Function',
     mainTitle: 'The NAND Gate and its Function',
     description: 'Understanding the NAND logic function as a universal gate, its symbol, and truth table.',
-    difficulty: 'Beginner',
     Icon: Atom,
     content: comingSoonContent
   },
@@ -107,7 +99,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '9. Logic NOR Function',
     mainTitle: 'The NOR Gate and its Function',
     description: 'Understanding the NOR logic function as another universal gate, its symbol, and truth table.',
-    difficulty: 'Beginner',
     Icon: Atom,
     content: comingSoonContent
   },
@@ -116,7 +107,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '10. Laws of Boolean Algebra',
     mainTitle: 'Fundamental Laws and Theorems of Boolean Algebra',
     description: 'Exploring commutative, associative, distributive laws, identity, complement, and other key Boolean theorems.',
-    difficulty: 'Intermediate',
     Icon: FunctionSquare,
     content: comingSoonContent
   },
@@ -125,7 +115,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '11. Boolean Algebra Truth Tables',
     mainTitle: 'Using Truth Tables in Boolean Algebra',
     description: 'How to construct and use truth tables to prove Boolean identities and analyze logic functions.',
-    difficulty: 'Intermediate',
     Icon: CheckSquare,
     content: comingSoonContent
   },
@@ -134,7 +123,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '12. Boolean Algebra Examples',
     mainTitle: 'Practical Examples of Boolean Algebra',
     description: 'Worked examples demonstrating the application of Boolean laws and theorems for expression simplification.',
-    difficulty: 'Intermediate',
     Icon: Palette, // Icon for examples/creative application
     content: comingSoonContent
   },
@@ -143,7 +131,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '13. DeMorgan’s Theorem',
     mainTitle: 'Understanding DeMorgan’s Theorem',
     description: 'Detailed explanation of DeMorgan’s theorems and their use in simplifying complex Boolean expressions and converting logic forms.',
-    difficulty: 'Intermediate',
     Icon: FunctionSquare,
     content: comingSoonContent
   },
@@ -152,7 +139,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '14. Switching Theory Basics',
     mainTitle: 'Introduction to Switching Theory',
     description: 'Basic concepts of switching algebra and its relation to logic circuits and Boolean functions.',
-    difficulty: 'Advanced',
     Icon: HelpCircle, // For theory/concepts
     content: comingSoonContent
   },
@@ -161,7 +147,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '15. Sum of Product (SOP) Form',
     mainTitle: 'Boolean Expressions: Sum of Product Form',
     description: 'Understanding the Sum of Product (SOP) canonical form and its derivation from truth tables.',
-    difficulty: 'Intermediate',
     Icon: Calculator,
     content: comingSoonContent
   },
@@ -170,7 +155,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '16. Product of Sum (POS) Form',
     mainTitle: 'Boolean Expressions: Product of Sum Form',
     description: 'Understanding the Product of Sum (POS) canonical form and its derivation from truth tables.',
-    difficulty: 'Intermediate',
     Icon: Calculator,
     content: comingSoonContent
   },
@@ -179,7 +163,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '17. Boolean Algebra Simplification Techniques',
     mainTitle: 'Simplifying Boolean Expressions',
     description: 'Methods for simplifying Boolean expressions, including algebraic manipulation and Karnaugh Maps (K-Maps overview).',
-    difficulty: 'Advanced',
     Icon: FileText,
     content: comingSoonContent
   },
@@ -188,7 +171,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '18. Combinational Logic Circuits', // Was 5
     mainTitle: 'Designing Combinational Circuits',
     description: 'Learn about circuits whose outputs depend solely on the current inputs, such as adders, decoders, and multiplexers.',
-    difficulty: 'Intermediate',
     Icon: Sigma, 
     content: comingSoonContent
   },
@@ -197,7 +179,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '19. Sequential Logic Circuits', // Was 6
     mainTitle: 'Circuits with Memory: Sequential Logic',
     description: 'Introduction to circuits with memory elements like flip-flops, and their use in counters and registers.',
-    difficulty: 'Intermediate',
     Icon: IterationCcw,
     content: comingSoonContent
   },
@@ -206,7 +187,6 @@ export const digitalElectronicsLessons: DigitalElectronicsLesson[] = [
     title: '20. Counters and Registers', // Was 7
     mainTitle: 'Practical Sequential Circuits',
     description: 'Detailed exploration of different types of counters (asynchronous, synchronous) and registers (shift registers).',
-    difficulty: 'Advanced',
     Icon: Rows,
     content: comingSoonContent
   },

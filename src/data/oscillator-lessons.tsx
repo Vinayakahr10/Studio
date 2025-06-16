@@ -21,7 +21,6 @@ export const oscillatorLessons: OscillatorLesson[] = [
     title: "1. LC Oscillator Basics",
     mainTitle: "Fundamentals of LC Oscillators",
     description: "Understanding the principles of LC tank circuits and how they generate oscillations.",
-    difficulty: "Intermediate",
     Icon: Waves,
     content: comingSoonContent
   },
@@ -30,7 +29,6 @@ export const oscillatorLessons: OscillatorLesson[] = [
     title: "2. The Hartley Oscillator",
     mainTitle: "Exploring the Hartley Oscillator Circuit",
     description: "Detailed analysis of the Hartley oscillator, its configuration, and applications.",
-    difficulty: "Intermediate",
     Icon: Zap, // Using a generic "power/energy" icon
     content: comingSoonContent
   },
@@ -39,7 +37,6 @@ export const oscillatorLessons: OscillatorLesson[] = [
     title: "3. The Colpitts Oscillator",
     mainTitle: "Understanding the Colpitts Oscillator",
     description: "In-depth look at the Colpitts oscillator, its tapped capacitor design, and uses.",
-    difficulty: "Intermediate",
     Icon: Settings2, // Using a generic "settings/config" icon
     content: comingSoonContent
   },
@@ -48,7 +45,6 @@ export const oscillatorLessons: OscillatorLesson[] = [
     title: "4. The RC Oscillator Circuit",
     mainTitle: "Principles of RC Phase-Shift Oscillators",
     description: "Learn how RC networks are used to create phase shifts for oscillation in RC oscillators.",
-    difficulty: "Intermediate",
     Icon: Activity,
     content: comingSoonContent
   },
@@ -57,7 +53,6 @@ export const oscillatorLessons: OscillatorLesson[] = [
     title: "5. The Wien Bridge Oscillator",
     mainTitle: "Analyzing the Wien Bridge Oscillator",
     description: "Study of the Wien Bridge oscillator, known for producing low-distortion sine waves.",
-    difficulty: "Advanced",
     Icon: RefreshCcwDot, // Suggests feedback/oscillation
     content: comingSoonContent
   },
@@ -66,7 +61,6 @@ export const oscillatorLessons: OscillatorLesson[] = [
     title: "6. Quartz Crystal Oscillators",
     mainTitle: "High Stability with Crystal Oscillators",
     description: "Understanding how quartz crystals provide high frequency stability in oscillator circuits.",
-    difficulty: "Advanced",
     Icon: CheckSquare, // Suggests precision/stability
     content: comingSoonContent
   },
@@ -75,7 +69,6 @@ export const oscillatorLessons: OscillatorLesson[] = [
     title: "7. Twin-T Oscillator",
     mainTitle: "The Twin-T Notch Filter Oscillator",
     description: "Exploring the Twin-T oscillator, which uses a notch filter in its feedback loop.",
-    difficulty: "Advanced",
     Icon: Network, // Suggests network/filter
     content: comingSoonContent
   },
@@ -84,7 +77,6 @@ export const oscillatorLessons: OscillatorLesson[] = [
     title: "8. Armstrong Oscillator",
     mainTitle: "The Armstrong (Tickler Coil) Oscillator",
     description: "Learn about the Armstrong oscillator, one of the earliest oscillator circuits using inductive feedback.",
-    difficulty: "Advanced",
     Icon: Rss, // Suggests radio/early transmission
     content: comingSoonContent
   },

@@ -11,7 +11,6 @@ export const opAmpLessons: OpAmpLesson[] = [
     title: '1. Introduction to Operational Amplifiers',
     mainTitle: 'The Versatile Op-Amp: An Introduction',
     description: 'What an Op-Amp is, its symbol, basic terminals, and why it\'s a cornerstone of analog circuit design.',
-    difficulty: 'Beginner',
     Icon: Triangle,
     content: (
       <>
@@ -39,7 +38,6 @@ export const opAmpLessons: OpAmpLesson[] = [
     title: '2. Ideal Op-Amp Characteristics & Golden Rules',
     mainTitle: 'The Ideal Op-Amp and Its "Golden Rules"',
     description: 'Detailed look at the properties of an ideal Op-Amp and the two "golden rules" for analyzing circuits with negative feedback.',
-    difficulty: 'Beginner',
     Icon: ListChecks,
     content: comingSoonContent
   },
@@ -48,7 +46,6 @@ export const opAmpLessons: OpAmpLesson[] = [
     title: '3. The Inverting Amplifier',
     mainTitle: 'Op-Amp Inverting Amplifier Configuration',
     description: 'Analysis and design of the inverting amplifier configuration, including gain calculation and characteristics.',
-    difficulty: 'Intermediate',
     Icon: MinusSquare,
     content: comingSoonContent
   },
@@ -57,7 +54,6 @@ export const opAmpLessons: OpAmpLesson[] = [
     title: '4. The Non-Inverting Amplifier',
     mainTitle: 'Op-Amp Non-Inverting Amplifier Configuration',
     description: 'Analysis and design of the non-inverting amplifier, its gain formula, and applications.',
-    difficulty: 'Intermediate',
     Icon: PlusSquare,
     content: comingSoonContent
   },
@@ -66,7 +62,6 @@ export const opAmpLessons: OpAmpLesson[] = [
     title: '5. Summing and Difference Amplifiers',
     mainTitle: 'Mathematical Operations with Op-Amps',
     description: 'Using Op-Amps to create circuits that can add or subtract input voltages.',
-    difficulty: 'Intermediate',
     Icon: Sigma,
     content: comingSoonContent
   },
@@ -75,7 +70,6 @@ export const opAmpLessons: OpAmpLesson[] = [
     title: '6. Op-Amps in Active Filters',
     mainTitle: 'Designing Active Filters with Op-Amps',
     description: 'Introduction to active filters (low-pass, high-pass, band-pass) using Op-Amps.',
-    difficulty: 'Advanced',
     Icon: Filter,
     content: comingSoonContent
   },
@@ -84,7 +78,6 @@ export const opAmpLessons: OpAmpLesson[] = [
     title: '7. Op-Amps as Comparators',
     mainTitle: 'Using Op-Amps for Voltage Comparison',
     description: 'Understanding how Op-Amps can be used without feedback to compare two voltages.',
-    difficulty: 'Intermediate',
     Icon: SlidersHorizontal,
     content: comingSoonContent
   },

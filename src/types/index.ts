@@ -55,7 +55,6 @@ export interface GenericLesson {
   title: string; // For sidebar, cards
   mainTitle?: string; // For H1 on lesson page
   description: string; // For meta, cards
-  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
   Icon?: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element);
   content: ReactNode;
 }
@@ -71,3 +70,4 @@ export interface OpAmpLesson extends GenericLesson {}
 export interface SemiconductorDeviceLesson extends GenericLesson {}
 export interface PowerElectronicsLesson extends GenericLesson {}
 export interface OscillatorLesson extends GenericLesson {}
+
