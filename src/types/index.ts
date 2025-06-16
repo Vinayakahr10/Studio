@@ -66,3 +66,13 @@ export interface DCCircuitLesson {
   Icon?: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element); // Allow for functional SVG components too
   content: ReactNode; // JSX content for the lesson page
 }
+
+export interface ACCircuitLesson {
+  slug: string;
+  title: string; 
+  mainTitle?: string; 
+  description: string; 
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  Icon?: LucideIcon | ((props: React.ComponentProps<'svg'>) => JSX.Element);
+  content: ReactNode; 
+}
