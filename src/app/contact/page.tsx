@@ -43,7 +43,7 @@ export default function ContactPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" placeholder="Vinayaka HR" required className="h-11 text-base" />
+                  <Input id="name" placeholder="Jane Doe" required className="h-11 text-base" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
