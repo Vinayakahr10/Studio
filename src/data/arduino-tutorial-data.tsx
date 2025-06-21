@@ -11,10 +11,12 @@ export interface ArduinoLesson {
   content: ReactNode;
 }
 
+const comingSoonContent = <p>Content for this lesson is coming soon. Check back later!</p>;
+
 export const arduinoTutorialLessons: ArduinoLesson[] = [
   {
     slug: 'introduction',
-    title: 'Introduction to Arduino',
+    title: '1. Introduction to Arduino',
     description: 'What is Arduino and why use it?',
     mainTitle: 'Arduino: An Introduction',
     content: (
@@ -50,7 +52,7 @@ export const arduinoTutorialLessons: ArduinoLesson[] = [
   },
   {
     slug: 'getting-started',
-    title: 'Getting Started with Arduino',
+    title: '2. Getting Started with Arduino',
     description: 'Setting up your Arduino IDE and uploading your first sketch.',
     mainTitle: 'Arduino: Getting Started',
     content: (
@@ -117,7 +119,7 @@ void loop() {
   },
   {
     slug: 'digital-pins',
-    title: 'Understanding Digital Pins',
+    title: '3. Understanding Digital Pins',
     description: 'Learn about digital input and output on Arduino.',
     mainTitle: 'Arduino Digital Pins Explained',
     content: (
@@ -192,7 +194,7 @@ void loop() {
   },
   {
     slug: 'analog-inputs',
-    title: 'Analog Inputs',
+    title: '4. Analog Inputs',
     description: 'Reading analog signals with Arduino.',
     mainTitle: 'Arduino: Reading Analog Inputs',
     content: (
@@ -275,7 +277,7 @@ void loop() {
   },
   {
     slug: 'pwm',
-    title: 'Pulse Width Modulation (PWM)',
+    title: '5. Pulse Width Modulation (PWM)',
     description: 'Simulating analog outputs using PWM with analogWrite().',
     mainTitle: 'Arduino: Pulse Width Modulation (PWM)',
     content: (
@@ -375,7 +377,7 @@ void loop() {
   },
   {
     slug: 'serial-communication',
-    title: 'Serial Communication',
+    title: '6. Serial Communication',
     description: 'Sending and receiving data between Arduino and computer.',
     mainTitle: 'Arduino: Serial Communication',
     content: (
@@ -475,6 +477,160 @@ void loop() {
         </p>
       </>
     ),
+  },
+  {
+    slug: 'basic-programming-introduction',
+    title: '7. Basic Programming: Introduction',
+    description: 'An introduction to the fundamental concepts of programming in the Arduino C/C++ environment.',
+    mainTitle: 'Introduction to Arduino Programming',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'program-structure',
+    title: '8. Program Structure',
+    description: 'Understanding the core setup() and loop() functions that form every Arduino sketch.',
+    mainTitle: 'Arduino Program Structure: setup() and loop()',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'data-types',
+    title: '9. Data Types',
+    description: 'Learn about the various data types available in Arduino, such as int, float, char, and boolean.',
+    mainTitle: 'Understanding Data Types',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'constants-and-literals',
+    title: '10. Constants and Literals',
+    description: 'Explore how to use constants and literals to make your code more readable and efficient.',
+    mainTitle: 'Using Constants and Literals',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'operators',
+    title: '11. Operators',
+    description: 'A look at arithmetic, comparison, boolean, and bitwise operators used in Arduino programming.',
+    mainTitle: 'Working with Operators',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'type-casting',
+    title: '12. Type Casting',
+    description: 'Learn how to convert variables from one data type to another.',
+    mainTitle: 'Explicit Type Casting',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'control-structures',
+    title: '13. Control Structures',
+    description: 'Making decisions in your code using if, if-else, and switch-case statements.',
+    mainTitle: 'Control Structures: Making Decisions',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'loops',
+    title: '14. Loops',
+    description: 'Repeat actions with for, while, and do-while loops.',
+    mainTitle: 'Repeating Code with Loops',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'arrays',
+    title: '15. Arrays',
+    description: 'Store and manipulate collections of data using arrays.',
+    mainTitle: 'Working with Arrays',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'functions',
+    title: '16. Functions',
+    description: 'Write modular, reusable code by creating your own functions.',
+    mainTitle: 'Creating and Using Functions',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'scope-and-storage',
+    title: '17. Scope and Storage Classes',
+    description: 'Understand variable scope (global vs. local) and storage classes like static.',
+    mainTitle: 'Variable Scope and Storage',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'classes',
+    title: '18. Introduction to Classes (OOP)',
+    description: 'A basic introduction to Object-Oriented Programming with classes and objects.',
+    mainTitle: 'Introduction to Classes',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'strings',
+    title: '19. Strings',
+    description: 'Manipulating text using character arrays (C-style strings) and the String object.',
+    mainTitle: 'Working with Strings',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'pointers',
+    title: '20. Advanced: Pointers',
+    description: 'An introduction to pointers for direct memory manipulation.',
+    mainTitle: 'Advanced: Understanding Pointers',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'structures',
+    title: '21. Advanced: Structures',
+    description: 'Grouping related variables into a single unit using structs.',
+    mainTitle: 'Advanced: Organizing Data with Structures',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'unions',
+    title: '22. Advanced: Unions',
+    description: 'Using unions to allow different data types to share the same memory location.',
+    mainTitle: 'Advanced: Memory Management with Unions',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'bit-fields',
+    title: '23. Advanced: Bit Fields',
+    description: 'Defining and using bit fields within structures for memory optimization.',
+    mainTitle: 'Advanced: Working with Bit Fields',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'enumerations',
+    title: '24. Advanced: Enumerations (enum)',
+    description: 'Creating named integer constants with enumerations for more readable code.',
+    mainTitle: 'Advanced: Using Enumerations (enum)',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'math-functions',
+    title: '25. Advanced: Mathematical Functions',
+    description: 'Using built-in mathematical functions like sin(), cos(), sqrt(), and pow().',
+    mainTitle: 'Advanced: Mathematical Functions',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'random-numbers',
+    title: '26. Advanced: Random Number Functions',
+    description: 'Generating random numbers using randomSeed() and random().',
+    mainTitle: 'Advanced: Generating Random Numbers',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'bitwise-operations',
+    title: '27. Advanced: Bitwise Operations',
+    description: 'Manipulating individual bits using bitwise AND, OR, XOR, NOT, and shift operators.',
+    mainTitle: 'Advanced: Bitwise Operations',
+    content: comingSoonContent,
+  },
+  {
+    slug: 'preprocessor-directives',
+    title: '28. Advanced: Preprocessor Directives',
+    description: 'Understanding preprocessor directives like #define and #include.',
+    mainTitle: 'Advanced: Preprocessor Directives',
+    content: comingSoonContent,
   },
 ];
 
