@@ -43,7 +43,7 @@ export default function ContactPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" placeholder="Jane Doe" required className="h-11 text-base" />
+                  <Input id="name" placeholder="Your Name" required className="h-11 text-base" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
@@ -80,7 +80,7 @@ export default function ContactPage() {
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-primary mt-1" />
                 <span className="text-muted-foreground">
-                  123 Innovation Drive<br />Tech City, TC 54321<br />United States
+                  Bengaluru, Karnataka<br />India
                 </span>
               </div>
             </CardContent>
