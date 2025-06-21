@@ -45,7 +45,7 @@ export default function STM32LessonPage({ params }: LessonPageProps) {
     { label: 'Home', href: '/' },
     { label: 'Tutorials', href: '/tutorials' },
     { label: 'STM32 Tutorials', href: '/tutorials/stm32' },
-    { label: lesson.title.replace(/^\d+\.\s*(Beginner:|Intermediate:|Programming:|Advanced:)\s*/, '') }, 
+    { label: lesson.title.replace(/^\d+\.\s*/, '') }, 
   ];
 
   const currentIndex = stm32TutorialLessons.findIndex(l => l.slug === lesson.slug);
