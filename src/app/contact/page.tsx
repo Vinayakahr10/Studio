@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, MapPin, Linkedin } from "lucide-react"; // Changed Phone to Linkedin
+import { Mail, MapPin, Linkedin } from "lucide-react";
 
 export default function ContactPage() {
   const { toast } = useToast();
@@ -75,7 +75,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-3">
                 <Linkedin className="h-5 w-5 text-primary" />
-                <a href="https://www.linkedin.com/in/vinayaka-hr/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">Connect on LinkedIn</a>
+                <a href="https://www.linkedin.com/in/vinayaka-hr-39804a320" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">Connect on LinkedIn</a>
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-primary mt-1" />
