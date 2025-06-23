@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -30,9 +29,8 @@ export function HeroSection() {
         </div>
         <div className="flex justify-center">
           <Image
-            src="https://placehold.co/600x400.png"
-            alt="Electronics components"
-            data-ai-hint="electronics components"
+            src="/images/hero-image.jpg"
+            alt="Custom VK branded circuit board with a code editor in the background"
             width={600}
             height={400}
             className="overflow-hidden rounded-xl object-cover object-center shadow-xl"
