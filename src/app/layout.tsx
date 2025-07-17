@@ -6,7 +6,6 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from '@/components/theme-provider';
-import { TopProgressBar } from '@/components/layout/TopProgressBar';
 
 // Configure Poppins font
 const poppins = Poppins({
@@ -40,7 +39,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TopProgressBar />
           <Header />
           <main className="flex-grow">
             {children}
