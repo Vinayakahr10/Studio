@@ -1,11 +1,9 @@
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, BookOpen, BrainCircuit, Cpu, Lightbulb, Wrench } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FeaturedProjectsSection } from '@/components/sections/FeaturedProjectsSection';
-import { TutorialCategoriesSection } from '@/components/sections/TutorialCategoriesSection';
 
 export default function HomePage() {
   return (
@@ -83,12 +81,75 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Featured Projects Section */}
-      <FeaturedProjectsSection />
       
-      {/* Featured Categories Section */}
-      <TutorialCategoriesSection />
+      {/* Combined Offerings Section */}
+      <section className="w-full py-16 md:py-24 bg-muted/30">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">What We Offer</h2>
+            <p className="mt-3 max-w-2xl mx-auto text-muted-foreground md:text-lg">
+                Structured learning paths and practical projects to build your skills.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 items-stretch">
+            {/* Left Card - Tutorials */}
+            <Card className="flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-primary/10 rounded-full">
+                    <BookOpen className="h-6 w-6 text-primary"/>
+                  </div>
+                  <CardTitle className="text-2xl">Guided Tutorials</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="flex-grow space-y-4">
+                <p className="text-muted-foreground">
+                  Our tutorials are designed to take you from beginner to advanced. Start with the fundamentals in our comprehensive "Zero to Hero" guides, or dive into specific topics like AC/DC circuits, microcontrollers, and digital logic.
+                </p>
+                <div className="p-4 rounded-md bg-background border">
+                  <h4 className="font-semibold text-primary">Featured Guide:</h4>
+                  <p className="text-sm mt-1">Arduino from Zero to Hero</p>
+                </div>
+              </CardContent>
+              <CardContent>
+                 <Button asChild>
+                    <Link href="/tutorials">
+                      Browse All Tutorials <ArrowRight className="ml-2 h-4 w-4"/>
+                    </Link>
+                  </Button>
+              </CardContent>
+            </Card>
+
+            {/* Right Card - Projects */}
+             <Card className="flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+              <CardHeader>
+                 <div className="flex items-center gap-3">
+                    <div className="p-3 bg-primary/10 rounded-full">
+                      <Wrench className="h-6 w-6 text-primary"/>
+                    </div>
+                    <CardTitle className="text-2xl">Practical Projects</CardTitle>
+                  </div>
+              </CardHeader>
+              <CardContent className="flex-grow space-y-4">
+                <p className="text-muted-foreground">
+                  Apply your knowledge with hands-on projects. Each project comes with step-by-step instructions, circuit diagrams, and code to help you build real-world electronic devices and systems.
+                </p>
+                 <div className="p-4 rounded-md bg-background border">
+                  <h4 className="font-semibold text-primary">Featured Project:</h4>
+                  <p className="text-sm mt-1">ESP32-Based IoT Weather Station</p>
+                </div>
+              </CardContent>
+              <CardContent>
+                 <Button asChild>
+                    <Link href="/projects">
+                      Explore All Projects <ArrowRight className="ml-2 h-4 w-4"/>
+                    </Link>
+                  </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
 
     </div>
   );
