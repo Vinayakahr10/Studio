@@ -52,31 +52,14 @@ export default function HomePage() {
                 Whether you're soldering your first component, programming a microcontroller, or designing complex circuits, you'll find clear, concise, and reliable resources to guide you.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="text-center shadow-sm hover:shadow-lg transition-shadow">
-                <CardHeader className="p-4">
-                  <BookOpen className="h-8 w-8 mx-auto text-primary" />
-                  <CardTitle className="mt-2 text-lg">In-Depth Tutorials</CardTitle>
-                </CardHeader>
-              </Card>
-               <Card className="text-center shadow-sm hover:shadow-lg transition-shadow">
-                <CardHeader className="p-4">
-                  <Wrench className="h-8 w-8 mx-auto text-primary" />
-                  <CardTitle className="mt-2 text-lg">Hands-On Projects</CardTitle>
-                </CardHeader>
-              </Card>
-               <Card className="text-center shadow-sm hover:shadow-lg transition-shadow">
-                <CardHeader className="p-4">
-                  <Cpu className="h-8 w-8 mx-auto text-primary" />
-                  <CardTitle className="mt-2 text-lg">Modern Topics</CardTitle>
-                </CardHeader>
-              </Card>
-               <Card className="text-center shadow-sm hover:shadow-lg transition-shadow">
-                <CardHeader className="p-4">
-                  <Lightbulb className="h-8 w-8 mx-auto text-primary" />
-                  <CardTitle className="mt-2 text-lg">Clear Explanations</CardTitle>
-                </CardHeader>
-              </Card>
+            <div className="flex items-center justify-center">
+              <Image
+                src="https://lh3.googleusercontent.com/d/1KoEC6rWkXjXImu7dWCb7IAyLDxtj8HFA"
+                alt="A collection of electronic components neatly arranged."
+                width={500}
+                height={500}
+                className="rounded-lg object-cover shadow-xl aspect-square"
+              />
             </div>
           </div>
         </div>
