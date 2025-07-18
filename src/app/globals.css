@@ -10,7 +10,7 @@ body {
 
 @layer base {
   :root {
-    --background: 210 30% 98%; /* Very light, slightly cool gray */
+    --background: 207 88% 96%; /* Very light blue (#E3F2FD) */
     --foreground: 210 20% 20%; /* Dark cool gray */
 
     --card: 0 0% 100%; /* White */
@@ -19,27 +19,27 @@ body {
     --popover: 0 0% 100%; /* White */
     --popover-foreground: 210 20% 20%; /* Dark cool gray */
 
-    --primary: 195 65% 50%; /* Vibrant Teal/Blue */
+    --primary: 207 90% 67%; /* Soft blue (#64B5F6) */
     --primary-foreground: 210 30% 98%; /* Very light gray/white for text on primary */
 
-    --secondary: 195 40% 92%; /* Lighter Teal/Blue */
-    --secondary-foreground: 195 65% 30%; /* Darker Teal/Blue for text on secondary */
+    --secondary: 207 80% 90%; /* Lighter blue */
+    --secondary-foreground: 207 90% 30%; /* Darker blue for text on secondary */
 
     --muted: 210 30% 94%; /* Slightly darker light gray */
     --muted-foreground: 210 20% 45%; /* Medium cool gray */
 
-    --accent: 25 85% 60%; /* Warm Orange/Coral */
-    --accent-foreground: 20 70% 98%; /* Light for text on accent */
+    --accent: 33 100% 62%; /* Yellow-orange (#FFAB40) */
+    --accent-foreground: 20 70% 10%; /* Dark for text on accent */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 210 30% 88%; /* Light Gray-Blue Border */
     --input: 210 30% 96%; /* Light Input Background */
-    --ring: 195 65% 55%; /* Primary Color for Rings */
+    --ring: 207 90% 55%; /* Primary Color for Rings */
 
-    --chart-1: 195 70% 50%;
-    --chart-2: 25 85% 55%;
+    --chart-1: 207 90% 67%;
+    --chart-2: 33 100% 62%;
     --chart-3: 150 60% 45%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
@@ -57,48 +57,48 @@ body {
   }
 
   .dark {
-    --background: 0 0% 0%; /* Pure Black */
-    --foreground: 0 0% 100%; /* Pure White */
+    --background: 210 10% 4%; /* Near black blue */
+    --foreground: 0 0% 98%; /* Light Gray */
 
-    --card: 0 0% 5%; /* Very Dark Gray */
+    --card: 210 10% 9%; /* Very Dark Blue */
     --card-foreground: 0 0% 98%; /* Light Gray */
 
-    --popover: 0 0% 3%; /* Near Black */
+    --popover: 210 10% 4%; /* Near Black Blue */
     --popover-foreground: 0 0% 98%; /* Light Gray */
 
-    --primary: 195 70% 60%; /* Brighter Teal/Blue */
-    --primary-foreground: 0 0% 5%; /* Very dark for text on primary */
+    --primary: 207 90% 67%; /* Soft blue (#64B5F6) */
+    --primary-foreground: 210 30% 10%; /* Dark blue for text on primary */
 
-    --secondary: 0 0% 15%; /* Dark Gray */
+    --secondary: 210 10% 15%; /* Dark Blue-Gray */
     --secondary-foreground: 0 0% 95%; /* Lighter Gray for text on secondary */
 
-    --muted: 0 0% 10%; /* Dark Gray */
+    --muted: 210 10% 12%; /* Dark Blue-Gray */
     --muted-foreground: 0 0% 60%; /* Medium Gray */
 
-    --accent: 25 90% 65%; /* Brighter Orange/Coral */
-    --accent-foreground: 0 0% 5%; /* Dark for text on accent */
+    --accent: 33 100% 62%; /* Yellow-orange (#FFAB40) */
+    --accent-foreground: 20 70% 10%; /* Dark for text on accent */
 
     --destructive: 0 62.8% 50.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 15%; /* Dark Gray Border */
-    --input: 0 0% 10%; /* Dark Input */
-    --ring: 195 70% 55%; /* Primary Color for Rings */
+    --border: 210 10% 15%; /* Dark Blue-Gray Border */
+    --input: 210 10% 12%; /* Dark Input */
+    --ring: 207 90% 55%; /* Primary Color for Rings */
 
-    --chart-1: 195 65% 55%;
-    --chart-2: 25 80% 60%;
+    --chart-1: 207 90% 67%;
+    --chart-2: 33 100% 62%;
     --chart-3: 150 55% 50%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    --sidebar-background: 0 0% 0%;
+    --sidebar-background: 210 10% 4%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 207 90% 67%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent: 210 10% 12%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 0 0% 10%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-border: 210 10% 12%;
+    --sidebar-ring: 207 90% 55%;
   }
 }
 
