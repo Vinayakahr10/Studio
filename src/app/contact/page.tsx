@@ -1,14 +1,14 @@
 
 "use client";
 
-import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, MapPin, Linkedin } from "lucide-react";
+import { Mail, MapPin, Linkedin, Send } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 export default function ContactPage() {
   const { toast } = useToast();
@@ -32,65 +32,55 @@ export default function ContactPage() {
         </p>
       </section>
 
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-2xl">Send us a Message</CardTitle>
-            <CardDescription>Fill out the form below and we'll get in touch.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" placeholder="Your Name" required className="h-11 text-base" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" type="email" placeholder="your.email@example.com" required className="h-11 text-base" />
-                </div>
+      <Card className="max-w-2xl mx-auto shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-2xl">Send us a Message</CardTitle>
+          <CardDescription>Fill out the form below and we'll get in touch.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input id="name" placeholder="Your Name" required className="h-11 text-base" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Input id="subject" placeholder="Regarding..." required className="h-11 text-base" />
+                <Label htmlFor="email">Email Address</Label>
+                <Input id="email" type="email" placeholder="your.email@example.com" required className="h-11 text-base" />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea id="message" placeholder="Your message here..." required rows={5} className="text-base" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="subject">Subject</Label>
+              <Input id="subject" placeholder="Regarding..." required className="h-11 text-base" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="message">Message</Label>
+              <Textarea id="message" placeholder="Your message here..." required rows={5} className="text-base" />
+            </div>
+            <Button type="submit" size="lg" className="w-full transition-transform hover:scale-105">
+              <Send className="mr-2 h-4 w-4"/> Send Message
+            </Button>
+          </form>
+        </CardContent>
+        <Separator className="my-4" />
+        <CardFooter className="flex flex-col items-start gap-4 p-6">
+            <h3 className="text-lg font-semibold text-foreground">Our Contact Information</h3>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-muted-foreground">
+              <a href="mailto:electronicswithvk@gmail.com" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Mail className="h-5 w-5 text-primary/80" />
+                <span>electronicswithvk@gmail.com</span>
+              </a>
+              <a href="https://www.linkedin.com/in/vinayaka-hr-39804a320" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Linkedin className="h-5 w-5 text-primary/80" />
+                <span>Connect on LinkedIn</span>
+              </a>
+              <div className="flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-primary/80" />
+                <span>Bengaluru, Karnataka, India</span>
               </div>
-              <Button type="submit" size="lg" className="w-full transition-transform hover:scale-105">Send Message</Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        <div className="space-y-6">
-           <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle className="text-xl">Our Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-primary" />
-                <a href="mailto:electronicswithvk@gmail.com" className="text-muted-foreground hover:text-primary">electronicswithvk@gmail.com</a>
-              </div>
-              <div className="flex items-center gap-3">
-                <Linkedin className="h-5 w-5 text-primary" />
-                <a href="https://www.linkedin.com/in/vinayaka-hr-39804a320" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">Connect on LinkedIn</a>
-              </div>
-              <div className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-primary mt-1" />
-                <span className="text-muted-foreground">
-                  Bengaluru, Karnataka<br />India
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-          <div className="rounded-lg overflow-hidden shadow-md">
-            {/* Placeholder for a map. In a real app, use an embedded map component */}
-            <Image src="https://placehold.co/600x300.png" alt="Map placeholder" data-ai-hint="map location" width={600} height={300} className="w-full aspect-video object-cover" />
-          </div>
-        </div>
-      </div>
+            </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
