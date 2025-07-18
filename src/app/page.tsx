@@ -1,15 +1,24 @@
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { ArrowRight, BookOpen, BrainCircuit, Wrench } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { ArrowRight, BookOpen, Wrench, Package, BrainCircuit } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FeaturedProjectsSection } from '@/components/sections/FeaturedProjectsSection';
+import { ContactCallToActionSection } from '@/components/sections/ContactCallToActionSection';
+import { TutorialCategoriesSection } from '@/components/sections/TutorialCategoriesSection';
+
+const featuredTutorialCategories = [
+  { id: 'arduino', name: 'Arduino', Icon: BrainCircuit, href: '/tutorials/arduino', description: 'Master the most popular microcontroller for beginners and pros alike.' },
+  { id: 'esp32', name: 'ESP32 & IoT', Icon: Package, href: '/tutorials/esp32', description: 'Dive into the Internet of Things with WiFi and Bluetooth projects.' },
+  { id: 'dc-circuit-theory', name: 'DC Circuit Theory', Icon: BookOpen, href: '/tutorials/dc-circuit-theory', description: 'Learn the fundamental principles that govern all electronics.' },
+];
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[80vh] flex items-center justify-center text-center text-white">
+      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white">
         <Image
           src="https://lh3.googleusercontent.com/d/1KoEC6rWkXjXImu7dWCb7IAyLDxtj8HFA"
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
@@ -36,86 +45,99 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Introduction Section */}
+      {/* What We Offer Section */}
       <section className="w-full py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-1 gap-12 items-center">
-            <div className="space-y-4 text-center">
-              <div className="inline-block bg-primary/10 text-primary p-3 rounded-full">
-                <BrainCircuit className="h-8 w-8" />
-              </div>
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Your Journey in Electronics Starts Here.</h2>
-              <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-                EletronicswithVK is a comprehensive platform for students, hobbyists, and professionals. We believe in learning by doing, providing hands-on tutorials, practical projects, and a suite of tools to help you succeed.
-              </p>
-              <p className="text-muted-foreground max-w-3xl mx-auto">
-                Whether you're soldering your first component, programming a microcontroller, or designing complex circuits, you'll find clear, concise, and reliable resources to guide you.
-              </p>
-            </div>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">What We Offer</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto mt-4">
+              Everything you need to succeed in your electronics journey, all in one place.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <Card className="shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+              <CardHeader>
+                <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-3">
+                  <BookOpen className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">Comprehensive Tutorials</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Step-by-step guides on everything from basic DC theory to advanced microcontroller programming.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+              <CardHeader>
+                <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-3">
+                  <Wrench className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">Hands-On Projects</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Apply your knowledge with practical, real-world projects complete with code and circuit diagrams.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+              <CardHeader>
+                <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-3">
+                  <Package className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">Practical Tools</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  A suite of online calculators and tools to simplify your electronics calculations and designs.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
       
-      {/* Offerings Section */}
+      {/* Featured Tutorials Section */}
       <section className="w-full py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4 md:px-6 space-y-12">
-          
-          {/* Guided Tutorials Section */}
-          <Card className="shadow-lg hover:shadow-xl transition-shadow overflow-hidden">
-            <div className="grid md:grid-cols-2 items-center">
-                <div className="p-8 md:p-12">
-                  <div className="p-3 bg-primary/10 rounded-full w-fit mb-4">
-                      <BookOpen className="h-8 w-8 text-primary"/>
-                  </div>
-                  <h3 className="text-3xl font-bold">Guided Tutorials</h3>
-                  <p className="mt-4 text-muted-foreground">
-                    Our tutorials are designed to take you from beginner to advanced. Start with the fundamentals in our comprehensive "Zero to Hero" guides, or dive into specific topics like AC/DC circuits, microcontrollers, and digital logic.
-                  </p>
-                  <div className="mt-6 p-4 rounded-md bg-background border">
-                    <h4 className="font-semibold text-primary">Featured Guide:</h4>
-                    <p className="text-sm mt-1">Arduino from Zero to Hero</p>
-                  </div>
-                  <Button asChild className="mt-8">
-                      <Link href="/tutorials">
-                        Browse All Tutorials <ArrowRight className="ml-2 h-4 w-4"/>
-                      </Link>
-                  </Button>
-                </div>
-                <div className="h-64 md:h-full w-full">
-                    <Image src="https://placehold.co/600x600.png" data-ai-hint="learning electronics tutorials" alt="A person studying electronics tutorials" width={600} height={600} className="w-full h-full object-cover" />
-                </div>
-            </div>
-          </Card>
-
-          {/* Practical Projects Section */}
-          <Card className="shadow-lg hover:shadow-xl transition-shadow overflow-hidden">
-            <div className="grid md:grid-cols-2 items-center">
-                <div className="h-64 md:h-full w-full md:order-last">
-                    <Image src="https://placehold.co/600x600.png" data-ai-hint="hands-on electronics project" alt="Hands-on electronics project with various components" width={600} height={600} className="w-full h-full object-cover" />
-                </div>
-                <div className="p-8 md:p-12">
-                  <div className="p-3 bg-primary/10 rounded-full w-fit mb-4">
-                      <Wrench className="h-8 w-8 text-primary"/>
-                  </div>
-                  <h3 className="text-3xl font-bold">Practical Projects</h3>
-                  <p className="mt-4 text-muted-foreground">
-                    Apply your knowledge with hands-on projects. Each project comes with step-by-step instructions, circuit diagrams, and code to help you build real-world electronic devices and systems.
-                  </p>
-                   <div className="mt-6 p-4 rounded-md bg-background border">
-                    <h4 className="font-semibold text-primary">Featured Project:</h4>
-                    <p className="text-sm mt-1">ESP32-Based IoT Weather Station</p>
-                  </div>
-                   <Button asChild className="mt-8">
-                      <Link href="/projects">
-                        Explore All Projects <ArrowRight className="ml-2 h-4 w-4"/>
-                      </Link>
-                  </Button>
-                </div>
-            </div>
-          </Card>
-
+           <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Start Your Learning Path</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto mt-4">
+              Dive into our most popular tutorial series and begin building your skills today.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featuredTutorialCategories.map((category) => {
+              const Icon = category.Icon;
+              return (
+                <Card key={category.id} className="flex flex-col shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]">
+                  <CardHeader className="items-center text-center">
+                    <div className="p-4 bg-primary/10 rounded-full w-fit mb-3">
+                      <Icon className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-xl">{category.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-grow text-center">
+                    <CardDescription>{category.description}</CardDescription>
+                  </CardContent>
+                  <CardContent className="text-center">
+                    <Button asChild>
+                      <Link href={category.href}>Start Tutorial <ArrowRight className="ml-2 h-4 w-4"/></Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
       </section>
+      
+      {/* Featured Projects Section */}
+      <FeaturedProjectsSection />
+
+      {/* CTA Section */}
+      <ContactCallToActionSection />
 
     </div>
   );
