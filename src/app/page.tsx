@@ -39,27 +39,18 @@ export default function HomePage() {
       {/* Introduction Section */}
       <section className="w-full py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4">
+          <div className="grid md:grid-cols-1 gap-12 items-center">
+            <div className="space-y-4 text-center">
               <div className="inline-block bg-primary/10 text-primary p-3 rounded-full">
                 <BrainCircuit className="h-8 w-8" />
               </div>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Your Journey in Electronics Starts Here.</h2>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
                 EletronicswithVK is a comprehensive platform for students, hobbyists, and professionals. We believe in learning by doing, providing hands-on tutorials, practical projects, and a suite of tools to help you succeed.
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground max-w-3xl mx-auto">
                 Whether you're soldering your first component, programming a microcontroller, or designing complex circuits, you'll find clear, concise, and reliable resources to guide you.
               </p>
-            </div>
-            <div className="flex items-center justify-center">
-              <Image
-                src="https://lh3.googleusercontent.com/d/1KoEC6rWkXjXImu7dWCb7IAyLDxtj8HFA"
-                alt="A collection of electronic components neatly arranged."
-                width={500}
-                height={500}
-                className="rounded-lg object-cover shadow-xl aspect-square"
-              />
             </div>
           </div>
         </div>
