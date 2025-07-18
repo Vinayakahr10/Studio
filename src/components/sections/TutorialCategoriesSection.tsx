@@ -49,7 +49,7 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                 <Card className="h-full flex flex-col items-center justify-start p-0 text-center shadow-md transition-all hover:shadow-xl hover:bg-muted/30 hover:scale-105 overflow-hidden">
                   <CardHeader className="p-0 w-full">
                     <Image
-                      src="https://placehold.co/400x250.png"
+                      src={category.id === 'operational-amplifiers' ? 'https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf' : 'https://placehold.co/400x250.png'}
                       alt={category.name}
                       data-ai-hint={category.id}
                       width={400}
