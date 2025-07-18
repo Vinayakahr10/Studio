@@ -51,13 +51,15 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                 <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
                   <CardHeader className="p-0">
                     <Link href={category.href} className="block" aria-label={`View tutorials for ${category.name}`}>
-                      <div className="aspect-[4/3] w-full object-cover bg-primary/5 flex items-center justify-center">
+                      <div className="relative aspect-[4/3] w-full bg-primary/5">
                         {category.id === 'arduino' ? (
-                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" width={80} height={80} className="h-20 w-20 text-primary" />
+                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" layout="fill" className="object-contain p-4" />
                         ) : category.id === 'operational-amplifiers' ? (
-                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" width={100} height={100} className="rounded-full bg-primary/10 p-3 shadow-md" />
+                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" layout="fill" className="object-contain p-4" />
                         ) : (
-                          <CategoryIcon className="h-16 w-16 text-primary/80" />
+                          <div className="flex h-full w-full items-center justify-center">
+                            <CategoryIcon className="h-16 w-16 text-primary/80" />
+                          </div>
                         )}
                       </div>
                     </Link>
