@@ -1,56 +1,44 @@
 
-import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Cpu, BookOpen, ChevronRight } from 'lucide-react';
-import Link from 'next/link';
-import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { arduinoTutorialLessons } from '@/data/arduino-tutorial-data.tsx';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
 
 export default function ArduinoTutorialPage() {
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Home', href: '/' },
-    { label: 'Tutorials', href: '/tutorials' },
-    { label: 'Arduino Tutorial' },
-  ];
+  const lesson = arduinoTutorialLessons[0]; // Get the first lesson
+  const nextLesson = arduinoTutorialLessons.length > 1 ? arduinoTutorialLessons[1] : null;
+
+  if (!lesson) {
+    notFound(); 
+  }
 
   return (
-    <div className="w-full">
-      <Breadcrumbs items={breadcrumbItems} />
-      
-      <header className="mb-8 md:mb-12 py-8 md:py-12 bg-muted/30 rounded-lg text-center shadow">
-        <div className="inline-block bg-primary/10 p-3 rounded-full mb-4">
-            <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" width={64} height={64} className="h-12 w-12 md:h-16 md:w-16" />
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-primary">Arduino Tutorial</h1>
-        <p className="mt-3 md:mt-4 max-w-2xl mx-auto text-muted-foreground md:text-lg">
-          Master the fundamentals of Arduino programming and electronics. Start your journey from basics to building exciting projects.
-        </p>
-      </header>
+    <article className="w-full">
+      <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert max-w-none 
+                      prose-headings:font-semibold prose-headings:text-foreground 
+                      prose-p:text-muted-foreground prose-li:text-muted-foreground
+                      prose-a:text-primary hover:prose-a:underline
+                      prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm prose-code:text-foreground
+                      prose-pre:bg-background prose-pre:shadow-md
+                      ">
+        <h1>{lesson.mainTitle || lesson.title}</h1>
+        {lesson.content}
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>All Lessons</CardTitle>
-          <CardDescription>Browse through the complete list of lessons in the Arduino Tutorial series.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2">
-            {arduinoTutorialLessons.map((lesson) => (
-              <li key={lesson.slug}>
-                <Link href={`/tutorials/arduino/${lesson.slug}`} className="block p-4 rounded-md transition-colors hover:bg-muted/50">
-                  <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold text-primary">{lesson.title}</h3>
-                        <p className="text-sm text-muted-foreground mt-1">{lesson.description}</p>
-                      </div>
-                      <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
-    </div>
+      <Separator className="my-8 md:my-12" />
+
+      <nav className="flex justify-end">
+        {nextLesson && (
+          <Button asChild variant="outline" className="w-full sm:w-auto justify-end">
+            <Link href={`/tutorials/arduino/${nextLesson.slug}`} className="flex items-center">
+              <span className="truncate">Next: {nextLesson.title.replace(/^\d+\.\s*/, '')}</span>
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        )}
+      </nav>
+    </article>
   );
 }
