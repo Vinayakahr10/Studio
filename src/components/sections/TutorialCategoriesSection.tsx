@@ -3,7 +3,7 @@ import type { Category } from '@/types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Cpu, Pi, Wifi, Gauge, CircuitBoard, Component, Network, Router, ToggleRight, Activity, Triangle as OpAmpIcon, Binary as DigitalIcon, MemoryStick as SemiconductorIcon, BatteryCharging as PowerIcon, Waves } from 'lucide-react';
+import { Cpu, Pi, Wifi, Gauge, CircuitBoard, Component, Network, Router, ToggleRight, Activity, Triangle as OpAmpIcon, Binary as DigitalIcon, MemoryStick as SemiconductorIcon, BatteryCharging as PowerIcon, Waves, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 export const categoriesData: Category[] = [
@@ -44,27 +44,39 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
           </div>
         )}
         {categoriesToDisplay.length > 0 ? (
-          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {categoriesToDisplay.map((category) => {
                 const CategoryIcon = category.Icon;
                 return(
-                <Card key={category.id} className="w-[256px] h-[355px] flex flex-col text-center shadow-lg transition-all hover:shadow-xl hover:-translate-y-1">
-                  <CardHeader className="items-center pt-8">
-                    <div className="p-4 bg-primary/10 rounded-full w-fit mb-3">
+                <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+                  <CardHeader className="p-0">
+                    <Link href={category.href} className="block" aria-label={`View tutorials for ${category.name}`}>
+                      <div className="aspect-[4/3] w-full object-cover bg-primary/5 flex items-center justify-center">
                         {category.id === 'arduino' ? (
-                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" width={40} height={40} className="h-10 w-10 text-primary" />
+                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" width={80} height={80} className="h-20 w-20 text-primary" />
+                        ) : category.id === 'operational-amplifiers' ? (
+                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" width={100} height={100} className="rounded-full bg-primary/10 p-3 shadow-md" />
                         ) : (
-                          <CategoryIcon className="h-10 w-10 text-primary" />
+                          <CategoryIcon className="h-16 w-16 text-primary/80" />
                         )}
-                    </div>
-                    <CardTitle className="text-xl">{category.name}</CardTitle>
+                      </div>
+                    </Link>
                   </CardHeader>
-                  <CardContent className="flex-grow">
-                    <CardDescription>{category.description}</CardDescription>
+                  <CardContent className="flex-grow p-6 space-y-2">
+                    <CardTitle className="text-xl font-semibold">
+                      <Link href={category.href} className="hover:text-primary transition-colors">
+                        {category.name}
+                      </Link>
+                    </CardTitle>
+                    <CardDescription className="text-sm text-muted-foreground line-clamp-3">
+                      {category.description}
+                    </CardDescription>
                   </CardContent>
                   <CardFooter className="p-6 pt-0">
-                    <Button asChild className="w-full">
-                      <Link href={category.href}>Start Learning</Link>
+                    <Button asChild variant="default" className="w-full transition-colors group">
+                      <Link href={category.href}>
+                        View Tutorials <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
                     </Button>
                   </CardFooter>
                 </Card>
