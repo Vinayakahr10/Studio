@@ -129,6 +129,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      
+      <ContactCallToActionSection />
     </div>
   );
 }
