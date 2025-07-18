@@ -6,25 +6,42 @@ import { useState } from 'react';
 import { TutorialSidebar } from '@/components/layout/TutorialSidebar';
 import { bjtTutorialLessons } from '@/data/bjt-transistor-lessons';
 import { Button } from '@/components/ui/button'; 
-import { ChevronDown, ChevronUp } from 'lucide-react'; 
+import { ChevronDown, ChevronUp, ChevronsLeft, ChevronsRight } from 'lucide-react'; 
 import type { ArduinoLesson as BJTLesson } from '@/types'; // Reusing type
+import { cn } from '@/lib/utils';
+import { Separator } from '@/components/ui/separator';
 
 export default function BJTTutorialLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileLessonsExpanded, setIsMobileLessonsExpanded] = useState(false);
 
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
   return (
-    <div className="flex flex-col md:flex-row min-h-[calc(100vh-var(--header-height,4rem)-var(--footer-height,4rem))] md:pl-0 md:py-0">
+    <div className="flex flex-col md:flex-row min-h-[calc(100vh-var(--header-height,4rem)-var(--footer-height,4rem))]">
       {/* Desktop Sidebar */}
-      <div className="md:w-72 lg:w-80 flex-shrink-0 md:sticky md:top-16 md:max-h-[calc(100vh-var(--header-height,4rem)-2rem)] md:overflow-y-auto hidden md:block border-r border-border bg-background md:bg-transparent z-10 md:pl-4 md:py-8">
-         <TutorialSidebar 
-            lessons={bjtTutorialLessons as BJTLesson[]}
-            basePath="/tutorials/bjt-transistors"
-            tutorialTitle="BJT Transistor Tutorials"
-        />
+      <div className={cn(
+        "hidden md:flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out border-r",
+        isSidebarOpen ? "w-72 lg:w-80" : "w-14"
+      )}>
+        <div className="flex items-center justify-between p-4 border-b">
+          <h3 className={cn("text-xl font-semibold text-primary", !isSidebarOpen && "hidden")}>BJT Transistor Tutorials</h3>
+          <Button variant="ghost" size="icon" onClick={toggleSidebar} className="text-primary hover:text-primary/80">
+            {isSidebarOpen ? <ChevronsLeft className="h-5 w-5" /> : <ChevronsRight className="h-5 w-5" />}
+          </Button>
+        </div>
+         <div className={cn("flex-grow overflow-y-auto", !isSidebarOpen && "overflow-y-hidden")}>
+          <TutorialSidebar 
+              lessons={bjtTutorialLessons as BJTLesson[]}
+              basePath="/tutorials/bjt-transistors"
+              showSidebarHeader={false}
+              isCollapsed={!isSidebarOpen}
+          />
+        </div>
       </div>
       
       {/* Mobile Sidebar Section */}
@@ -41,7 +58,7 @@ export default function BJTTutorialLayout({
               aria-expanded={isMobileLessonsExpanded}
               aria-controls="mobile-lesson-list-bjt"
             >
-              {isMobileLessonsExpanded ? 'Hide Lessons' : 'View Lessons'}
+              {isMobileLessonsExpanded ? 'Hide' : 'View'}
               {isMobileLessonsExpanded ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
             </Button>
          </div>
@@ -57,8 +74,9 @@ export default function BJTTutorialLayout({
       </div>
 
       {/* Main Content Area */}
-      <main className="flex-grow px-2 sm:px-4 md:px-6 lg:px-8 py-6 md:py-8 overflow-y-auto bg-card">
+      <main className="flex-grow p-4 sm:p-6 md:p-8 overflow-y-auto bg-white dark:bg-zinc-900">
         {children}
+        <Separator className="my-8 md:my-12" />
       </main>
     </div>
   );

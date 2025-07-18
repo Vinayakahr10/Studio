@@ -110,3 +110,52 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom styles for tutorial content to make it more engaging */
+@layer components {
+  .tutorial-content {
+    @apply prose dark:prose-invert max-w-none;
+  }
+  .tutorial-content h1 {
+    @apply text-4xl font-extrabold tracking-tight mb-4 pb-2 border-b border-primary/50;
+  }
+  .tutorial-content h2 {
+    @apply text-3xl font-bold mt-10 mb-4 pb-2 border-b;
+  }
+  .tutorial-content h3 {
+    @apply text-2xl font-semibold mt-8 mb-4 inline-block bg-primary/10 text-primary-foreground/90 dark:text-primary-foreground px-3 py-1 rounded-md;
+  }
+  .tutorial-content h4 {
+    @apply text-xl font-semibold mt-6 mb-3 text-primary;
+  }
+  .tutorial-content p {
+    @apply leading-8 text-lg;
+  }
+  .tutorial-content p:not(:first-child) {
+    @apply mt-6;
+  }
+  .tutorial-content a {
+    @apply text-accent font-medium hover:underline;
+  }
+  .tutorial-content ul, .tutorial-content ol {
+    @apply mt-6 ml-6;
+  }
+  .tutorial-content li {
+    @apply mt-2 pl-2;
+  }
+  .tutorial-content ul > li::marker {
+    @apply text-primary font-bold;
+  }
+  .tutorial-content ol > li::marker {
+    @apply text-primary font-bold;
+  }
+  .tutorial-content blockquote {
+    @apply mt-6 border-l-4 border-accent bg-muted/50 p-4 italic text-muted-foreground;
+  }
+  .tutorial-content code {
+    @apply bg-muted/80 text-accent font-mono text-sm px-1.5 py-1 rounded-md;
+  }
+  .tutorial-content pre {
+    @apply bg-background/95 shadow-lg rounded-lg;
+  }
+}
