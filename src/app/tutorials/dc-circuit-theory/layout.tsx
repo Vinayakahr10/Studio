@@ -53,7 +53,7 @@ export default function DCCircuitTheoryLayout({
         </div>
       </div>
       
-      {/* Mobile Sidebar Section */}
+      {/* Mobile Header */}
       <div className="md:hidden p-4 border-b border-border bg-card shadow-sm">
          <div className="flex justify-between items-center mb-3">
             <h2 className="text-xl font-semibold text-primary">
@@ -80,11 +80,17 @@ export default function DCCircuitTheoryLayout({
               />
           </div>
         )}
+        <div className="flex items-center space-x-2 mt-4">
+            <Switch id="reading-mode-toggle-mobile" checked={isReadingMode} onCheckedChange={setIsReadingMode} />
+            <Label htmlFor="reading-mode-toggle-mobile" className="flex items-center gap-1.5 cursor-pointer">
+                <BookOpen className="h-4 w-4" /> Reading Mode
+            </Label>
+        </div>
       </div>
 
       {/* Main Content Area */}
       <main className="flex-grow p-4 sm:p-6 md:p-8 overflow-y-auto bg-background">
-        <div className="flex justify-end mb-4">
+        <div className="hidden md:flex justify-end mb-4">
           <div className="flex items-center space-x-2">
             <Switch id="reading-mode-toggle" checked={isReadingMode} onCheckedChange={setIsReadingMode} />
             <Label htmlFor="reading-mode-toggle" className="flex items-center gap-1.5 cursor-pointer">
