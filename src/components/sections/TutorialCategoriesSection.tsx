@@ -1,6 +1,7 @@
 
 import type { Category } from '@/types';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu, Pi, Wifi, Gauge, CircuitBoard, Component, Network, Router, ToggleRight, Activity, Triangle as OpAmpIcon, Binary as DigitalIcon, MemoryStick as SemiconductorIcon, BatteryCharging as PowerIcon, Waves } from 'lucide-react';
 
@@ -42,16 +43,29 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
           </div>
         )}
         {categoriesToDisplay.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-6"> {/* Adjusted to 4 columns for lg */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
             {categoriesToDisplay.map((category) => (
               <Link key={category.id} href={category.href} className="group">
-                <Card className="h-full flex flex-col items-center justify-center p-6 text-center shadow-md transition-all hover:shadow-xl hover:bg-muted/30 hover:scale-105">
-                  <CardHeader className="p-0 mb-4">
-                    <category.Icon className="h-10 w-10 text-primary transition-colors" /> {/* Slightly smaller icon */}
+                <Card className="h-full flex flex-col items-center justify-start p-0 text-center shadow-md transition-all hover:shadow-xl hover:bg-muted/30 hover:scale-105 overflow-hidden">
+                  <CardHeader className="p-0 mb-4 w-full">
+                    {category.id === 'operational-amplifiers' ? (
+                      <Image
+                        src="https://placehold.co/400x250.png"
+                        alt="Operational Amplifier"
+                        data-ai-hint="op-amp circuit"
+                        width={400}
+                        height={250}
+                        className="w-full h-auto object-cover"
+                      />
+                    ) : (
+                      <div className="w-full pt-6 flex justify-center">
+                        <category.Icon className="h-10 w-10 text-primary transition-colors" />
+                      </div>
+                    )}
                   </CardHeader>
-                  <CardContent className="p-0">
-                    <CardTitle className="text-md font-semibold">{category.name}</CardTitle> {/* Smaller title */}
-                    {category.description && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{category.description}</p>} {/* Smaller desc, line clamp */}
+                  <CardContent className="p-4 pt-0">
+                    <CardTitle className="text-md font-semibold">{category.name}</CardTitle>
+                    {category.description && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{category.description}</p>}
                   </CardContent>
                 </Card>
               </Link>
