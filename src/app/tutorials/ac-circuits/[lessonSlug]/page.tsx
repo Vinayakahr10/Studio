@@ -1,13 +1,10 @@
 
 import { getACCircuitLessonBySlug, acCircuitLessons, type ACCircuitLesson } from '@/data/ac-circuits-lessons'; 
-import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
-import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, AlertTriangle, Activity } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
 
 interface LessonPageProps {
   params: {
@@ -41,49 +38,22 @@ export default function ACCircuitLessonPage({ params }: LessonPageProps) {
     notFound(); 
   }
 
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Home', href: '/' },
-    { label: 'Tutorials', href: '/tutorials' },
-    { label: 'AC Circuits', href: '/tutorials/ac-circuits' },
-    { label: lesson.title.replace(/^\d+\.\s*/, '') }, 
-  ];
-
   const currentIndex = acCircuitLessons.findIndex(l => l.slug === lesson.slug);
   const prevLesson = currentIndex > 0 ? acCircuitLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < acCircuitLessons.length - 1 ? acCircuitLessons[currentIndex + 1] : null;
-  const TopicIcon = lesson.Icon || Activity; // Default icon
 
   return (
     <article className="w-full">
-      <Breadcrumbs items={breadcrumbItems} />
-      
-      <header className="mb-8 md:mb-10 pb-6 border-b">
-         <div className="flex items-center text-primary mb-3">
-            <span className="text-sm font-medium tracking-wide uppercase">AC CIRCUIT THEORY</span>
-        </div>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-            {lesson.mainTitle || lesson.title}
-            </h1>
-        </div>
-        {lesson.description && (
-            <p className="mt-3 text-lg text-muted-foreground">{lesson.description}</p>
-        )}
-      </header>
-
-      <Card className="mt-6 shadow-lg">
-        <CardContent className="pt-6">
-          <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert max-w-none 
-                          prose-headings:font-semibold prose-headings:text-foreground 
-                          prose-p:text-muted-foreground prose-li:text-muted-foreground
-                          prose-a:text-primary hover:prose-a:underline
-                          prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm prose-code:text-foreground
-                          prose-pre:bg-background prose-pre:shadow-md
-                          ">
-            {lesson.content}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert max-w-none 
+                      prose-headings:font-semibold prose-headings:text-foreground 
+                      prose-p:text-muted-foreground prose-li:text-muted-foreground
+                      prose-a:text-primary hover:prose-a:underline
+                      prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm prose-code:text-foreground
+                      prose-pre:bg-background prose-pre:shadow-md
+                      ">
+        <h1>{lesson.mainTitle || lesson.title}</h1>
+        {lesson.content}
+      </div>
 
       <Separator className="my-8 md:my-12" />
 
