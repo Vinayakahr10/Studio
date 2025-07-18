@@ -1,8 +1,8 @@
 
 import type { Category } from '@/types';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu, Pi, Wifi, Gauge, CircuitBoard, Component, Network, Router, ToggleRight, Activity, Triangle as OpAmpIcon, Binary as DigitalIcon, MemoryStick as SemiconductorIcon, BatteryCharging as PowerIcon, Waves } from 'lucide-react';
 
 export const categoriesData: Category[] = [
@@ -43,27 +43,27 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
           </div>
         )}
         {categoriesToDisplay.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-            {categoriesToDisplay.map((category) => (
-              <Link key={category.id} href={category.href} className="group">
-                <Card className="h-full flex flex-col items-center justify-start p-0 text-center shadow-md transition-all hover:shadow-xl hover:bg-muted/30 hover:scale-105 overflow-hidden">
-                  <CardHeader className="p-0 w-full">
-                    <Image
-                      src={category.id === 'operational-amplifiers' ? 'https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf' : 'https://placehold.co/400x250.png'}
-                      alt={category.name}
-                      data-ai-hint={category.id}
-                      width={400}
-                      height={250}
-                      className="w-full h-auto object-cover aspect-video"
-                    />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {categoriesToDisplay.map((category) => {
+                const CategoryIcon = category.Icon;
+                return(
+                <Card key={category.id} className="flex flex-col text-center shadow-lg transition-all hover:shadow-xl hover:-translate-y-1">
+                  <CardHeader className="items-center pt-8">
+                    <div className="p-4 bg-primary/10 rounded-full w-fit mb-3">
+                        <CategoryIcon className="h-10 w-10 text-primary" />
+                    </div>
+                    <CardTitle className="text-xl">{category.name}</CardTitle>
                   </CardHeader>
-                  <CardContent className="flex-grow p-4">
-                    <CardTitle className="text-md font-semibold">{category.name}</CardTitle>
-                    {category.description && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{category.description}</p>}
+                  <CardContent className="flex-grow">
+                    <CardDescription>{category.description}</CardDescription>
                   </CardContent>
+                  <CardFooter className="p-6 pt-0">
+                    <Button asChild className="w-full">
+                      <Link href={category.href}>Start Learning</Link>
+                    </Button>
+                  </CardFooter>
                 </Card>
-              </Link>
-            ))}
+            )})}
           </div>
         ) : (
           <div className="text-center py-8 text-muted-foreground">
