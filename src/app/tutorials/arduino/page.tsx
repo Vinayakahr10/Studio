@@ -28,25 +28,6 @@ export default function ArduinoTutorialPage() {
         </p>
       </header>
 
-      <Card className="mb-12 shadow-lg bg-primary/5 border-primary/20">
-        <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl text-primary flex items-center">
-            <BookOpen className="mr-3 h-8 w-8"/>
-            New! Arduino from Zero to Hero: A Complete Beginner's Guide
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="text-muted-foreground space-y-3">
-          <p className="text-lg">
-            Ready to master Arduino from the ground up? Our comprehensive "Zero to Hero" guide will take you step-by-step through everything you need to know, from basic setup to advanced projects.
-          </p>
-          <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground transition-transform hover:scale-105 shadow-md">
-            <Link href="/tutorials/arduino-zero-to-hero">
-              Start the Complete Guide <ChevronRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
-        </CardContent>
-      </Card>
-
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {arduinoTutorialLessons.map((lesson) => (
           <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
