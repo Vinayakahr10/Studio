@@ -11,7 +11,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white">
         <Image
-          src="https://lh3.googleusercontent.com/d/1b-f2Tm-l0H7bh8uzpY6v7XPGQgD3UBov"
+          src="https://lh3.googleusercontent.com/d/1KoEC6rWkXjXImu7dWCb7IAyLDxtj8HFA"
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
           layout="fill"
           objectFit="cover"
