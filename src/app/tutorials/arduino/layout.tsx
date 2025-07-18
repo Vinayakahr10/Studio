@@ -74,8 +74,9 @@ export default function ArduinoTutorialLayout({
 
       {/* Main Content Area */}
       <main className="flex-grow p-4 sm:p-6 md:p-8 overflow-y-auto bg-background">
-        {children}
-        <Separator className="my-8 md:my-12" />
+        <div className="bg-card p-6 md:p-8 rounded-lg shadow-md">
+          {children}
+        </div>
       </main>
     </div>
   );
