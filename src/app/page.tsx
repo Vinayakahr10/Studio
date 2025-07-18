@@ -9,13 +9,13 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white">
+      <section className="relative w-full h-[70vh] md:h-[80vh] flex items-center justify-center text-center text-white">
         <Image
           src="https://lh3.googleusercontent.com/d/1KoEC6rWkXjXImu7dWCb7IAyLDxtj8HFA"
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
           layout="fill"
           objectFit="cover"
-          className="absolute inset-0 z-0 brightness-[0.4]"
+          className="absolute inset-0 z-0 brightness-[0.6]"
           priority
         />
         <div className="relative z-10 p-4 space-y-4 max-w-4xl">
