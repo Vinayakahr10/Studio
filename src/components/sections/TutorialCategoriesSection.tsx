@@ -43,11 +43,11 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
           </div>
         )}
         {categoriesToDisplay.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
             {categoriesToDisplay.map((category) => {
                 const CategoryIcon = category.Icon;
                 return(
-                <Card key={category.id} className="flex flex-col text-center shadow-lg transition-all hover:shadow-xl hover:-translate-y-1">
+                <Card key={category.id} className="w-64 h-[355px] flex flex-col text-center shadow-lg transition-all hover:shadow-xl hover:-translate-y-1">
                   <CardHeader className="items-center pt-8">
                     <div className="p-4 bg-primary/10 rounded-full w-fit mb-3">
                         <CategoryIcon className="h-10 w-10 text-primary" />
