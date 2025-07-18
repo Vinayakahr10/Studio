@@ -1,11 +1,11 @@
 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { MemoryStick as SemiconductorIcon, BookOpen, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { semiconductorDeviceLessons } from '@/data/semiconductor-devices-lessons'; 
+import { semiconductorDeviceLessons } from '@/data/semiconductor-devices-lessons';
 
 export default function SemiconductorDevicesTutorialPage() {
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -13,8 +13,6 @@ export default function SemiconductorDevicesTutorialPage() {
     { label: 'Tutorials', href: '/tutorials' },
     { label: 'Semiconductor Devices' },
   ];
-
-  const firstLessonSlug = semiconductorDeviceLessons[0]?.slug || 'introduction-to-semiconductors';
 
   return (
     <div className="w-full">
@@ -30,48 +28,38 @@ export default function SemiconductorDevicesTutorialPage() {
         </p>
       </header>
 
-      <section className="mb-8">
-        <Image
-          src="https://placehold.co/1000x400.png"
-          alt="Various semiconductor devices like diodes, transistors, ICs"
-          data-ai-hint="semiconductor devices diodes transistors ics"
-          width={1000}
-          height={400}
-          className="w-full rounded-lg object-cover shadow-lg"
-        />
-      </section>
-
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl">Explore Semiconductor Device Lessons</CardTitle>
-          <CardDescription>Understand the principles and applications of key semiconductor devices.</CardDescription>
-        </CardHeader>
-        <CardContent className="text-muted-foreground space-y-4">
-          <p className="text-lg">
-            Welcome to the EletronicswithVK Semiconductor Devices tutorial series! This section delves into the characteristics and uses of crucial components that enable electronic circuits.
-          </p>
-          <p>
-            In this series, you will learn about:
-          </p>
-          <ul className="list-disc list-inside space-y-1 pl-4">
-            <li>The basics of semiconductor physics.</li>
-            <li>Diodes: PN junction, Zener, LED, Schottky, and their applications.</li>
-            <li>Bipolar Junction Transistors (BJTs): NPN, PNP, operation as switches and amplifiers.</li>
-            <li>Field-Effect Transistors (FETs): JFETs, MOSFETs (enhancement, depletion), and their uses.</li>
-            <li>Thyristors like SCRs and TRIACs for power control.</li>
-          </ul>
-          <p>
-            These tutorials aim to provide a solid understanding of how these devices work and how to use them effectively in circuit design.
-          </p>
-          <div className="pt-4">
-            <Button asChild size="lg" className="transition-transform hover:scale-105">
-              <Link href={`/tutorials/semiconductor-devices/${firstLessonSlug}`}>
-                Start with the First Semiconductor Lesson <ChevronRight className="ml-2 h-5 w-5" />
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {semiconductorDeviceLessons.map((lesson) => {
+          const LessonIcon = lesson.Icon || SemiconductorIcon;
+          return (
+          <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+            <CardHeader className="p-0">
+              <Link href={`/tutorials/semiconductor-devices/${lesson.slug}`} className="block" aria-label={`View lesson: ${lesson.title}`}>
+                <div className="w-full h-40 bg-primary/5 flex items-center justify-center">
+                    <LessonIcon className="h-16 w-16 text-primary/80" />
+                </div>
               </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            </CardHeader>
+            <CardContent className="flex-grow p-6 space-y-2">
+              <CardTitle className="text-lg font-semibold h-12">
+                 <Link href={`/tutorials/semiconductor-devices/${lesson.slug}`} className="hover:text-primary transition-colors">
+                    {lesson.title.replace(/^\d+\.\s*/, '')}
+                 </Link>
+              </CardTitle>
+              <CardDescription className="text-sm text-muted-foreground line-clamp-3 h-[60px]">
+                {lesson.description}
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="p-6 pt-0">
+              <Button asChild variant="outline" className="w-full transition-colors group">
+                <Link href={`/tutorials/semiconductor-devices/${lesson.slug}`}>
+                  Read Lesson <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        )})}
+      </section>
     </div>
   );
 }

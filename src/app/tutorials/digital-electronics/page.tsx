@@ -1,11 +1,11 @@
 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Binary as DigitalIcon, BookOpen, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { digitalElectronicsLessons } from '@/data/digital-electronics-lessons'; 
+import { digitalElectronicsLessons } from '@/data/digital-electronics-lessons';
 
 export default function DigitalElectronicsTutorialPage() {
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -13,8 +13,6 @@ export default function DigitalElectronicsTutorialPage() {
     { label: 'Tutorials', href: '/tutorials' },
     { label: 'Digital Electronics' },
   ];
-
-  const firstLessonSlug = digitalElectronicsLessons[0]?.slug || 'introduction-to-digital-electronics';
 
   return (
     <div className="w-full">
@@ -30,48 +28,38 @@ export default function DigitalElectronicsTutorialPage() {
         </p>
       </header>
 
-      <section className="mb-8">
-        <Image
-          src="https://placehold.co/1000x400.png"
-          alt="Digital logic gates and circuits"
-          data-ai-hint="digital logic gates circuits"
-          width={1000}
-          height={400}
-          className="w-full rounded-lg object-cover shadow-lg"
-        />
-      </section>
-
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl">Explore Digital Electronics Lessons</CardTitle>
-          <CardDescription>Start with the fundamentals or jump into specific topics on digital logic design.</CardDescription>
-        </CardHeader>
-        <CardContent className="text-muted-foreground space-y-4">
-          <p className="text-lg">
-            Welcome to the EletronicswithVK Digital Electronics tutorial series! This section will guide you through the essential principles of digital systems.
-          </p>
-          <p>
-            In this series, you will learn about:
-          </p>
-          <ul className="list-disc list-inside space-y-1 pl-4">
-            <li>Number systems (Binary, Hexadecimal) and their conversions.</li>
-            <li>Logic gates (AND, OR, NOT, XOR, NAND, NOR) and their truth tables.</li>
-            <li>Boolean algebra and logic simplification techniques.</li>
-            <li>Combinational logic circuits like adders, multiplexers, and decoders.</li>
-            <li>Sequential logic circuits including flip-flops, counters, and registers.</li>
-          </ul>
-          <p>
-            These tutorials are designed to build a strong foundation in digital electronics, crucial for understanding modern computing and embedded systems.
-          </p>
-          <div className="pt-4">
-            <Button asChild size="lg" className="transition-transform hover:scale-105">
-              <Link href={`/tutorials/digital-electronics/${firstLessonSlug}`}>
-                Start with the First Digital Lesson <ChevronRight className="ml-2 h-5 w-5" />
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {digitalElectronicsLessons.map((lesson) => {
+          const LessonIcon = lesson.Icon || DigitalIcon;
+          return (
+          <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+            <CardHeader className="p-0">
+              <Link href={`/tutorials/digital-electronics/${lesson.slug}`} className="block" aria-label={`View lesson: ${lesson.title}`}>
+                <div className="w-full h-40 bg-primary/5 flex items-center justify-center">
+                    <LessonIcon className="h-16 w-16 text-primary/80" />
+                </div>
               </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            </CardHeader>
+            <CardContent className="flex-grow p-6 space-y-2">
+              <CardTitle className="text-lg font-semibold h-12">
+                 <Link href={`/tutorials/digital-electronics/${lesson.slug}`} className="hover:text-primary transition-colors">
+                    {lesson.title.replace(/^\d+\.\s*/, '')}
+                 </Link>
+              </CardTitle>
+              <CardDescription className="text-sm text-muted-foreground line-clamp-3 h-[60px]">
+                {lesson.description}
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="p-6 pt-0">
+              <Button asChild variant="outline" className="w-full transition-colors group">
+                <Link href={`/tutorials/digital-electronics/${lesson.slug}`}>
+                  Read Lesson <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        )})}
+      </section>
     </div>
   );
 }

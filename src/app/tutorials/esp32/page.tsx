@@ -1,11 +1,11 @@
 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Router, BookOpen, ChevronRight } from 'lucide-react'; // Changed Cpu to Router
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Router, BookOpen, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { esp32TutorialLessons } from '@/data/esp32-tutorial-data'; 
+import { esp32TutorialLessons } from '@/data/esp32-tutorial-data';
 
 export default function ESP32TutorialPage() {
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -13,8 +13,6 @@ export default function ESP32TutorialPage() {
     { label: 'Tutorials', href: '/tutorials' },
     { label: 'ESP32 & ESP8266 Tutorials' },
   ];
-
-  const firstLessonSlug = esp32TutorialLessons[0]?.slug || 'introduction-to-esp32';
 
   return (
     <div className="w-full">
@@ -30,48 +28,34 @@ export default function ESP32TutorialPage() {
         </p>
       </header>
 
-      <section className="mb-8">
-        <Image
-          src="https://placehold.co/1000x400.png"
-          alt="ESP32 and ESP8266 boards with various components"
-          data-ai-hint="esp32 esp8266 components projects"
-          width={1000}
-          height={400}
-          className="w-full rounded-lg object-cover shadow-lg"
-        />
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {esp32TutorialLessons.map((lesson) => (
+          <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+            <CardHeader className="p-0">
+                <div className="w-full h-40 bg-primary/5 flex items-center justify-center">
+                    <Image src={`https://placehold.co/128x128.png`} data-ai-hint="iot wifi signal" alt="Lesson thumbnail" width={128} height={128} className="rounded-full bg-background p-2 opacity-50" />
+                </div>
+            </CardHeader>
+            <CardContent className="flex-grow p-6 space-y-2">
+              <CardTitle className="text-lg font-semibold h-12">
+                 <Link href={`/tutorials/esp32/${lesson.slug}`} className="hover:text-primary transition-colors">
+                    {lesson.title.replace(/^\d+\.\s*/, '')}
+                 </Link>
+              </CardTitle>
+              <CardDescription className="text-sm text-muted-foreground line-clamp-3 h-[60px]">
+                {lesson.description}
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="p-6 pt-0">
+              <Button asChild variant="outline" className="w-full transition-colors group">
+                <Link href={`/tutorials/esp32/${lesson.slug}`}>
+                  Read Lesson <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
       </section>
-
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl">Explore ESP32/ESP8266 Lessons</CardTitle>
-          <CardDescription>Dive into specific topics or follow our guided lessons below.</CardDescription>
-        </CardHeader>
-        <CardContent className="text-muted-foreground space-y-4">
-          <p className="text-lg">
-            Welcome to the EletronicswithVK ESP32 and ESP8266 tutorial series! These powerful microcontrollers are perfect for building connected projects.
-          </p>
-          <p>
-            In this series, you will:
-          </p>
-          <ul className="list-disc list-inside space-y-1 pl-4">
-            <li>Learn the differences and capabilities of ESP32 and ESP8266.</li>
-            <li>Set up your development environment using the Arduino IDE or other platforms like ESP-IDF.</li>
-            <li>Master WiFi and Bluetooth Low Energy (BLE) communication.</li>
-            <li>Interface with a wide variety of sensors and actuators.</li>
-            <li>Build practical IoT projects, web servers, and more.</li>
-          </ul>
-          <p>
-            Whether you're new to these chips or looking to expand your skills, our tutorials will guide you through.
-          </p>
-          <div className="pt-4">
-            <Button asChild size="lg" className="transition-transform hover:scale-105">
-              <Link href={`/tutorials/esp32/${firstLessonSlug}`}>
-                Start with the First ESP32 Lesson <ChevronRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

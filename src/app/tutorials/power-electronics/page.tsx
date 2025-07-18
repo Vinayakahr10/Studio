@@ -1,11 +1,11 @@
 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { BatteryCharging as PowerIcon, BookOpen, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { powerElectronicsLessons } from '@/data/power-electronics-lessons'; 
+import { powerElectronicsLessons } from '@/data/power-electronics-lessons';
 
 export default function PowerElectronicsTutorialPage() {
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -13,8 +13,6 @@ export default function PowerElectronicsTutorialPage() {
     { label: 'Tutorials', href: '/tutorials' },
     { label: 'Power Electronics' },
   ];
-
-  const firstLessonSlug = powerElectronicsLessons[0]?.slug || 'introduction-to-power-electronics';
 
   return (
     <div className="w-full">
@@ -29,49 +27,39 @@ export default function PowerElectronicsTutorialPage() {
           Dive into the world of power conversion and control. Learn about power supplies, converters (AC-DC, DC-DC, DC-AC), and their applications.
         </p>
       </header>
-
-      <section className="mb-8">
-        <Image
-          src="https://placehold.co/1000x400.png"
-          alt="Power electronics components and circuit diagrams"
-          data-ai-hint="power electronics converters supplies circuits"
-          width={1000}
-          height={400}
-          className="w-full rounded-lg object-cover shadow-lg"
-        />
-      </section>
-
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl">Explore Power Electronics Lessons</CardTitle>
-          <CardDescription>Understand the principles of efficient power management and conversion.</CardDescription>
-        </CardHeader>
-        <CardContent className="text-muted-foreground space-y-4">
-          <p className="text-lg">
-            Welcome to the EletronicswithVK Power Electronics tutorial series! This field focuses on the processing and control of electrical power.
-          </p>
-          <p>
-            In this series, you will learn about:
-          </p>
-          <ul className="list-disc list-inside space-y-1 pl-4">
-            <li>Introduction to power electronic devices and their characteristics.</li>
-            <li>Rectifiers (AC-DC converters).</li>
-            <li>DC-DC converters (Buck, Boost, Buck-Boost).</li>
-            <li>Inverters (DC-AC converters).</li>
-            <li>Design and analysis of various power supply topologies.</li>
-          </ul>
-          <p>
-            These tutorials will cover both theoretical concepts and practical design considerations for power electronic systems.
-          </p>
-          <div className="pt-4">
-            <Button asChild size="lg" className="transition-transform hover:scale-105">
-              <Link href={`/tutorials/power-electronics/${firstLessonSlug}`}>
-                Start with the First Power Electronics Lesson <ChevronRight className="ml-2 h-5 w-5" />
+      
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {powerElectronicsLessons.map((lesson) => {
+          const LessonIcon = lesson.Icon || PowerIcon;
+          return (
+          <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+            <CardHeader className="p-0">
+              <Link href={`/tutorials/power-electronics/${lesson.slug}`} className="block" aria-label={`View lesson: ${lesson.title}`}>
+                <div className="w-full h-40 bg-primary/5 flex items-center justify-center">
+                    <LessonIcon className="h-16 w-16 text-primary/80" />
+                </div>
               </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            </CardHeader>
+            <CardContent className="flex-grow p-6 space-y-2">
+              <CardTitle className="text-lg font-semibold h-12">
+                 <Link href={`/tutorials/power-electronics/${lesson.slug}`} className="hover:text-primary transition-colors">
+                    {lesson.title.replace(/^\d+\.\s*/, '')}
+                 </Link>
+              </CardTitle>
+              <CardDescription className="text-sm text-muted-foreground line-clamp-3 h-[60px]">
+                {lesson.description}
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="p-6 pt-0">
+              <Button asChild variant="outline" className="w-full transition-colors group">
+                <Link href={`/tutorials/power-electronics/${lesson.slug}`}>
+                  Read Lesson <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        )})}
+      </section>
     </div>
   );
 }

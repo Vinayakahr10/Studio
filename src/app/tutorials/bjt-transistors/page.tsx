@@ -1,11 +1,11 @@
 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ToggleRight, BookOpen, ChevronRight } from 'lucide-react'; 
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { ToggleRight, BookOpen, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { bjtTutorialLessons } from '@/data/bjt-transistor-lessons'; 
+import { bjtTutorialLessons } from '@/data/bjt-transistor-lessons';
 
 export default function BJTTutorialPage() {
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -13,8 +13,6 @@ export default function BJTTutorialPage() {
     { label: 'Tutorials', href: '/tutorials' },
     { label: 'BJT Transistor Tutorials' },
   ];
-
-  const firstLessonSlug = bjtTutorialLessons[0]?.slug || 'introduction-to-bjt';
 
   return (
     <div className="w-full">
@@ -30,48 +28,34 @@ export default function BJTTutorialPage() {
         </p>
       </header>
 
-      <section className="mb-8">
-        <Image
-          src="https://placehold.co/1000x400.png"
-          alt="Various BJT transistors and circuit diagrams"
-          data-ai-hint="bjt transistors circuits variety"
-          width={1000}
-          height={400}
-          className="w-full rounded-lg object-cover shadow-lg"
-        />
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {bjtTutorialLessons.map((lesson) => (
+          <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+            <CardHeader className="p-0">
+                <div className="w-full h-40 bg-primary/5 flex items-center justify-center">
+                    <Image src={`https://placehold.co/128x128.png`} data-ai-hint="transistor symbol schematic" alt="Lesson thumbnail" width={128} height={128} className="rounded-full bg-background p-2 opacity-50" />
+                </div>
+            </CardHeader>
+            <CardContent className="flex-grow p-6 space-y-2">
+              <CardTitle className="text-lg font-semibold h-12">
+                 <Link href={`/tutorials/bjt-transistors/${lesson.slug}`} className="hover:text-primary transition-colors">
+                    {lesson.title.replace(/^\d+\.\s*/, '')}
+                 </Link>
+              </CardTitle>
+              <CardDescription className="text-sm text-muted-foreground line-clamp-3 h-[60px]">
+                {lesson.description}
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="p-6 pt-0">
+              <Button asChild variant="outline" className="w-full transition-colors group">
+                <Link href={`/tutorials/bjt-transistors/${lesson.slug}`}>
+                  Read Lesson <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
       </section>
-
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl">Explore BJT Transistor Lessons</CardTitle>
-          <CardDescription>Dive into specific topics or follow our guided lessons below.</CardDescription>
-        </CardHeader>
-        <CardContent className="text-muted-foreground space-y-4">
-          <p className="text-lg">
-            Welcome to the EletronicswithVK BJT Transistor tutorial series! Bipolar Junction Transistors are fundamental semiconductor devices used for amplification and switching applications.
-          </p>
-          <p>
-            In this series, you will:
-          </p>
-          <ul className="list-disc list-inside space-y-1 pl-4">
-            <li>Understand the basic structure and operation of NPN and PNP transistors.</li>
-            <li>Learn about the different operating regions: cutoff, active, and saturation.</li>
-            <li>Explore how to use BJTs as electronic switches.</li>
-            <li>Discover basic BJT amplifier configurations.</li>
-            <li>Analyze BJT circuits using characteristic curves and parameters.</li>
-          </ul>
-          <p>
-            These tutorials aim to provide a clear understanding of BJT theory and practical usage.
-          </p>
-          <div className="pt-4">
-            <Button asChild size="lg" className="transition-transform hover:scale-105">
-              <Link href={`/tutorials/bjt-transistors/${firstLessonSlug}`}>
-                Start with the First BJT Lesson <ChevronRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

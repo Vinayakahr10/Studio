@@ -1,11 +1,11 @@
 
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Triangle as OpAmpIcon, BookOpen, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { opAmpLessons } from '@/data/operational-amplifiers-lessons'; 
+import { opAmpLessons } from '@/data/operational-amplifiers-lessons';
 
 export default function OperationalAmplifiersTutorialPage() {
   const breadcrumbItems: BreadcrumbItem[] = [
@@ -14,8 +14,6 @@ export default function OperationalAmplifiersTutorialPage() {
     { label: 'Operational Amplifiers' },
   ];
 
-  const firstLessonSlug = opAmpLessons[0]?.slug || 'introduction-to-op-amps';
-
   return (
     <div className="w-full">
       <Breadcrumbs items={breadcrumbItems} />
@@ -23,9 +21,9 @@ export default function OperationalAmplifiersTutorialPage() {
       <header className="mb-8 md:mb-12 py-8 md:py-12 bg-muted/30 rounded-lg text-center shadow">
         <div className="flex justify-center mb-4">
             <Image
-              src="https://placehold.co/150x150.png"
+              src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf"
               alt="Operational Amplifier Icon"
-              data-ai-hint="op-amp integrated circuit"
+              data-ai-hint="opamp symbol"
               width={100}
               height={100}
               className="rounded-full bg-primary/10 p-3 shadow-md"
@@ -37,48 +35,38 @@ export default function OperationalAmplifiersTutorialPage() {
         </p>
       </header>
 
-      <section className="mb-8">
-        <Image
-          src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf"
-          alt="Operational amplifier circuits and applications"
-          data-ai-hint="opamp circuits amplifier filter"
-          width={1000}
-          height={400}
-          className="w-full rounded-lg object-cover shadow-lg"
-        />
-      </section>
-
-      <Card className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl">Explore Op-Amp Lessons</CardTitle>
-          <CardDescription>Dive into the versatile world of operational amplifiers.</CardDescription>
-        </CardHeader>
-        <CardContent className="text-muted-foreground space-y-4">
-          <p className="text-lg">
-            Welcome to the EletronicswithVK Operational Amplifier tutorial series! Op-Amps are high-gain voltage amplifiers and are fundamental building blocks in analog electronics.
-          </p>
-          <p>
-            In this series, you will learn about:
-          </p>
-          <ul className="list-disc list-inside space-y-1 pl-4">
-            <li>Ideal and practical characteristics of Op-Amps.</li>
-            <li>Basic Op-Amp configurations like inverting and non-inverting amplifiers.</li>
-            <li>Applications such as summing amplifiers, difference amplifiers, integrators, and differentiators.</li>
-            <li>Op-Amps in active filters and oscillators.</li>
-            <li>Comparators and other non-linear applications.</li>
-          </ul>
-          <p>
-            These tutorials will equip you with the knowledge to analyze and design a wide range of analog circuits using Op-Amps.
-          </p>
-          <div className="pt-4">
-            <Button asChild size="lg" className="transition-transform hover:scale-105">
-              <Link href={`/tutorials/operational-amplifiers/${firstLessonSlug}`}>
-                Start with the First Op-Amp Lesson <ChevronRight className="ml-2 h-5 w-5" />
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {opAmpLessons.map((lesson) => {
+          const LessonIcon = lesson.Icon || OpAmpIcon;
+          return (
+          <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+            <CardHeader className="p-0">
+              <Link href={`/tutorials/operational-amplifiers/${lesson.slug}`} className="block" aria-label={`View lesson: ${lesson.title}`}>
+                <div className="w-full h-40 bg-primary/5 flex items-center justify-center">
+                    <LessonIcon className="h-16 w-16 text-primary/80" />
+                </div>
               </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            </CardHeader>
+            <CardContent className="flex-grow p-6 space-y-2">
+              <CardTitle className="text-lg font-semibold h-12">
+                 <Link href={`/tutorials/operational-amplifiers/${lesson.slug}`} className="hover:text-primary transition-colors">
+                    {lesson.title.replace(/^\d+\.\s*/, '')}
+                 </Link>
+              </CardTitle>
+              <CardDescription className="text-sm text-muted-foreground line-clamp-3 h-[60px]">
+                {lesson.description}
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="p-6 pt-0">
+              <Button asChild variant="outline" className="w-full transition-colors group">
+                <Link href={`/tutorials/operational-amplifiers/${lesson.slug}`}>
+                  Read Lesson <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        )})}
+      </section>
     </div>
   );
 }
