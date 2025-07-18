@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -28,10 +29,10 @@ const mainNavLinks = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    setIsMounted(true);
   }, []);
 
   return (
@@ -65,22 +66,21 @@ export function Header() {
          
           <div className="md:hidden flex items-center">
             <ThemeToggleButton />
-            {isClient && (
-              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-6 w-6" />
-                    <span className="sr-only">Toggle Menu</span>
-                  </Button>
-                </SheetTrigger>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle Menu</span>
+                </Button>
+              </SheetTrigger>
+              {isMounted && (
                 <SheetContent side="right" className="w-full max-w-xs">
-                  <SheetTitle className="sr-only">Main Navigation Menu</SheetTitle>
-                   <SheetHeader className="mb-4 border-b pb-4">
+                    <SheetHeader className="mb-4 border-b pb-4">
                       <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                           <BrainCircuit className="h-7 w-7 text-primary" />
                           <span className="text-xl font-bold">EletronicswithVK</span>
                       </Link>
-                   </SheetHeader>
+                    </SheetHeader>
                   <div className="flex flex-col gap-1">
                     {mainNavLinks.map((link) => (
                          <Button variant="ghost" asChild key={link.label} className="justify-start text-base py-2.5 h-auto">
@@ -107,8 +107,8 @@ export function Header() {
                     {/* Removed conditional login/admin/logout links from mobile menu */}
                   </div>
                 </SheetContent>
-              </Sheet>
-            )}
+              )}
+            </Sheet>
           </div>
         </div>
       </div>
