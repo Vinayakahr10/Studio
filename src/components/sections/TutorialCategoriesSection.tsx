@@ -53,9 +53,9 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                     <Link href={category.href} className="block" aria-label={`View tutorials for ${category.name}`}>
                       <div className="relative aspect-[4/3] w-full bg-primary/5">
                         {category.id === 'arduino' ? (
-                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" layout="fill" className="object-contain p-4" />
+                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" layout="fill" className="object-cover" />
                         ) : category.id === 'operational-amplifiers' ? (
-                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" layout="fill" className="object-contain p-4" />
+                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" layout="fill" className="object-cover" />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center">
                             <CategoryIcon className="h-16 w-16 text-primary/80" />
