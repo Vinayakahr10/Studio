@@ -5,9 +5,10 @@ import Link from "next/link";
 import { BrainCircuit, Menu } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { cn } from "@/lib/utils";
+import { ClientOnly } from "../shared/ClientOnly";
 
 const mainNavLinks = [
   { href: "/", label: "Home" },
@@ -23,11 +24,6 @@ const mainNavLinks = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
@@ -61,14 +57,14 @@ export function Header() {
          
           <div className="md:hidden flex items-center">
             <ThemeToggleButton />
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Toggle Menu</span>
-                </Button>
-              </SheetTrigger>
-              {isMounted && (
+            <ClientOnly>
+              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Toggle Menu</span>
+                  </Button>
+                </SheetTrigger>
                 <SheetContent side="right" className="w-full max-w-xs">
                     <SheetHeader className="mb-4 border-b pb-4">
                       <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
@@ -106,8 +102,8 @@ export function Header() {
                     </Link>
                   </div>
                 </SheetContent>
-              )}
-            </Sheet>
+              </Sheet>
+            </ClientOnly>
           </div>
         </div>
       </div>
