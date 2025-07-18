@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, BookOpen, BrainCircuit, Cpu, Lightbulb, Wrench } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { ArrowRight, BookOpen, BrainCircuit, Wrench } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[70vh] md:h-[80vh] flex items-center justify-center text-center text-white">
+      <section className="relative w-full h-[80vh] flex items-center justify-center text-center text-white">
         <Image
           src="https://lh3.googleusercontent.com/d/1KoEC6rWkXjXImu7dWCb7IAyLDxtj8HFA"
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
@@ -85,13 +85,13 @@ export default function HomePage() {
                   <p className="text-sm mt-1">Arduino from Zero to Hero</p>
                 </div>
               </CardContent>
-              <CardContent>
+              <CardFooter>
                  <Button asChild>
                     <Link href="/tutorials">
                       Browse All Tutorials <ArrowRight className="ml-2 h-4 w-4"/>
                     </Link>
                   </Button>
-              </CardContent>
+              </CardFooter>
             </Card>
 
             {/* Right Card - Projects */}
@@ -113,13 +113,13 @@ export default function HomePage() {
                   <p className="text-sm mt-1">ESP32-Based IoT Weather Station</p>
                 </div>
               </CardContent>
-              <CardContent>
+              <CardFooter>
                  <Button asChild>
                     <Link href="/projects">
                       Explore All Projects <ArrowRight className="ml-2 h-4 w-4"/>
                     </Link>
                   </Button>
-              </CardContent>
+              </CardFooter>
             </Card>
           </div>
         </div>
