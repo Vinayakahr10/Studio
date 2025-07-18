@@ -32,7 +32,7 @@ export default function OperationalAmplifiersTutorialPage() {
 
       <section className="mb-8">
         <Image
-          src="https://placehold.co/1000x400.png"
+          src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf"
           alt="Operational amplifier circuits and applications"
           data-ai-hint="opamp circuits amplifier filter"
           width={1000}
