@@ -20,7 +20,7 @@ export default function OperationalAmplifiersTutorialPage() {
                       prose-h1:text-4xl prose-h1:font-extrabold prose-h1:tracking-tight prose-h1:mb-4 prose-h1:pb-2 prose-h1:border-b prose-h1:border-primary/50
                       prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b
                       prose-h3:text-2xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4
-                      prose-p:leading-7 prose-p:[&:not(:first-child)]:mt-6 prose-p:text-lg
+                      prose-p:leading-8 prose-p:[&:not(:first-child)]:mt-6 prose-p:text-lg
                       prose-a:text-primary prose-a:font-medium hover:prose-a:underline
                       prose-ul:mt-6 prose-ul:ml-6 prose-ul:list-disc prose-li:mt-2
                       prose-ol:mt-6 prose-ol:ml-6 prose-ol:list-decimal prose-li:mt-2
