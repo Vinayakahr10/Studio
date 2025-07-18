@@ -1,7 +1,11 @@
 
 import type { ReactNode } from 'react';
 import { CodeBlock } from '@/components/content/CodeBlock';
-import Image from 'next/image'; // Added Image import
+import Image from 'next/image';
+import { Zap, DollarSign, Globe, Code, Share2, Cpu, MemoryStick, CircuitBoard, ArrowRight } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export interface ArduinoLesson {
   slug: string;
@@ -21,32 +25,82 @@ export const arduinoTutorialLessons: ArduinoLesson[] = [
     mainTitle: 'Arduino: An Introduction',
     content: (
       <>
-        <p className="mb-4 text-lg">
-          Welcome to the world of Arduino! Arduino is an open-source electronics platform based on easy-to-use hardware and software. It's intended for anyone making interactive projects.
+        <p className="mb-6 text-lg md:text-xl text-muted-foreground">
+          Welcome to the world of Arduino! If you've ever wanted to build your own electronics, make things light up, move, or respond to the world around you, you're in the right place. Arduino is an open-source electronics platform based on easy-to-use hardware and software, designed for anyone making interactive projects.
         </p>
-        <h3 className="text-2xl font-semibold mt-6 mb-3">What is Arduino?</h3>
-        <p className="mb-4">
-          At its core, an Arduino consists of a microcontroller (like a tiny computer) on a circuit board, along with input/output (I/O) pins that allow you to connect sensors, motors, lights, and other electronic components. You can program the microcontroller to read inputs (like light from a sensor, or a finger on a button) and turn it into an output – activating a motor, turning on an LED, publishing something online.
+
+        <div className="my-8 flex justify-center">
+            <Image
+              src="https://placehold.co/700x400.png"
+              alt="An Arduino Uno board connected to a breadboard with LEDs and wires."
+              data-ai-hint="arduino uno breadboard"
+              width={700}
+              height={400}
+              className="rounded-lg shadow-xl border object-cover"
+            />
+        </div>
+        
+        <h3 className="text-3xl font-bold tracking-tight mt-10 mb-4">What is an Arduino?</h3>
+        <p className="mb-6 text-base leading-relaxed">
+          At its core, an Arduino is a small computer you can program to control things in the physical world. It consists of a circuit board, called a microcontroller, which you can think of as the "brain" of your project. This brain is connected to a series of input/output (I/O) pins. You can attach sensors, motors, lights, and other electronic components to these pins. By writing simple code, you can tell the Arduino to read an input—like the press of a button or a change in light from a sensor—and turn it into an output, like activating a motor, turning on an LED, or even publishing data to the internet.
         </p>
-        <h3 className="text-2xl font-semibold mt-6 mb-3">Why Use Arduino?</h3>
-        <ul className="list-disc list-inside space-y-2 mb-4">
-          <li><strong>Simplicity:</strong> The Arduino software (IDE) is easy-to-use for beginners, yet flexible enough for advanced users.</li>
-          <li><strong>Inexpensive:</strong> Arduino boards are relatively cheap compared to other microcontroller platforms.</li>
-          <li><strong>Cross-platform:</strong> The Arduino Software (IDE) runs on Windows, Macintosh OSX, and Linux operating systems.</li>
-          <li><strong>Open source and extensible software:</strong> The Arduino software is published as open source tools, available for extension by experienced programmers.</li>
-          <li><strong>Open source and extensible hardware:</strong> The plans of the Arduino boards are published under a Creative Commons license, so experienced circuit designers can make their own version of the module, extending it and improving it.</li>
-        </ul>
-        <h3 className="text-2xl font-semibold mt-6 mb-3">Types of Arduino Boards</h3>
-        <p className="mb-4">
-          There are many types of Arduino boards, each with different capabilities. Some popular ones include:
+        
+        <div className="my-10 p-6 bg-primary/5 border border-primary/20 rounded-lg shadow-sm">
+            <h3 className="text-3xl font-bold tracking-tight mb-6 text-primary">Why Use Arduino?</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+                <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 p-3 rounded-full"><Zap className="h-6 w-6 text-primary"/></div>
+                    <div>
+                        <h4 className="font-semibold text-lg">Simplicity</h4>
+                        <p className="text-muted-foreground">The Arduino software (IDE) is easy for beginners, yet flexible enough for advanced users. The programming language is a simplified version of C++.</p>
+                    </div>
+                </div>
+                 <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 p-3 rounded-full"><DollarSign className="h-6 w-6 text-primary"/></div>
+                    <div>
+                        <h4 className="font-semibold text-lg">Inexpensive</h4>
+                        <p className="text-muted-foreground">Arduino boards are relatively cheap, and starter kits packed with components offer great value.</p>
+                    </div>
+                </div>
+                 <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 p-3 rounded-full"><Globe className="h-6 w-6 text-primary"/></div>
+                    <div>
+                        <h4 className="font-semibold text-lg">Cross-Platform</h4>
+                        <p className="text-muted-foreground">The Arduino Software (IDE) runs on Windows, macOS, and Linux operating systems.</p>
+                    </div>
+                </div>
+                 <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 p-3 rounded-full"><Share2 className="h-6 w-6 text-primary"/></div>
+                    <div>
+                        <h4 className="font-semibold text-lg">Open Source</h4>
+                        <p className="text-muted-foreground">The hardware and software are open source, meaning you can adapt them to your needs and learn from a huge community of creators.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <h3 className="text-3xl font-bold tracking-tight mt-10 mb-6">Common Types of Arduino Boards</h3>
+        <p className="mb-6 text-base leading-relaxed">
+            There are many types of Arduino boards, each designed for different needs. Here are some of the most popular ones:
         </p>
-        <ul className="list-disc list-inside space-y-1 mb-4">
-          <li>Arduino UNO (Most popular for beginners)</li>
-          <li>Arduino Nano (Small form factor)</li>
-          <li>Arduino Mega (More I/O pins and memory)</li>
-          <li>Arduino Due (Faster 32-bit processor)</li>
-        </ul>
-        <p>This tutorial series will primarily focus on projects that can be done with an Arduino UNO or compatible boards.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card className="flex flex-col">
+                <CardHeader><CardTitle className="flex items-center gap-2"><Cpu className="text-primary"/>Arduino UNO</CardTitle></CardHeader>
+                <CardContent className="flex-grow"><p className="text-muted-foreground">The most popular choice for beginners. It has a good number of pins and is very well-documented.</p></CardContent>
+            </Card>
+             <Card className="flex flex-col">
+                <CardHeader><CardTitle className="flex items-center gap-2"><CircuitBoard className="text-primary"/>Arduino Nano</CardTitle></CardHeader>
+                <CardContent className="flex-grow"><p className="text-muted-foreground">A smaller, breadboard-friendly version of the Uno, great for compact projects.</p></CardContent>
+            </Card>
+             <Card className="flex flex-col">
+                <CardHeader><CardTitle className="flex items-center gap-2"><MemoryStick className="text-primary"/>Arduino Mega</CardTitle></CardHeader>
+                <CardContent className="flex-grow"><p className="text-muted-foreground">Offers significantly more I/O pins and memory, ideal for complex projects like 3D printers or robotics.</p></CardContent>
+            </Card>
+        </div>
+        <p className="mt-8 text-base">
+          This tutorial series will primarily focus on projects that can be done with an <strong>Arduino UNO</strong> or compatible boards, as they provide the perfect starting point for your journey.
+        </p>
       </>
     ),
   },
