@@ -21,8 +21,15 @@ export default function OperationalAmplifiersTutorialPage() {
       <Breadcrumbs items={breadcrumbItems} />
       
       <header className="mb-8 md:mb-12 py-8 md:py-12 bg-muted/30 rounded-lg text-center shadow">
-        <div className="inline-block bg-primary/10 p-3 rounded-full mb-4">
-            <OpAmpIcon className="h-12 w-12 md:h-16 md:w-16 text-primary" />
+        <div className="flex justify-center mb-4">
+            <Image
+              src="https://placehold.co/150x150.png"
+              alt="Operational Amplifier Icon"
+              data-ai-hint="op-amp integrated circuit"
+              width={100}
+              height={100}
+              className="rounded-full bg-primary/10 p-3 shadow-md"
+            />
         </div>
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-primary">Operational Amplifier Tutorials</h1>
         <p className="mt-3 md:mt-4 max-w-2xl mx-auto text-muted-foreground md:text-lg">
