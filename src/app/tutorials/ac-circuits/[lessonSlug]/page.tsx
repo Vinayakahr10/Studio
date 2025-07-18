@@ -59,7 +59,6 @@ export default function ACCircuitLessonPage({ params }: LessonPageProps) {
       
       <header className="mb-8 md:mb-10 pb-6 border-b">
          <div className="flex items-center text-primary mb-3">
-            <TopicIcon className="h-7 w-7 mr-2.5" />
             <span className="text-sm font-medium tracking-wide uppercase">AC CIRCUIT THEORY</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">

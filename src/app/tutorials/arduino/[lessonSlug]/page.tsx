@@ -58,7 +58,6 @@ export default function ArduinoLessonPage({ params }: LessonPageProps) {
       
       <header className="mb-8 md:mb-10 pb-6 border-b">
          <div className="flex items-center text-primary mb-2">
-            <Cpu className="h-7 w-7 mr-2" />
             <span className="text-sm font-medium tracking-wide">ARDUINO TUTORIAL</span>
         </div>
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">

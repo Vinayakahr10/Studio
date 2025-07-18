@@ -57,7 +57,6 @@ export default function ESP32LessonPage({ params }: LessonPageProps) {
       
       <header className="mb-8 md:mb-10 pb-6 border-b">
          <div className="flex items-center text-primary mb-2">
-            <Router className="h-7 w-7 mr-2" /> {/* Using Router icon */}
             <span className="text-sm font-medium tracking-wide uppercase">ESP32 & ESP8266 TUTORIAL</span>
         </div>
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
