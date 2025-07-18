@@ -1,10 +1,10 @@
 
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
   Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, 
-  LineChart, Triangle, ArrowRightLeft, Timer, Radio, GitMerge, Bolt, Layers, Diamond, PieChart, Signal
+  ArrowRight, Triangle as OpAmpIcon, ArrowRightLeft, Timer, Radio, GitMerge, Bolt, Layers, Diamond, PieChart, Signal
 } from 'lucide-react';
 
 const toolsData = [
@@ -72,7 +72,7 @@ const toolsData = [
     title: "Op-Amp Gain Calculator",
     description: "Calculate gain for common op-amp configurations like inverting and non-inverting amplifiers.",
     href: "/tools/op-amp-calculator",
-    Icon: Triangle,
+    Icon: OpAmpIcon,
   },
   {
     title: "Ideal Diode Calculator",
@@ -108,7 +108,7 @@ const toolsData = [
     title: "Series Resistor Calculator",
     description: "Calculate the total resistance of resistors connected in series.",
     href: "/tools/series-resistor-calculator",
-    Icon: Network, // Re-using Network icon, or combine if better
+    Icon: Network, 
   },
   {
     title: "Capacitors in Series/Parallel",
@@ -126,7 +126,7 @@ const toolsData = [
     title: "Wheatstone Bridge Calculator",
     description: "Calculate unknown resistance in a balanced Wheatstone bridge.",
     href: "/tools/wheatstone-bridge-calculator",
-    Icon: Diamond, // Abstract representation
+    Icon: Diamond, 
   },
   {
     title: "Power Factor Calculator",
@@ -149,24 +149,36 @@ export default function ToolsPage() {
       </section>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-        {toolsData.map((tool) => (
-          <Card key={tool.title} className="flex flex-col shadow-lg hover:shadow-xl transition-shadow hover:bg-muted/30">
-            <CardHeader className="items-center text-center">
-              <div className="p-3 bg-primary/10 rounded-full w-fit mb-3">
-                 <tool.Icon className="h-8 w-8 text-primary" />
-              </div>
-              <CardTitle className="text-xl">{tool.title}</CardTitle>
-            </CardHeader>
-            <CardContent className="flex-grow text-center">
-              <CardDescription>{tool.description}</CardDescription>
-            </CardContent>
-            <CardContent className="text-center">
-              <Button asChild>
-                <Link href={tool.href}>Use Tool</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+        {toolsData.map((tool) => {
+           const ToolIcon = tool.Icon;
+           return (
+            <Card key={tool.title} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+              <CardHeader className="p-0">
+                <Link href={tool.href} className="block" aria-label={`Use tool: ${tool.title}`}>
+                  <div className="relative aspect-[4/3] w-full bg-primary/5 flex items-center justify-center">
+                    <ToolIcon className="h-16 w-16 text-primary/80" />
+                  </div>
+                </Link>
+              </CardHeader>
+              <CardContent className="flex-grow p-6 space-y-2">
+                <CardTitle className="text-xl font-semibold">
+                  <Link href={tool.href} className="hover:text-primary transition-colors">
+                    {tool.title}
+                  </Link>
+                </CardTitle>
+                <CardDescription className="text-sm text-muted-foreground line-clamp-3">
+                  {tool.description}
+                </CardDescription>
+              </CardContent>
+              <CardFooter className="p-6 pt-0">
+                <Button asChild variant="default" className="w-full transition-colors group">
+                  <Link href={tool.href}>
+                    Use Tool <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
+        )})}
       </section>
     </div>
   );
