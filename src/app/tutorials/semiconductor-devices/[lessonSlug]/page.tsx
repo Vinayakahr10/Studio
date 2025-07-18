@@ -44,12 +44,15 @@ export default function SemiconductorDeviceLessonPage({ params }: LessonPageProp
 
   return (
     <article className="w-full">
-      <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert max-w-none 
-                      prose-headings:font-semibold prose-headings:text-foreground 
-                      prose-p:text-muted-foreground prose-li:text-muted-foreground
-                      prose-a:text-primary hover:prose-a:underline
-                      prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm prose-code:text-foreground
-                      prose-pre:bg-background prose-pre:shadow-md
+      <div className="prose dark:prose-invert max-w-none 
+                      prose-headings:text-primary prose-headings:font-bold prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+                      prose-p:leading-relaxed prose-p:text-lg prose-p:text-foreground/80
+                      prose-a:text-primary prose-a:font-medium hover:prose-a:underline
+                      prose-ul:list-disc prose-ul:pl-6 prose-li:text-lg prose-li:text-foreground/80 prose-li:my-1
+                      prose-ol:list-decimal prose-ol:pl-6 prose-ol:text-lg prose-ol:text-foreground/80
+                      prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-foreground/60
+                      prose-code:bg-muted prose-code:px-1.5 prose-code:py-1 prose-code:rounded-md prose-code:font-mono prose-code:text-sm prose-code:text-foreground
+                      prose-pre:bg-background/95 prose-pre:shadow-lg prose-pre:rounded-lg
                       ">
         <h1>{lesson.mainTitle || lesson.title}</h1>
         {lesson.content}
