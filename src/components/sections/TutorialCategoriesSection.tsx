@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu, Pi, Wifi, Gauge, CircuitBoard, Component, Network, Router, ToggleRight, Activity, Triangle as OpAmpIcon, Binary as DigitalIcon, MemoryStick as SemiconductorIcon, BatteryCharging as PowerIcon, Waves } from 'lucide-react';
+import Image from 'next/image';
 
 export const categoriesData: Category[] = [
   { id: 'arduino', name: 'Arduino', Icon: Cpu, href: '/tutorials/arduino', description: 'Microcontroller projects and guides.' },
@@ -47,10 +48,14 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
             {categoriesToDisplay.map((category) => {
                 const CategoryIcon = category.Icon;
                 return(
-                <Card key={category.id} className="w-64 h-[355px] flex flex-col text-center shadow-lg transition-all hover:shadow-xl hover:-translate-y-1">
+                <Card key={category.id} className="w-[256px] h-[355px] flex flex-col text-center shadow-lg transition-all hover:shadow-xl hover:-translate-y-1">
                   <CardHeader className="items-center pt-8">
                     <div className="p-4 bg-primary/10 rounded-full w-fit mb-3">
-                        <CategoryIcon className="h-10 w-10 text-primary" />
+                        {category.id === 'arduino' ? (
+                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" width={40} height={40} className="h-10 w-10 text-primary" />
+                        ) : (
+                          <CategoryIcon className="h-10 w-10 text-primary" />
+                        )}
                     </div>
                     <CardTitle className="text-xl">{category.name}</CardTitle>
                   </CardHeader>
