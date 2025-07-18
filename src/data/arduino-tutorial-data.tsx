@@ -69,17 +69,28 @@ export const arduinoTutorialLessons: ArduinoLesson[] = [
           Connect your Arduino board to your computer using a USB cable. The green power LED (labeled PWR) should light up.
         </p>
         <h3 className="text-2xl font-semibold mt-6 mb-3">3. Configure the Arduino IDE</h3>
-        <p className="mb-2">
-          Open the Arduino IDE. You need to tell the IDE which board you are using and which serial port it's connected to.
-        </p>
-        <ul className="list-decimal list-inside space-y-2 mb-4">
-          <li>
-            <strong>Select your board:</strong> Go to <code className="bg-muted px-1 rounded">Tools {'>'} Board</code> and choose your Arduino board type (e.g., "Arduino Uno").
-          </li>
-          <li>
-            <strong>Select your port:</strong> Go to <code className="bg-muted px-1 rounded">Tools {'>'} Port</code>. You should see a COM port (on Windows) or a /dev/tty port (on macOS/Linux) that corresponds to your Arduino. It might be labeled with the board name. If you're unsure, unplug your Arduino and check the Port menu, then plug it back in and see which new port appears.
-          </li>
-        </ul>
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold text-lg">1. Select the Board:</h4>
+            <ul className="list-disc list-inside space-y-1 mt-2 pl-4">
+              <li>Go to <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">Tools</code> {'>'} <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">Board</code> {'>'} <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">Arduino AVR Boards</code> {'>'} <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">Arduino Uno</code></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-lg">2. Select the Port:</h4>
+            <ul className="list-disc list-inside space-y-1 mt-2 pl-4">
+              <li>Go to <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">Tools</code> {'>'} <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">Port</code> and select the port where your Arduino Uno is connected.</li>
+              <li>On Windows, it might appear as <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">COM3</code>, <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">COM4</code>, etc.</li>
+              <li>On macOS or Linux, it may appear as <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">/dev/ttyUSB0</code> or similar.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-lg">3. Check the Connection:</h4>
+             <ul className="list-disc list-inside space-y-1 mt-2 pl-4">
+              <li>Click on <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">Tools</code> {'>'} <code className="bg-muted px-2 py-1 rounded-md font-mono text-sm text-primary">Get Board Info</code> to verify that the board is detected.</li>
+            </ul>
+          </div>
+        </div>
         <h3 className="text-2xl font-semibold mt-6 mb-3">4. Upload Your First Sketch: Blink</h3>
         <p className="mb-2">
           The "Blink" sketch is the "Hello, World!" of microcontrollers. It makes the built-in LED on your Arduino board blink.
