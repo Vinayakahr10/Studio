@@ -19,7 +19,6 @@ export default function OperationalAmplifiersLayout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileLessonsExpanded, setIsMobileLessonsExpanded] = useState(false);
-  const [isReadingMode, setIsReadingMode] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -73,25 +72,11 @@ export default function OperationalAmplifiersLayout({
               />
           </div>
         )}
-        <div className="flex items-center space-x-2 mt-4">
-            <Switch id="reading-mode-toggle-mobile" checked={isReadingMode} onCheckedChange={setIsReadingMode} />
-            <Label htmlFor="reading-mode-toggle-mobile" className="flex items-center gap-1.5 cursor-pointer">
-                <BookOpen className="h-4 w-4" /> Reading Mode
-            </Label>
-        </div>
       </div>
 
       {/* Main Content Area */}
       <main className="flex-grow p-4 sm:p-6 md:p-8 overflow-y-auto bg-background">
-        <div className="hidden md:flex justify-end mb-4">
-          <div className="flex items-center space-x-2">
-            <Switch id="reading-mode-toggle" checked={isReadingMode} onCheckedChange={setIsReadingMode} />
-            <Label htmlFor="reading-mode-toggle" className="flex items-center gap-1.5 cursor-pointer">
-              <BookOpen className="h-4 w-4" /> Reading Mode
-            </Label>
-          </div>
-        </div>
-        <div className={cn("bg-card p-6 md:p-8 rounded-lg shadow-md", isReadingMode && 'reading-mode')}>
+        <div className="bg-card p-6 md:p-8 rounded-lg shadow-md">
           {children}
         </div>
       </main>
