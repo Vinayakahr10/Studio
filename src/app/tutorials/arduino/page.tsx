@@ -28,34 +28,29 @@ export default function ArduinoTutorialPage() {
         </p>
       </header>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {arduinoTutorialLessons.map((lesson) => (
-          <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
-            <CardHeader className="p-0">
-                <div className="w-full h-40 bg-primary/5 flex items-center justify-center">
-                    <Image src={`https://placehold.co/128x128.png`} data-ai-hint="code syntax abstract" alt="Lesson thumbnail" width={128} height={128} className="rounded-full bg-background p-2 opacity-50" />
-                </div>
-            </CardHeader>
-            <CardContent className="flex-grow p-6 space-y-2">
-              <CardTitle className="text-lg font-semibold h-12">
-                 <Link href={`/tutorials/arduino/${lesson.slug}`} className="hover:text-primary transition-colors">
-                    {lesson.title}
-                 </Link>
-              </CardTitle>
-              <CardDescription className="text-sm text-muted-foreground line-clamp-3 h-[60px]">
-                {lesson.description}
-              </CardDescription>
-            </CardContent>
-            <CardFooter className="p-6 pt-0">
-              <Button asChild variant="outline" className="w-full transition-colors group">
-                <Link href={`/tutorials/arduino/${lesson.slug}`}>
-                  Read Lesson <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+      <Card>
+        <CardHeader>
+          <CardTitle>All Lessons</CardTitle>
+          <CardDescription>Browse through the complete list of lessons in the Arduino Tutorial series.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-2">
+            {arduinoTutorialLessons.map((lesson) => (
+              <li key={lesson.slug}>
+                <Link href={`/tutorials/arduino/${lesson.slug}`} className="block p-4 rounded-md transition-colors hover:bg-muted/50">
+                  <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold text-primary">{lesson.title}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{lesson.description}</p>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
+                  </div>
                 </Link>
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </section>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   );
 }

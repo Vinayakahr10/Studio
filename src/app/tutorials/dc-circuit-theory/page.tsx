@@ -1,12 +1,9 @@
 
-import { Zap, BookOpen, UserCheck, Settings, Sigma, FileText, AlertTriangle, CheckCircle2, ChevronRight } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Zap, ChevronRight } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import Link from 'next/link';
 import { dcCircuitLessons } from '@/data/dc-circuit-theory-lessons';
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/ui/breadcrumbs';
-import Image from 'next/image';
 
 export default function DCCircuitsTutorialPage() {
     const breadcrumbItems: BreadcrumbItem[] = [
@@ -31,39 +28,29 @@ export default function DCCircuitsTutorialPage() {
         </p>
       </header>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {dcCircuitLessons.map((lesson) => {
-          const LessonIcon = lesson.Icon || Zap;
-          return (
-            <Card key={lesson.slug} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
-              <CardHeader className="p-0">
-                <Link href={`/tutorials/dc-circuit-theory/${lesson.slug}`} className="block" aria-label={`View lesson: ${lesson.title}`}>
-                  <div className="w-full h-40 bg-primary/5 flex items-center justify-center">
-                    <LessonIcon className="h-16 w-16 text-primary/80" />
+      <Card>
+        <CardHeader>
+          <CardTitle>All Lessons</CardTitle>
+          <CardDescription>Browse through the complete list of lessons in the DC Circuit Theory series.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-2">
+            {dcCircuitLessons.map((lesson) => (
+              <li key={lesson.slug}>
+                <Link href={`/tutorials/dc-circuit-theory/${lesson.slug}`} className="block p-4 rounded-md transition-colors hover:bg-muted/50">
+                  <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold text-primary">{lesson.title.replace(/^\d+\.\s*/, '')}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{lesson.description}</p>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
                   </div>
                 </Link>
-              </CardHeader>
-              <CardContent className="flex-grow p-6 space-y-2">
-                <CardTitle className="text-lg font-semibold h-12">
-                  <Link href={`/tutorials/dc-circuit-theory/${lesson.slug}`} className="hover:text-primary transition-colors">
-                    {lesson.title.replace(/^\d+\.\s*/, '')}
-                  </Link>
-                </CardTitle>
-                <CardDescription className="text-sm text-muted-foreground line-clamp-3 h-[60px]">
-                  {lesson.description}
-                </CardDescription>
-              </CardContent>
-              <CardFooter className="p-6 pt-0">
-                <Button asChild variant="outline" className="w-full transition-colors group">
-                  <Link href={`/tutorials/dc-circuit-theory/${lesson.slug}`}>
-                    Read Lesson <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          );
-        })}
-      </section>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   );
 }
