@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import type { Category } from '@/types';
+import Image from 'next/image';
 
 export default function TutorialsPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,6 +34,18 @@ export default function TutorialsPage() {
           Explore our extensive library of electronics tutorials. Start learning today!
         </p>
       </div>
+
+      <section className="mb-12">
+        <Image
+          src="https://placehold.co/1200x400.png"
+          alt="A collection of electronic components and schematics"
+          data-ai-hint="electronics learning components"
+          width={1200}
+          height={400}
+          className="w-full rounded-lg object-cover shadow-lg"
+          priority
+        />
+      </section>
 
        <div className="mb-8 max-w-xl mx-auto">
         <div className="relative">
