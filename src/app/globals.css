@@ -10,7 +10,7 @@ body {
 
 @layer base {
   :root {
-    --background: 207 88% 96%; /* Very light blue (#E3F2FD) */
+    --background: 0 0% 98%; /* Very light gray (#FAFAFA) */
     --foreground: 210 20% 20%; /* Dark cool gray */
 
     --card: 0 0% 100%; /* White */
@@ -22,8 +22,8 @@ body {
     --primary: 207 90% 67%; /* Soft blue (#64B5F6) */
     --primary-foreground: 210 30% 98%; /* Very light gray/white for text on primary */
 
-    --secondary: 207 80% 90%; /* Lighter blue */
-    --secondary-foreground: 207 90% 30%; /* Darker blue for text on secondary */
+    --secondary: 210 30% 96%; /* Light gray */
+    --secondary-foreground: 210 20% 30%; /* Darker gray for text on secondary */
 
     --muted: 210 30% 94%; /* Slightly darker light gray */
     --muted-foreground: 210 20% 45%; /* Medium cool gray */
