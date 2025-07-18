@@ -6,10 +6,11 @@ import { useState } from 'react';
 import { TutorialSidebar } from '@/components/layout/TutorialSidebar';
 import { stm32TutorialLessons } from '@/data/stm32-tutorial-lessons';
 import { Button } from '@/components/ui/button'; 
-import { ChevronDown, ChevronUp, ChevronsLeft, ChevronsRight } from 'lucide-react'; 
+import { ChevronDown, ChevronUp, ChevronsLeft, ChevronsRight, BookOpen } from 'lucide-react'; 
 import type { STM32Lesson } from '@/types';
 import { cn } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 export default function STM32Layout({
   children,
@@ -18,6 +19,7 @@ export default function STM32Layout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileLessonsExpanded, setIsMobileLessonsExpanded] = useState(false);
+  const [isReadingMode, setIsReadingMode] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -72,7 +74,15 @@ export default function STM32Layout({
       </div>
 
       <main className="flex-grow p-4 sm:p-6 md:p-8 overflow-y-auto bg-background">
-        <div className="bg-card p-6 md:p-8 rounded-lg shadow-md">
+        <div className="flex justify-end mb-4">
+          <div className="flex items-center space-x-2">
+            <Switch id="reading-mode-toggle" checked={isReadingMode} onCheckedChange={setIsReadingMode} />
+            <Label htmlFor="reading-mode-toggle" className="flex items-center gap-1.5 cursor-pointer">
+              <BookOpen className="h-4 w-4" /> Reading Mode
+            </Label>
+          </div>
+        </div>
+        <div className={cn("bg-card p-6 md:p-8 rounded-lg shadow-md", isReadingMode && 'reading-mode')}>
           {children}
         </div>
       </main>

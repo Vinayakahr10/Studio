@@ -158,4 +158,37 @@ body {
   .tutorial-content pre {
     @apply bg-background/95 shadow-lg rounded-lg;
   }
+
+  /* Reading Mode Styles */
+  .reading-mode {
+    @apply bg-[#FBF5E9] text-[#5C4033]; /* Sepia background, soft brown text */
+  }
+
+  .dark .reading-mode {
+    @apply bg-[#2a241b] text-[#c4b8a8]; /* Dark sepia background, light sepia text */
+  }
+
+  .reading-mode h1,
+  .reading-mode h2,
+  .reading-mode h3,
+  .reading-mode h4,
+  .reading-mode h5,
+  .reading-mode h6 {
+    @apply text-[#4a3328] dark:text-[#d4c8b8];
+  }
+  
+  .reading-mode a {
+    @apply text-amber-700 dark:text-amber-400;
+  }
+  
+  .reading-mode blockquote {
+    @apply border-amber-600 bg-[#f8f0e0] dark:bg-[#382f23] text-[#70503f] dark:text-[#a89888];
+  }
+
+  .reading-mode code:not(pre > code) {
+    @apply bg-[#f5e9d9] dark:bg-[#4a3328] text-amber-800 dark:text-amber-300;
+  }
+  .reading-mode pre {
+    @apply bg-[#f5e9d9] dark:bg-[#1f1a14];
+  }
 }

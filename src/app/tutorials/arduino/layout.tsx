@@ -1,14 +1,15 @@
 
-"use client"; // Required for useState
+"use client"; 
 
 import type { ReactNode } from 'react';
-import { useState } from 'react'; // Added for state management
+import { useState } from 'react';
 import { TutorialSidebar } from '@/components/layout/TutorialSidebar';
 import { arduinoTutorialLessons } from '@/data/arduino-tutorial-data.tsx';
-import { Button } from '@/components/ui/button'; // Added for the toggle button
-import { ChevronDown, ChevronUp, ChevronsLeft, ChevronsRight } from 'lucide-react'; // Added for icons
+import { Button } from '@/components/ui/button'; 
+import { ChevronDown, ChevronUp, ChevronsLeft, ChevronsRight, BookOpen } from 'lucide-react'; 
 import { cn } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 export default function ArduinoTutorialLayout({
   children,
@@ -17,6 +18,7 @@ export default function ArduinoTutorialLayout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileLessonsExpanded, setIsMobileLessonsExpanded] = useState(false);
+  const [isReadingMode, setIsReadingMode] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -66,7 +68,7 @@ export default function ArduinoTutorialLayout({
               <TutorialSidebar 
                   lessons={arduinoTutorialLessons} 
                   basePath="/tutorials/arduino"
-                  showSidebarHeader={false} // Title is handled above
+                  showSidebarHeader={false} 
               />
           </div>
         )}
@@ -74,7 +76,15 @@ export default function ArduinoTutorialLayout({
 
       {/* Main Content Area */}
       <main className="flex-grow p-4 sm:p-6 md:p-8 overflow-y-auto bg-background">
-        <div className="bg-card p-6 md:p-8 rounded-lg shadow-md">
+        <div className="flex justify-end mb-4">
+          <div className="flex items-center space-x-2">
+            <Switch id="reading-mode-toggle" checked={isReadingMode} onCheckedChange={setIsReadingMode} />
+            <Label htmlFor="reading-mode-toggle" className="flex items-center gap-1.5 cursor-pointer">
+              <BookOpen className="h-4 w-4" /> Reading Mode
+            </Label>
+          </div>
+        </div>
+        <div className={cn("bg-card p-6 md:p-8 rounded-lg shadow-md", isReadingMode && 'reading-mode')}>
           {children}
         </div>
       </main>
