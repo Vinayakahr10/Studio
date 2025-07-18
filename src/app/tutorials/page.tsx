@@ -35,18 +35,6 @@ export default function TutorialsPage() {
         </p>
       </div>
 
-      <section className="mb-12">
-        <Image
-          src="https://placehold.co/1200x400.png"
-          alt="A collection of electronic components and schematics"
-          data-ai-hint="electronics learning components"
-          width={1200}
-          height={400}
-          className="w-full rounded-lg object-cover shadow-lg"
-          priority
-        />
-      </section>
-
        <div className="mb-8 max-w-xl mx-auto">
         <div className="relative">
           <Input 
