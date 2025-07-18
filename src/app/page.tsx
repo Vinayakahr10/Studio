@@ -41,32 +41,24 @@ export default function HomePage() {
       {/* Featured Guide Section */}
       <section className="w-full py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="space-y-4">
+          <div className="grid md:grid-cols-1 gap-8 md:gap-12 items-center">
+            <div className="space-y-4 text-center max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">Start Your Journey with Our Flagship Guide</h2>
               <h3 className="text-2xl font-semibold">Electronics from Zero to Hero</h3>
               <p className="text-muted-foreground text-lg">
                 Our comprehensive guide is the perfect starting point. We'll take you step-by-step from the absolute basics of circuits to building complex, internet-connected projects. No prior experience needed!
               </p>
-              <ul className="space-y-2 text-muted-foreground">
+              <ul className="space-y-2 text-muted-foreground text-left inline-block">
                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Understand core electronics principles.</span></li>
                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Write and debug code with confidence.</span></li>
                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Interface with sensors, motors, and displays.</span></li>
                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Build your first interactive project.</span></li>
               </ul>
-              <Button asChild size="lg" className="mt-4">
-                <Link href="/tutorials">Start the Guide <ArrowRight className="ml-2 h-4 w-4" /></Link>
-              </Button>
-            </div>
-            <div>
-              <Image 
-                src="https://placehold.co/600x400.png"
-                alt="Electronics learning kit with various components"
-                data-ai-hint="electronics learning kit"
-                width={600}
-                height={400}
-                className="rounded-lg shadow-xl"
-              />
+              <div>
+                <Button asChild size="lg" className="mt-4">
+                  <Link href="/tutorials">Start the Guide <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
