@@ -1,8 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ArrowRight, BookOpen, Wrench, Package, BrainCircuit, Users, HardHat, Lightbulb, CheckCircle } from 'lucide-react';
+import { ArrowRight, BookOpen, Wrench, Package, BrainCircuit, Users, HardHat, Lightbulb, CheckCircle, Network, Cpu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ContactCallToActionSection } from '@/components/sections/ContactCallToActionSection';
@@ -78,48 +77,55 @@ export default function HomePage() {
               Whether you're a beginner or looking to sharpen your skills, our tutorials cover the essential areas of electronics.
             </p>
           </div>
-          <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
-              <AccordionItem value="item-1">
-                <AccordionTrigger className="text-xl font-semibold hover:no-underline py-4">
-                  <div className="flex items-center gap-3"><HardHat className="h-6 w-6 text-primary"/>Fundamental Circuit Theory</div>
-                </AccordionTrigger>
-                <AccordionContent className="text-base pt-2 pb-4 space-y-2 text-muted-foreground">
-                  Master the essential principles that govern all electronic circuits. Our lessons on DC and AC circuit theory cover everything from Ohm's Law and Kirchhoff's Laws to impedance, resonance, and filters. A strong foundation here is key to becoming a proficient electronics engineer.
-                  <div className="pt-2">
-                    <Button asChild variant="link" className="p-0">
-                      <Link href="/tutorials/dc-circuit-theory">Explore DC Circuits <ArrowRight className="ml-1 h-4 w-4"/></Link>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="text-center flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="items-center">
+                    <div className="p-3 bg-primary/10 rounded-full w-fit mb-2">
+                        <Network className="h-8 w-8 text-primary"/>
+                    </div>
+                    <CardTitle>Fundamental Circuit Theory</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                    <CardDescription>Master the essential principles of DC and AC circuits, from Ohm's Law to resonance and filters.</CardDescription>
+                </CardContent>
+                <CardContent>
+                    <Button asChild variant="outline">
+                        <Link href="/tutorials/dc-circuit-theory">Learn More <ArrowRight className="ml-2 h-4 w-4"/></Link>
                     </Button>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger className="text-xl font-semibold hover:no-underline py-4">
-                  <div className="flex items-center gap-3"><BrainCircuit className="h-6 w-6 text-primary"/>Microcontrollers & IoT</div>
-                </AccordionTrigger>
-                <AccordionContent className="text-base pt-2 pb-4 space-y-2 text-muted-foreground">
-                  Learn to program the "brains" of modern electronics. Our tutorials for various microcontrollers will teach you how to read sensors, control motors, and connect your projects to the internet, opening up a world of possibilities in the Internet of Things (IoT).
-                  <div className="pt-2">
-                    <Button asChild variant="link" className="p-0">
-                      <Link href="/tutorials/esp32">Explore Microcontrollers <ArrowRight className="ml-1 h-4 w-4"/></Link>
+                </CardContent>
+            </Card>
+             <Card className="text-center flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="items-center">
+                     <div className="p-3 bg-primary/10 rounded-full w-fit mb-2">
+                        <Cpu className="h-8 w-8 text-primary"/>
+                    </div>
+                    <CardTitle>Microcontrollers & IoT</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                    <CardDescription>Learn to program the brains of modern electronics. Read sensors, control motors, and connect your projects to the internet.</CardDescription>
+                </CardContent>
+                 <CardContent>
+                    <Button asChild variant="outline">
+                        <Link href="/tutorials/esp32">Learn More <ArrowRight className="ml-2 h-4 w-4"/></Link>
                     </Button>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger className="text-xl font-semibold hover:no-underline py-4">
-                   <div className="flex items-center gap-3"><Lightbulb className="h-6 w-6 text-primary"/>Digital & Analog Electronics</div>
-                </AccordionTrigger>
-                <AccordionContent className="text-base pt-2 pb-4 space-y-2 text-muted-foreground">
-                  Dive into the building blocks of electronics. Understand how semiconductor devices like diodes and transistors work. Learn about digital logic gates, Boolean algebra, and operational amplifiers to design and analyze both digital and analog circuits effectively.
-                   <div className="pt-2">
-                    <Button asChild variant="link" className="p-0">
-                      <Link href="/tutorials/digital-electronics">Explore Digital Logic <ArrowRight className="ml-1 h-4 w-4"/></Link>
+                </CardContent>
+            </Card>
+             <Card className="text-center flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="items-center">
+                     <div className="p-3 bg-primary/10 rounded-full w-fit mb-2">
+                        <Lightbulb className="h-8 w-8 text-primary"/>
+                    </div>
+                    <CardTitle>Digital & Analog Electronics</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                   <CardDescription>Understand semiconductor devices, digital logic gates, and operational amplifiers to design and analyze circuits.</CardDescription>
+                </CardContent>
+                 <CardContent>
+                    <Button asChild variant="outline">
+                        <Link href="/tutorials/digital-electronics">Learn More <ArrowRight className="ml-2 h-4 w-4"/></Link>
                     </Button>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                </CardContent>
+            </Card>
           </div>
         </div>
       </section>
