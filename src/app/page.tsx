@@ -129,32 +129,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      
-      {/* Community & CTA Section */}
-       <section className="w-full py-12 md:py-16 lg:py-20 bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-block bg-primary/10 p-3 rounded-full mb-4">
-              <Users className="h-8 w-8 text-primary" />
-            </div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary">
-              Join the Community & Get in Touch
-            </h2>
-            <p className="mt-4 max-w-xl mx-auto text-muted-foreground md:text-lg">
-              Connect with fellow electronics enthusiasts, share your projects, and ask questions. If you need to contact us directly, we're here to help!
-            </p>
-            <div className="mt-8 flex flex-col gap-3 min-[400px]:flex-row justify-center">
-              <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-md hover:shadow-lg">
-                <Link href="/contact">Contact Us</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="transition-transform hover:scale-105">
-                <Link href="/faq">Read our FAQ</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
     </div>
   );
 }
