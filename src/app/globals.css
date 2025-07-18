@@ -57,32 +57,32 @@ body {
   }
 
   .dark {
-    --background: 220 25% 12%; /* Deep Desaturated Blue */
-    --foreground: 210 40% 95%; /* Light Gray */
+    --background: 0 0% 0%; /* Pure Black */
+    --foreground: 0 0% 100%; /* Pure White */
 
-    --card: 220 25% 18%; /* Slightly lighter Deep Desaturated Blue */
-    --card-foreground: 210 40% 95%; /* Light Gray */
+    --card: 0 0% 5%; /* Very Dark Gray */
+    --card-foreground: 0 0% 98%; /* Light Gray */
 
-    --popover: 220 25% 16%; /* Darker popover */
-    --popover-foreground: 210 40% 95%; /* Light Gray */
+    --popover: 0 0% 3%; /* Near Black */
+    --popover-foreground: 0 0% 98%; /* Light Gray */
 
-    --primary: 195 70% 60%; /* Lighter/brighter Teal/Blue */
-    --primary-foreground: 220 25% 10%; /* Very dark for text on primary */
+    --primary: 195 70% 60%; /* Brighter Teal/Blue */
+    --primary-foreground: 0 0% 5%; /* Very dark for text on primary */
 
-    --secondary: 220 20% 25%; /* Darker Muted Blue */
-    --secondary-foreground: 210 40% 85%; /* Lighter Gray for text on secondary */
+    --secondary: 0 0% 15%; /* Dark Gray */
+    --secondary-foreground: 0 0% 95%; /* Lighter Gray for text on secondary */
 
-    --muted: 220 25% 22%; /* Dark Muted Blue/Gray */
-    --muted-foreground: 210 30% 70%; /* Lighter Gray for muted text */
+    --muted: 0 0% 10%; /* Dark Gray */
+    --muted-foreground: 0 0% 60%; /* Medium Gray */
 
     --accent: 25 90% 65%; /* Brighter Orange/Coral */
-    --accent-foreground: 25 70% 15%; /* Dark Brown for text on accent */
+    --accent-foreground: 0 0% 5%; /* Dark for text on accent */
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 50.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 25% 28%; /* Darker Border */
-    --input: 220 25% 20%; /* Darker Input */
+    --border: 0 0% 15%; /* Dark Gray Border */
+    --input: 0 0% 10%; /* Dark Input */
     --ring: 195 70% 55%; /* Primary Color for Rings */
 
     --chart-1: 195 65% 55%;
@@ -91,14 +91,13 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    /* Default dark sidebar colors from shadcn, can be adjusted if needed */
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 10%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
