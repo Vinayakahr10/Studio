@@ -5,7 +5,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { ArrowRight, BookOpen, Wrench, Package, BrainCircuit, Users, HardHat, Lightbulb, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FeaturedProjectsSection } from '@/components/sections/FeaturedProjectsSection';
 import { ContactCallToActionSection } from '@/components/sections/ContactCallToActionSection';
 
 export default function HomePage() {
@@ -39,31 +38,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Guide: Arduino Zero to Hero Section */}
+      {/* Featured Guide Section */}
       <section className="w-full py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="space-y-4">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">Start Your Journey with Our Flagship Guide</h2>
-              <h3 className="text-2xl font-semibold">Arduino from Zero to Hero</h3>
+              <h3 className="text-2xl font-semibold">Electronics from Zero to Hero</h3>
               <p className="text-muted-foreground text-lg">
-                Our comprehensive guide is the perfect starting point. We'll take you step-by-step from the absolute basics to building complex, internet-connected projects. No prior experience needed!
+                Our comprehensive guide is the perfect starting point. We'll take you step-by-step from the absolute basics of circuits to building complex, internet-connected projects. No prior experience needed!
               </p>
               <ul className="space-y-2 text-muted-foreground">
                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Understand core electronics principles.</span></li>
-                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Write and debug Arduino code with confidence.</span></li>
+                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Write and debug code with confidence.</span></li>
                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Interface with sensors, motors, and displays.</span></li>
-                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Build your first IoT project.</span></li>
+                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Build your first interactive project.</span></li>
               </ul>
               <Button asChild size="lg" className="mt-4">
-                <Link href="/tutorials/arduino-zero-to-hero">Start the Guide <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                <Link href="/tutorials">Start the Guide <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
             </div>
             <div>
               <Image 
                 src="https://placehold.co/600x400.png"
-                alt="Arduino board with various components"
-                data-ai-hint="arduino learning kit"
+                alt="Electronics learning kit with various components"
+                data-ai-hint="electronics learning kit"
                 width={600}
                 height={400}
                 className="rounded-lg shadow-xl"
@@ -102,10 +101,10 @@ export default function HomePage() {
                   <div className="flex items-center gap-3"><BrainCircuit className="h-6 w-6 text-primary"/>Microcontrollers & IoT</div>
                 </AccordionTrigger>
                 <AccordionContent className="text-base pt-2 pb-4 space-y-2 text-muted-foreground">
-                  Learn to program the "brains" of modern electronics. Our tutorials for Arduino, ESP32, and STM32 will teach you how to read sensors, control motors, and connect your projects to the internet, opening up a world of possibilities in the Internet of Things (IoT).
+                  Learn to program the "brains" of modern electronics. Our tutorials for various microcontrollers will teach you how to read sensors, control motors, and connect your projects to the internet, opening up a world of possibilities in the Internet of Things (IoT).
                   <div className="pt-2">
                     <Button asChild variant="link" className="p-0">
-                      <Link href="/tutorials/esp32">Explore ESP32 Tutorials <ArrowRight className="ml-1 h-4 w-4"/></Link>
+                      <Link href="/tutorials/esp32">Explore Microcontrollers <ArrowRight className="ml-1 h-4 w-4"/></Link>
                     </Button>
                   </div>
                 </AccordionContent>
@@ -128,9 +127,6 @@ export default function HomePage() {
         </div>
       </section>
       
-      {/* Featured Projects Section */}
-      <FeaturedProjectsSection />
-
       {/* Community & CTA Section */}
        <section className="w-full py-12 md:py-16 lg:py-20 bg-background">
         <div className="container mx-auto px-4 md:px-6">
