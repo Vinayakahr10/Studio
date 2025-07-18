@@ -17,7 +17,7 @@ export default function HomePage() {
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
           fill
           objectFit="cover"
-          className="absolute inset-0 z-0 brightness-[0.6]"
+          className="absolute inset-0 z-0 brightness-[0.7]"
           priority
         />
         <div className="relative z-10 p-4 space-y-4 max-w-4xl">
@@ -41,25 +41,30 @@ export default function HomePage() {
       {/* Featured Guide Section */}
       <section className="w-full py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-1 gap-8 md:gap-12 items-center">
-            <div className="space-y-4 text-center max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="space-y-4">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">Start Your Journey with Our Flagship Guide</h2>
               <h3 className="text-2xl font-semibold">Electronics from Zero to Hero</h3>
               <p className="text-muted-foreground text-lg">
                 Our comprehensive guide is the perfect starting point. We'll take you step-by-step from the absolute basics of circuits to building complex, internet-connected projects. No prior experience needed!
               </p>
-              <ul className="space-y-2 text-muted-foreground text-left inline-block">
-                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Understand core electronics principles.</span></li>
-                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Write and debug code with confidence.</span></li>
-                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Interface with sensors, motors, and displays.</span></li>
-                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-green-500" /><span>Build your first interactive project.</span></li>
-              </ul>
-              <div>
-                <Button asChild size="lg" className="mt-4">
+               <Button asChild size="lg" className="mt-4">
                   <Link href="/tutorials">Start the Guide <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
-              </div>
             </div>
+             <Card className="bg-muted/30 shadow-lg">
+                <CardHeader>
+                    <CardTitle>Key Skills You'll Learn</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <ul className="space-y-3 text-muted-foreground">
+                        <li className="flex items-center gap-3"><CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" /><span>Understand core electronics principles.</span></li>
+                        <li className="flex items-center gap-3"><CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" /><span>Write and debug code with confidence.</span></li>
+                        <li className="flex items-center gap-3"><CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" /><span>Interface with sensors, motors, and displays.</span></li>
+                        <li className="flex items-center gap-3"><CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" /><span>Build your first interactive project.</span></li>
+                    </ul>
+                </CardContent>
+            </Card>
           </div>
         </div>
       </section>
