@@ -15,7 +15,7 @@ export default function AboutPage() {
 
       <section className="mb-12 md:mb-16">
         <Image
-          src="https://placehold.co/1200x400.png"
+          src="https://lh3.googleusercontent.com/d/1AyP2Zwm_EfN9RxMRG6uF0AxubiTYGVsw"
           alt="Team working on electronics"
           data-ai-hint="team electronics collaboration"
           width={1200}
