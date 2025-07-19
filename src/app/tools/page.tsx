@@ -6,6 +6,7 @@ import {
   Calculator, Zap, Settings2, DraftingCompass, Sigma, Cpu, Network, RadioTower, Hourglass, Activity, 
   ArrowRight, Triangle as OpAmpIcon, ArrowRightLeft, Timer, Radio, GitMerge, Bolt, Layers, Diamond, PieChart, Signal
 } from 'lucide-react';
+import Image from 'next/image';
 
 const toolsData = [
   {
@@ -146,6 +147,16 @@ export default function ToolsPage() {
         <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-xl">
           A collection of handy calculators and utilities for electronics enthusiasts and professionals.
         </p>
+         <div className="mt-8 flex justify-center">
+            <Image
+              src="https://lh3.googleusercontent.com/d/1NT09WAiCDsB-CuTaT5PozJ8sYxpfT9Iu"
+              alt="Ohm's Law Wheel"
+              data-ai-hint="ohms law chart"
+              width={250}
+              height={250}
+              className="rounded-full object-contain"
+            />
+          </div>
       </section>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
