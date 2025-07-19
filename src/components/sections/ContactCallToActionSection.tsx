@@ -5,7 +5,7 @@ import { Mail } from 'lucide-react';
 
 export function ContactCallToActionSection() {
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-muted/50">
+    <section className="w-full py-12 md:py-16 lg:py-20 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-block bg-primary/10 p-3 rounded-full mb-4">
