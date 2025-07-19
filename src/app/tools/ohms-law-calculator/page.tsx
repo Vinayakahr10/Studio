@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Calculator, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import Image from 'next/image';
 
 type OhmsLawParameter = 'voltage' | 'current' | 'resistance' | 'power';
 
@@ -142,6 +143,16 @@ export default function OhmsLawCalculatorPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          <div className="my-4 flex justify-center">
+            <Image
+              src="https://lh3.googleusercontent.com/d/1NT09WAiCDsB-CuTaT5PozJ8sYxpfT9Iu"
+              alt="Ohm's Law Wheel"
+              data-ai-hint="ohms law chart"
+              width={400}
+              height={400}
+              className="rounded-full object-contain"
+            />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
             <div className="space-y-2">
               <Label htmlFor="voltage">Voltage (V)</Label>
@@ -200,5 +211,3 @@ export default function OhmsLawCalculatorPage() {
     </div>
   );
 }
-
-    
