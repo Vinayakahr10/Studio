@@ -65,14 +65,6 @@ export default function AboutPage() {
           </CardContent>
         </Card>
       </section>
-      
-      <section className="text-center py-8 bg-secondary/30 rounded-lg">
-        <h2 className="text-3xl font-semibold mb-4">Join Our Community</h2>
-        <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-          Connect with fellow learners, share your projects, and get help from experts. Follow us on social media and subscribe to our newsletter!
-        </p>
-        {/* Placeholder for social media links or newsletter signup */}
-      </section>
     </div>
   );
 }
