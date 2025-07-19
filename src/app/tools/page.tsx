@@ -14,6 +14,8 @@ const toolsData = [
     description: "Calculate Voltage (V), Current (I), Resistance (R), or Power (P) based on Ohm's Law.",
     href: "/tools/ohms-law-calculator",
     Icon: Calculator,
+    imageUrl: "https://lh3.googleusercontent.com/d/1NT09WAiCDsB-CuTaT5PozJ8sYxpfT9Iu",
+    imageHint: "ohms law chart",
   },
   {
     title: "Resistor Color Code Calculator",
@@ -167,7 +169,17 @@ export default function ToolsPage() {
               <CardHeader className="p-0">
                 <Link href={tool.href} className="block" aria-label={`Use tool: ${tool.title}`}>
                   <div className="relative aspect-[4/3] w-full bg-primary/5 flex items-center justify-center">
-                    <ToolIcon className="h-16 w-16 text-primary/80" />
+                    {tool.imageUrl ? (
+                      <Image 
+                        src={tool.imageUrl} 
+                        alt={tool.title} 
+                        data-ai-hint={tool.imageHint || tool.title.toLowerCase()}
+                        layout="fill"
+                        className="object-contain" 
+                      />
+                    ) : (
+                      <ToolIcon className="h-16 w-16 text-primary/80" />
+                    )}
                   </div>
                 </Link>
               </CardHeader>
