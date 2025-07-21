@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, Sigma, Cpu, Binary, Gauge, Network, BatteryCharging, ArrowRight, FileText } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -22,42 +22,42 @@ const notesData: NoteCategory[] = [
   {
     id: 'basic-electronics',
     title: 'Basic Electronics Concepts',
-    description: "Download Notes Here",
+    description: "View and download notes on fundamental principles.",
     Icon: Sigma,
     href: '#', // Placeholder link
   },
   {
     id: 'arduino-microcontrollers',
     title: 'Arduino & Microcontrollers',
-    description: "Download Notes Here",
+    description: "View and download notes for Arduino programming and hardware.",
     Icon: Cpu,
     href: '/tutorials/arduino',
   },
   {
     id: 'digital-logic',
     title: 'Digital Logic',
-    description: "Download Notes Here",
+    description: "View and download notes on binary, logic gates, and more.",
     Icon: Binary,
     href: '/tutorials/digital-electronics',
   },
   {
     id: 'sensors-actuators',
     title: 'Sensors and Actuators',
-    description: "Download Notes Here",
+    description: "View and download notes for interfacing with various sensors.",
     Icon: Gauge,
     href: '/categories/sensors',
   },
   {
     id: 'circuit-analysis',
     title: 'Circuit Analysis Techniques',
-    description: "Download Notes Here",
+    description: "View and download notes covering KVL, KCL, and theorems.",
     Icon: Network,
     href: '/tutorials/dc-circuit-theory',
   },
   {
     id: 'power-electronics',
     title: 'Power Electronics',
-    description: "Download Notes Here",
+    description: "View and download notes on rectifiers, inverters, and converters.",
     Icon: BatteryCharging,
     href: '/tutorials/power-electronics',
   },
@@ -105,32 +105,31 @@ export default function NotesPage() {
         </div>
       </div>
       
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {filteredNotes.length > 0 ? (
           filteredNotes.map((note) => {
             const NoteIcon = note.Icon;
             return (
-              <Card key={note.id} className="text-center flex flex-col justify-between transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary/50 hover:-translate-y-1">
-                <CardHeader className="items-center">
-                    <div className="p-4 bg-primary/10 rounded-full w-fit mb-4">
-                        <NoteIcon className="h-12 w-12 text-primary" />
+              <Link key={note.id} href={note.href} className="group block">
+                <Card className="h-full transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary/50 hover:-translate-y-1">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 text-primary p-3 rounded-lg">
+                        <NoteIcon className="h-6 w-6" />
+                      </div>
+                      <div className="flex-1">
+                        <CardTitle className="text-lg font-semibold leading-snug mb-1 group-hover:text-primary transition-colors">
+                            {note.title}
+                        </CardTitle>
+                        <CardDescription className="text-sm">
+                            {note.description}
+                        </CardDescription>
+                      </div>
+                      <ArrowRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                    <CardTitle className="text-xl font-semibold leading-snug">
-                        {note.title}
-                    </CardTitle>
-                    <CardDescription>
-                        {note.description}
-                    </CardDescription>
-                </CardHeader>
-                <CardFooter className="flex-col sm:flex-row gap-2 justify-center">
-                  <Button asChild variant="outline" className="w-full sm:w-auto">
-                    <Link href={note.href}>PDF Notes</Link>
-                  </Button>
-                  <Button asChild variant="outline" className="w-full sm:w-auto">
-                    <Link href={note.href}>Chapterwise Notes</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             )
           })
         ) : (
