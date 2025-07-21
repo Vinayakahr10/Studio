@@ -39,7 +39,7 @@ export default function ProjectsPage() {
           <Input 
             type="search" 
             placeholder="Search projects by title or description..." 
-            className="w-full pl-10 h-12 text-base rounded-lg" 
+            className="w-full pl-10 h-12 text-base rounded-lg border-foreground/50 focus-visible:ring-primary" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

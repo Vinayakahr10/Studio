@@ -29,7 +29,7 @@ export default function BlogPage() {
           <Input 
             type="search" 
             placeholder="Search articles..." 
-            className="w-full pl-10 h-12 text-base rounded-lg" 
+            className="w-full pl-10 h-12 text-base rounded-lg border-foreground/50 focus-visible:ring-primary" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             // Note: Search functionality for static data would need to be implemented here

@@ -40,7 +40,7 @@ export default function TutorialsPage() {
           <Input 
             type="search" 
             placeholder="Search tutorials by name or description..." 
-            className="w-full pl-10 h-12 text-base rounded-lg" 
+            className="w-full pl-10 h-12 text-base rounded-lg border-foreground/50 focus-visible:ring-primary" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
