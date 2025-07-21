@@ -20,7 +20,7 @@ export default function RaspberryPiProjectsPage() {
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
       <Breadcrumbs items={breadcrumbItems} />
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-primary">Raspberry Pi Projects</h1>
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-foreground">Raspberry Pi Projects</h1>
         <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-lg">
           Explore the capabilities of the Raspberry Pi single-board computer with these projects.
         </p>

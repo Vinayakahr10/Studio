@@ -18,7 +18,7 @@ export default function BlogPage() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-primary">EletronicswithVK Blog</h1>
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-foreground">EletronicswithVK Blog</h1>
         <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-lg">
           Articles, news, and insights from the world of electronics.
         </p>

@@ -28,7 +28,7 @@ export default function ProjectsPage() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-primary">All Projects</h1>
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-foreground">All Projects</h1>
         <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-lg">
           Browse our collection of electronics projects. Use the filter options to find projects matching your skill level and interests.
         </p>
