@@ -19,7 +19,7 @@ body {
     --popover: 0 0% 100%; /* White */
     --popover-foreground: 210 20% 20%; /* Dark cool gray */
 
-    --primary: 217 91% 60%; /* Slightly darker blue */
+    --primary: 221 83% 53%; /* Darker, more saturated blue */
     --primary-foreground: 0 0% 100%; /* White for text on primary */
 
     --secondary: 210 30% 96%; /* Light gray */
@@ -28,7 +28,7 @@ body {
     --muted: 210 30% 94%; /* Slightly darker light gray */
     --muted-foreground: 210 20% 45%; /* Medium cool gray */
 
-    --accent: 217 91% 65%; /* Lighter blue for accents */
+    --accent: 221 83% 58%; /* Lighter blue for accents */
     --accent-foreground: 210 30% 10%; /* Dark for text on accent */
 
     --destructive: 0 84.2% 60.2%;
@@ -36,9 +36,9 @@ body {
 
     --border: 210 30% 88%; /* Light Gray-Blue Border */
     --input: 210 30% 96%; /* Light Input Background */
-    --ring: 217 91% 60%; /* Primary Color for Rings */
+    --ring: 221 83% 53%; /* Primary Color for Rings */
 
-    --chart-1: 217 91% 60%;
+    --chart-1: 221 83% 53%;
     --chart-2: 150 60% 45%;
     --chart-3: 43 74% 66%;
     --chart-4: 27 87% 67%;
@@ -57,32 +57,32 @@ body {
   }
 
   .dark {
-    --background: 210 10% 4%; /* Near black blue */
-    --foreground: 0 0% 98%; /* Light Gray */
+    --background: 222 47% 11%; /* Dark blue background */
+    --foreground: 210 40% 98%; /* Light Gray */
 
-    --card: 210 10% 9%; /* Very Dark Blue */
-    --card-foreground: 0 0% 98%; /* Light Gray */
+    --card: 222 47% 14%; /* Darker Blue Card */
+    --card-foreground: 210 40% 98%; /* Light Gray */
 
-    --popover: 210 10% 4%; /* Near Black Blue */
-    --popover-foreground: 0 0% 98%; /* Light Gray */
+    --popover: 222 47% 11%; /* Dark blue popover */
+    --popover-foreground: 210 40% 98%; /* Light Gray */
 
-    --primary: 217 91% 65%; /* A lighter blue for dark mode contrast */
-    --primary-foreground: 210 30% 10%; /* Dark blue for text on primary */
+    --primary: 217 91% 65%; /* A lighter, vibrant blue for dark mode contrast */
+    --primary-foreground: 222 47% 11%; /* Dark blue for text on primary */
 
-    --secondary: 210 10% 15%; /* Dark Blue-Gray */
-    --secondary-foreground: 0 0% 95%; /* Lighter Gray for text on secondary */
+    --secondary: 217 33% 17%; /* Darker Blue-Gray */
+    --secondary-foreground: 210 40% 98%; /* Lighter Gray for text on secondary */
 
-    --muted: 210 10% 12%; /* Dark Blue-Gray */
-    --muted-foreground: 0 0% 60%; /* Medium Gray */
+    --muted: 217 33% 17%; /* Dark Blue-Gray */
+    --muted-foreground: 215 20% 65%; /* Medium Gray */
 
-    --accent: 217 91% 60%; /* Lighter blue for accents in dark mode */
-    --accent-foreground: 210 30% 10%; /* Dark for text on accent */
+    --accent: 217 91% 65%; /* Accent same as primary in dark mode */
+    --accent-foreground: 222 47% 11%; /* Dark for text on accent */
 
     --destructive: 0 62.8% 50.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 210 10% 15%; /* Dark Blue-Gray Border */
-    --input: 210 10% 12%; /* Dark Input */
+    --border: 217 33% 17%; /* Dark Blue-Gray Border */
+    --input: 217 33% 17%; /* Dark Input */
     --ring: 217 91% 60%; /* Primary Color for Rings */
 
     --chart-1: 217 91% 65%;
