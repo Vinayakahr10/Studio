@@ -111,21 +111,21 @@ export default function NotesPage() {
             const NoteIcon = note.Icon;
             return (
               <Link key={note.id} href={note.href} className="group block">
-                <Card className="h-full transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary/50 hover:-translate-y-1">
+                <Card className="h-full shadow-md border-border/80">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="bg-primary/10 text-primary p-3 rounded-lg">
                         <NoteIcon className="h-6 w-6" />
                       </div>
                       <div className="flex-1">
-                        <CardTitle className="text-lg font-semibold leading-snug mb-1 group-hover:text-primary transition-colors">
+                        <CardTitle className="text-lg font-semibold leading-snug mb-1 text-primary">
                             {note.title}
                         </CardTitle>
                         <CardDescription className="text-sm">
                             {note.description}
                         </CardDescription>
                       </div>
-                      <ArrowRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <ArrowRight className="h-5 w-5 text-muted-foreground" />
                     </div>
                   </CardContent>
                 </Card>
