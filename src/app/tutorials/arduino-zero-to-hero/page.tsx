@@ -19,13 +19,13 @@ export default function ArduinoZeroToHeroPage() {
       <div className="container mx-auto px-4 md:px-6">
         
         {/* 1. Header Section */}
-        <header className="text-center py-10 md:py-16 rounded-lg shadow-lg mb-12 bg-gradient-to-br from-primary via-primary/80 to-accent text-white">
+        <header className="text-center py-10 md:py-16 rounded-lg shadow-lg mb-12 bg-gradient-to-br from-primary to-accent text-white">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">Arduino from Zero to Hero: A Complete Beginner's Guide</h1>
           <p className="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-primary-foreground/90">
             Learn Arduino step-by-step, from blinking an LED to building advanced IoT projects, with hands-on tutorials and resources.
           </p>
           <div className="mt-8">
-            <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground transition-transform hover:scale-105 shadow-md">
+            <Button size="lg" asChild className="bg-background text-primary hover:bg-background/90 transition-transform hover:scale-105 shadow-md">
               <Link href="#learning-path">Start Your Arduino Journey</Link>
             </Button>
           </div>
