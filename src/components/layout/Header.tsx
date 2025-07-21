@@ -51,11 +51,15 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <div className="hidden md:flex gap-2 items-center">
-            <ThemeToggleButton />
+            <ClientOnly>
+              <ThemeToggleButton />
+            </ClientOnly>
           </div>
          
           <div className="md:hidden flex items-center">
-            <ThemeToggleButton />
+            <ClientOnly>
+              <ThemeToggleButton />
+            </ClientOnly>
             <ClientOnly>
               <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
