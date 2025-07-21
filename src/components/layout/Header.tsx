@@ -31,19 +31,12 @@ const navItems = [
       { href: "/projects?filter=arduino", label: "Arduino Projects" },
       { href: "/projects?filter=esp32", label: "ESP32 Projects" },
       { href: "/projects?filter=raspberry-pi", label: "Raspberry Pi Projects" },
-      { href: "/projects", label: "View All Projects", isSeparator: true },
+      { href: "/projects", label: "View All Projects" },
     ],
   },
   {
     label: "Tutorials",
     href: "/tutorials",
-    submenu: [
-       { href: "/tutorials/arduino", label: "Arduino" },
-       { href: "/tutorials/esp32", label: "ESP32" },
-       { href: "/tutorials/dc-circuit-theory", label: "DC Circuits" },
-       { href: "/tutorials/ac-circuits", label: "AC Circuits" },
-       { href: "/tutorials", label: "All Tutorials", isSeparator: true },
-    ]
   },
   { href: "/blog", label: "Blog" },
   { href: "/tools", label: "Tools" },
