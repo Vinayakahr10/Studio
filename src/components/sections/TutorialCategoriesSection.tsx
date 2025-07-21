@@ -48,16 +48,16 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
             {categoriesToDisplay.map((category) => {
                 const CategoryIcon = category.Icon;
                 return(
-                <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
-                  <CardHeader className="p-0">
+                <Card key={category.id} className="group flex flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/30">
+                  <CardHeader className="p-0 border-b overflow-hidden">
                     <Link href={category.href} className="block" aria-label={`View tutorials for ${category.name}`}>
                       <div className="relative aspect-[4/3] w-full bg-primary/5">
                         {category.id === 'arduino' ? (
-                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" layout="fill" className="object-cover" />
+                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
                         ) : category.id === 'operational-amplifiers' ? (
-                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" layout="fill" className="object-cover" />
+                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center">
+                          <div className="flex h-full w-full items-center justify-center transition-transform duration-500 ease-in-out group-hover:scale-105">
                             <CategoryIcon className="h-16 w-16 text-primary/80" />
                           </div>
                         )}
@@ -66,7 +66,7 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                   </CardHeader>
                   <CardContent className="flex-grow p-6 space-y-2">
                     <CardTitle className="text-xl font-semibold">
-                      <Link href={category.href} className="hover:text-primary transition-colors">
+                      <Link href={category.href} className="hover:text-primary transition-colors duration-200">
                         {category.name}
                       </Link>
                     </CardTitle>
@@ -75,9 +75,9 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                     </CardDescription>
                   </CardContent>
                   <CardFooter className="p-6 pt-0">
-                    <Button asChild variant="default" className="w-full transition-colors group">
+                    <Button asChild variant="default" className="w-full transition-colors group/button">
                       <Link href={category.href}>
-                        View Tutorials <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        View Tutorials <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                       </Link>
                     </Button>
                   </CardFooter>
