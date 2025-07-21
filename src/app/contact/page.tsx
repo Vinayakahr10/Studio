@@ -19,23 +19,32 @@ export default function ContactPage() {
       <Card className="max-w-2xl mx-auto shadow-xl">
         <CardHeader>
           <CardTitle className="text-2xl">Get in Touch</CardTitle>
-          <CardDescription>The best way to reach us is through email or LinkedIn.</CardDescription>
+          <CardDescription>The best way to reach us is through the channels below.</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col items-start gap-4 p-6">
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-muted-foreground">
-              <a href="mailto:electronicswithvk@gmail.com" className="flex items-center gap-2 hover:text-primary transition-colors">
-                <Mail className="h-5 w-5 text-primary/80" />
-                <span>electronicswithvk@gmail.com</span>
-              </a>
-              <a href="https://www.linkedin.com/in/vinayaka-hr-39804a320" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
-                <Linkedin className="h-5 w-5 text-primary/80" />
-                <span>Connect on LinkedIn</span>
-              </a>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-primary/80" />
-                <span>Bengaluru, Karnataka, India</span>
+        <CardContent className="space-y-6 p-6">
+          <div className="flex flex-col gap-4">
+            <a href="mailto:electronicswithvk@gmail.com" className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+              <Mail className="h-6 w-6 text-primary" />
+              <div>
+                <p className="font-semibold text-foreground">Email</p>
+                <p className="text-sm text-muted-foreground">electronicswithvk@gmail.com</p>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/vinayaka-hr-39804a320" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+              <Linkedin className="h-6 w-6 text-primary" />
+              <div>
+                <p className="font-semibold text-foreground">LinkedIn</p>
+                <p className="text-sm text-muted-foreground">Connect with Vinayaka HR</p>
+              </div>
+            </a>
+            <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50">
+              <MapPin className="h-6 w-6 text-primary" />
+              <div>
+                <p className="font-semibold text-foreground">Location</p>
+                <p className="text-sm text-muted-foreground">Bengaluru, Karnataka, India</p>
               </div>
             </div>
+          </div>
         </CardContent>
       </Card>
     </div>
