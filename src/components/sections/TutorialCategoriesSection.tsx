@@ -64,8 +64,8 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                       </div>
                     </Link>
                   </CardHeader>
-                  <CardContent className="flex-grow p-6 space-y-2">
-                    <CardTitle className="text-xl font-semibold">
+                  <CardContent className="flex-grow p-4 md:p-6 space-y-2">
+                    <CardTitle className="text-xl font-semibold leading-snug">
                       <Link href={category.href} className="hover:text-primary transition-colors duration-200">
                         {category.name}
                       </Link>
@@ -74,8 +74,8 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                       {category.description}
                     </CardDescription>
                   </CardContent>
-                  <CardFooter className="p-6 pt-0">
-                    <Button asChild variant="default" className="w-full transition-colors group/button">
+                  <CardFooter className="p-4 md:p-6 pt-0 mt-auto">
+                    <Button asChild variant="outline" className="w-auto transition-colors group/button">
                       <Link href={category.href}>
                         View Tutorials <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                       </Link>
