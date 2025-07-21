@@ -6,7 +6,6 @@ import { Menu, ChevronDown } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
-import { AppThemeProvider } from '@/components/theme-provider';
 import { cn } from "@/lib/utils";
 import { ClientOnly } from '@/components/shared/ClientOnly';
 import {
@@ -21,6 +20,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ThemeToggleButton } from "../theme-toggle-button";
 
 const navItems = [
   { href: "/", label: "Home" },
