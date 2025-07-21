@@ -23,14 +23,14 @@ export default function ContactPage() {
         </CardHeader>
         <CardContent className="space-y-6 p-6">
           <div className="flex flex-col gap-4">
-            <a href="mailto:electronicswithvk@gmail.com" className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+            <a href="mailto:electronicswithvk@gmail.com" className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted dark:hover:bg-primary/20 dark:hover:text-primary-foreground transition-colors">
               <Mail className="h-6 w-6 text-primary" />
               <div>
                 <p className="font-semibold text-foreground">Email</p>
                 <p className="text-sm text-muted-foreground">electronicswithvk@gmail.com</p>
               </div>
             </a>
-            <a href="https://www.linkedin.com/in/vinayaka-hr-39804a320" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+            <a href="https://www.linkedin.com/in/vinayaka-hr-39804a320" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted dark:hover:bg-primary/20 dark:hover:text-primary-foreground transition-colors">
               <Linkedin className="h-6 w-6 text-primary" />
               <div>
                 <p className="font-semibold text-foreground">LinkedIn</p>
