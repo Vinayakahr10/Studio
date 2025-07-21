@@ -29,7 +29,6 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
-          <BrainCircuit className="h-7 w-7 text-primary" />
           <span className="text-xl font-bold">EletronicswithVK</span>
         </Link>
         
@@ -68,7 +67,6 @@ export function Header() {
                 <SheetContent side="right" className="w-full max-w-xs">
                     <SheetHeader className="mb-4 border-b pb-4">
                       <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                          <BrainCircuit className="h-7 w-7 text-primary" />
                           <span className="text-xl font-bold">EletronicswithVK</span>
                       </Link>
                     </SheetHeader>
