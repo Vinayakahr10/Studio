@@ -49,6 +49,7 @@ const navItems = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
@@ -60,7 +61,11 @@ export function Header() {
         <nav className="hidden md:flex gap-1 items-center">
           {navItems.map((item) => (
             item.submenu ? (
-              <DropdownMenu key={item.label}>
+              <DropdownMenu 
+                key={item.label} 
+                open={openDropdown === item.label} 
+                onOpenChange={(isOpen) => setOpenDropdown(isOpen ? item.label : null)}
+              >
                 <DropdownMenuTrigger asChild>
                   <Link
                     href={item.href}
@@ -68,12 +73,12 @@ export function Header() {
                       buttonVariants({ variant: "link" }),
                       "text-sm font-medium text-foreground transition-colors hover:text-primary px-3 py-2 flex items-center gap-1"
                     )}
+                    onMouseEnter={() => setOpenDropdown(item.label)}
                   >
                     {item.label}
-                    <ChevronDown className="h-4 w-4" />
                   </Link>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
+                <DropdownMenuContent onMouseLeave={() => setOpenDropdown(null)}>
                   {item.submenu.map((subItem) => (
                     <DropdownMenuItem key={subItem.label} asChild>
                       <Link href={subItem.href}>{subItem.label}</Link>
