@@ -19,7 +19,7 @@ body {
     --popover: 0 0% 100%; /* White */
     --popover-foreground: 210 20% 20%; /* Dark cool gray */
 
-    --primary: 207 90% 54%; /* Soft Blue (#64B5F6) */
+    --primary: 217 91% 60%; /* Slightly darker blue */
     --primary-foreground: 0 0% 100%; /* White for text on primary */
 
     --secondary: 210 30% 96%; /* Light gray */
@@ -28,7 +28,7 @@ body {
     --muted: 210 30% 94%; /* Slightly darker light gray */
     --muted-foreground: 210 20% 45%; /* Medium cool gray */
 
-    --accent: 207 90% 65%; /* Lighter blue for accents */
+    --accent: 217 91% 65%; /* Lighter blue for accents */
     --accent-foreground: 210 30% 10%; /* Dark for text on accent */
 
     --destructive: 0 84.2% 60.2%;
@@ -36,9 +36,9 @@ body {
 
     --border: 210 30% 88%; /* Light Gray-Blue Border */
     --input: 210 30% 96%; /* Light Input Background */
-    --ring: 207 90% 54%; /* Primary Color for Rings */
+    --ring: 217 91% 60%; /* Primary Color for Rings */
 
-    --chart-1: 207 90% 54%;
+    --chart-1: 217 91% 60%;
     --chart-2: 150 60% 45%;
     --chart-3: 43 74% 66%;
     --chart-4: 27 87% 67%;
@@ -66,7 +66,7 @@ body {
     --popover: 210 10% 4%; /* Near Black Blue */
     --popover-foreground: 0 0% 98%; /* Light Gray */
 
-    --primary: 207 90% 60%; /* A lighter blue for dark mode contrast */
+    --primary: 217 91% 65%; /* A lighter blue for dark mode contrast */
     --primary-foreground: 210 30% 10%; /* Dark blue for text on primary */
 
     --secondary: 210 10% 15%; /* Dark Blue-Gray */
@@ -75,7 +75,7 @@ body {
     --muted: 210 10% 12%; /* Dark Blue-Gray */
     --muted-foreground: 0 0% 60%; /* Medium Gray */
 
-    --accent: 207 90% 55%; /* Lighter blue for accents in dark mode */
+    --accent: 217 91% 60%; /* Lighter blue for accents in dark mode */
     --accent-foreground: 210 30% 10%; /* Dark for text on accent */
 
     --destructive: 0 62.8% 50.6%;
@@ -83,9 +83,9 @@ body {
 
     --border: 210 10% 15%; /* Dark Blue-Gray Border */
     --input: 210 10% 12%; /* Dark Input */
-    --ring: 207 90% 55%; /* Primary Color for Rings */
+    --ring: 217 91% 60%; /* Primary Color for Rings */
 
-    --chart-1: 207 90% 60%;
+    --chart-1: 217 91% 65%;
     --chart-2: 150 55% 50%;
     --chart-3: 43 74% 66%;
     --chart-4: 280 65% 60%;
@@ -93,12 +93,12 @@ body {
 
     --sidebar-background: 210 10% 4%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 207 90% 67%;
+    --sidebar-primary: 217 91% 67%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 210 10% 12%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 210 10% 12%;
-    --sidebar-ring: 207 90% 55%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
