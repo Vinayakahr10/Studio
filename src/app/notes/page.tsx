@@ -2,12 +2,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search, Sigma, Cpu, Binary, Gauge, Network, BatteryCharging, ArrowRight } from 'lucide-react';
+import { Search, Sigma, Cpu, Binary, Gauge, Network, BatteryCharging, ArrowRight, FileText } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface NoteCategory {
   id: string;
@@ -21,42 +22,42 @@ const notesData: NoteCategory[] = [
   {
     id: 'basic-electronics',
     title: 'Basic Electronics Concepts',
-    description: "Ohm's Law, Kirchhoff's Laws, resistors, capacitors, and inductors fundamentals.",
+    description: "Download Notes Here",
     Icon: Sigma,
     href: '#', // Placeholder link
   },
   {
     id: 'arduino-microcontrollers',
     title: 'Arduino & Microcontrollers',
-    description: 'Getting started with Arduino, digital/analog pins, and programming basics.',
+    description: "Download Notes Here",
     Icon: Cpu,
     href: '/tutorials/arduino',
   },
   {
     id: 'digital-logic',
     title: 'Digital Logic',
-    description: 'Binary, logic gates, Boolean algebra, combinational and sequential circuits.',
+    description: "Download Notes Here",
     Icon: Binary,
     href: '/tutorials/digital-electronics',
   },
   {
     id: 'sensors-actuators',
     title: 'Sensors and Actuators',
-    description: 'Interfacing with common sensors (temperature, light) and actuators (motors, servos).',
+    description: "Download Notes Here",
     Icon: Gauge,
     href: '/categories/sensors',
   },
   {
     id: 'circuit-analysis',
     title: 'Circuit Analysis Techniques',
-    description: "Nodal analysis, mesh analysis, Thevenin's and Norton's theorems.",
+    description: "Download Notes Here",
     Icon: Network,
     href: '/tutorials/dc-circuit-theory',
   },
   {
     id: 'power-electronics',
     title: 'Power Electronics',
-    description: 'Rectifiers, converters, and power supply design fundamentals.',
+    description: "Download Notes Here",
     Icon: BatteryCharging,
     href: '/tutorials/power-electronics',
   },
@@ -104,36 +105,32 @@ export default function NotesPage() {
         </div>
       </div>
       
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
         {filteredNotes.length > 0 ? (
           filteredNotes.map((note) => {
             const NoteIcon = note.Icon;
             return (
-              <Link href={note.href} key={note.id} className="block group">
-                <Card className="h-full flex flex-col justify-between transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary/50 hover:-translate-y-1">
-                  <CardHeader>
-                    <div className="flex items-center gap-4">
-                        <div className="bg-primary/10 p-3 rounded-full">
-                            <NoteIcon className="h-8 w-8 text-primary" />
-                        </div>
-                        <CardTitle className="text-xl font-semibold leading-snug group-hover:text-primary transition-colors">
-                            {note.title}
-                        </CardTitle>
+              <Card key={note.id} className="text-center flex flex-col justify-between transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary/50 hover:-translate-y-1">
+                <CardHeader className="items-center">
+                    <div className="p-4 bg-primary/10 rounded-full w-fit mb-4">
+                        <NoteIcon className="h-12 w-12 text-primary" />
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground line-clamp-3">
-                      {note.description}
-                    </p>
-                  </CardContent>
-                   <CardContent>
-                    <div className="text-primary text-sm font-medium flex items-center">
-                        Read Notes
-                        <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                    </div>
-                   </CardContent>
-                </Card>
-              </Link>
+                    <CardTitle className="text-xl font-semibold leading-snug">
+                        {note.title}
+                    </CardTitle>
+                    <CardDescription>
+                        {note.description}
+                    </CardDescription>
+                </CardHeader>
+                <CardFooter className="flex-col sm:flex-row gap-2 justify-center">
+                  <Button asChild variant="outline" className="w-full sm:w-auto">
+                    <Link href={note.href}>PDF Notes</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full sm:w-auto">
+                    <Link href={note.href}>Chapterwise Notes</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
             )
           })
         ) : (
