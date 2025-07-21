@@ -5,7 +5,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster";
-import { ThemeProvider } from '@/components/theme-provider';
+import { AppThemeProvider } from '@/components/theme-provider';
 
 // Configure Poppins font
 const poppins = Poppins({
@@ -53,18 +53,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* Updated className to use Poppins variable */}
       <body className={`${poppins.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          disableTransitionOnChange
-        >
+        <AppThemeProvider>
           <Header />
           <main className="flex-grow">
             {children}
           </main>
           <Footer />
           <Toaster />
-        </ThemeProvider>
+        </AppThemeProvider>
       </body>
     </html>
   );

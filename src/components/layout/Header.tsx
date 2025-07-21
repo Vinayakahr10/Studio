@@ -8,7 +8,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/
 import { useState } from 'react';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import { cn } from "@/lib/utils";
-import { ClientOnly } from "../shared/ClientOnly";
 
 const mainNavLinks = [
   { href: "/", label: "Home" },
@@ -51,61 +50,55 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <div className="hidden md:flex gap-2 items-center">
-            <ClientOnly>
-              <ThemeToggleButton />
-            </ClientOnly>
+            <ThemeToggleButton />
           </div>
          
           <div className="md:hidden flex items-center">
-            <ClientOnly>
-              <ThemeToggleButton />
-            </ClientOnly>
-            <ClientOnly>
-              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-6 w-6" />
-                    <span className="sr-only">Toggle Menu</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-full max-w-xs">
-                    <SheetHeader className="mb-4 border-b pb-4">
-                      <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                          <span className="text-xl font-bold">EletronicswithVK</span>
-                      </Link>
-                    </SheetHeader>
-                  <div className="flex flex-col gap-1">
-                    {mainNavLinks.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={cn(
-                          buttonVariants({ variant: "ghost" }),
-                          "justify-start text-base py-2.5 h-auto"
-                        )}
-                      >
-                       <span className="flex items-center">
-                         {link.label}
-                       </span>
-                      </Link>
-                    ))}
+            <ThemeToggleButton />
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle Menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-full max-w-xs">
+                  <SheetHeader className="mb-4 border-b pb-4">
+                    <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                        <span className="text-xl font-bold">EletronicswithVK</span>
+                    </Link>
+                  </SheetHeader>
+                <div className="flex flex-col gap-1">
+                  {mainNavLinks.map((link) => (
                     <Link
-                      href="/tutorials/arduino"
+                      key={link.href}
+                      href={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
                         buttonVariants({ variant: "ghost" }),
                         "justify-start text-base py-2.5 h-auto"
                       )}
                     >
-                      <span className="flex items-center">
-                        Arduino Tutorial
-                      </span>
+                     <span className="flex items-center">
+                       {link.label}
+                     </span>
                     </Link>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </ClientOnly>
+                  ))}
+                  <Link
+                    href="/tutorials/arduino"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      buttonVariants({ variant: "ghost" }),
+                      "justify-start text-base py-2.5 h-auto"
+                    )}
+                  >
+                    <span className="flex items-center">
+                      Arduino Tutorial
+                    </span>
+                  </Link>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

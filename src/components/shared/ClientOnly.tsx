@@ -5,9 +5,13 @@ import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
 interface ClientOnlyProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
+/**
+ * @deprecated This component is no longer the recommended way to solve hydration issues.
+ * Use a dedicated client-side provider wrapper instead. See `AppThemeProvider` for an example.
+ */
 export function ClientOnly({ children }: ClientOnlyProps) {
   const [isMounted, setIsMounted] = useState(false);
 
