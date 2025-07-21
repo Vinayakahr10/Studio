@@ -39,16 +39,6 @@ export default function ContactPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" placeholder="Your Name" required className="h-11 text-base" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="your.email@example.com" required className="h-11 text-base" />
-              </div>
-            </div>
             <div className="space-y-2">
               <Label htmlFor="subject">Subject</Label>
               <Input id="subject" placeholder="Regarding..." required className="h-11 text-base" />
