@@ -14,6 +14,7 @@ export interface Project {
   imageUrl: string;
   imageHint?: string;
   tutorialLink: string;
+  tags?: string[];
 }
 
 export interface Category {

@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, ChevronDown } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -28,9 +28,11 @@ const navItems = [
     label: "Projects",
     href: "/projects",
     submenu: [
-      { href: "/projects?filter=arduino", label: "Arduino Projects" },
-      { href: "/projects?filter=esp32", label: "ESP32 Projects" },
-      { href: "/projects?filter=raspberry-pi", label: "Raspberry Pi Projects" },
+      { href: "/projects/arduino", label: "Arduino Projects" },
+      { href: "/projects/esp32", label: "ESP32 Projects" },
+      { href: "/projects/raspberry-pi", label: "Raspberry Pi Projects" },
+      { href: "/projects/analog", label: "Analog Projects" },
+      { href: "/projects/digital", label: "Digital Projects" },
       { href: "/projects", label: "View All Projects" },
     ],
   },

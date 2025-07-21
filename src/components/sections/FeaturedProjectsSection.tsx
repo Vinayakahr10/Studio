@@ -15,6 +15,7 @@ export const featuredProjectsData: Project[] = [
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'weather station electronics',
     tutorialLink: '/projects/arduino-weather-station', // Placeholder
+    tags: ['Arduino', 'IoT', 'Sensors'],
   },
   {
     id: '2',
@@ -23,6 +24,7 @@ export const featuredProjectsData: Project[] = [
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'raspberry pi smart home',
     tutorialLink: '/projects/pi-home-automation', // Placeholder
+    tags: ['Raspberry Pi', 'IoT', 'Python'],
   },
   {
     id: '3',
@@ -31,6 +33,7 @@ export const featuredProjectsData: Project[] = [
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'iot plant sensor',
     tutorialLink: '/projects/iot-plant-monitor', // Placeholder
+    tags: ['ESP32', 'IoT', 'Sensors'],
   },
   {
     id: 'esp32-weather-station',
@@ -39,6 +42,7 @@ export const featuredProjectsData: Project[] = [
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'esp32 weather station',
     tutorialLink: '/projects/esp32-weather-station',
+    tags: ['ESP32', 'Weather Station', 'BME280', 'IoT', 'Sensors', 'Arduino IDE'],
   },
   {
     id: 'project-555-pwm-generator',
@@ -47,6 +51,7 @@ export const featuredProjectsData: Project[] = [
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: '555 timer pwm circuit breadboard',
     tutorialLink: '/projects/project-555-pwm-generator',
+    tags: ['555 Timer', 'PWM', 'Analog Electronics', 'LED Dimmer', 'Motor Control'],
   },
   {
     id: 'esp32-weather-station-vinayakahr10',
@@ -55,6 +60,7 @@ export const featuredProjectsData: Project[] = [
     imageUrl: 'https://placehold.co/400x300.png',
     imageHint: 'esp32 weather project custom',
     tutorialLink: '/projects/esp32-weather-station-vinayakahr10',
+    tags: ['ESP32', 'Weather Station', 'BME280', 'OLED', 'I2C', 'IoT', 'WiFi', 'API', 'NTP', 'GitHub Project'],
   },
 ];
 
@@ -112,7 +118,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
           </div>
         ) : (
           <div className="text-center py-8 text-muted-foreground">
-            No projects found matching your criteria.
+            No projects found in this category.
           </div>
         )}
       </div>
