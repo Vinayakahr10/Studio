@@ -30,6 +30,7 @@ const navItems = [
     submenu: [
       { href: "/projects/arduino", label: "Arduino Projects" },
       { href: "/projects/esp32", label: "ESP32 Projects" },
+      { href: "/projects/stm32", label: "STM32 Projects" },
       { href: "/projects/raspberry-pi", label: "Raspberry Pi Projects" },
       { href: "/projects/analog", label: "Analog Projects" },
       { href: "/projects/digital", label: "Digital Projects" },

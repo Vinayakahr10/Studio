@@ -62,6 +62,15 @@ export const featuredProjectsData: Project[] = [
     tutorialLink: '/projects/esp32-weather-station-vinayakahr10',
     tags: ['ESP32', 'Weather Station', 'BME280', 'OLED', 'I2C', 'IoT', 'WiFi', 'API', 'NTP', 'GitHub Project'],
   },
+  {
+    id: 'stm32-dma-adc-tutorial',
+    title: 'STM32 High-Speed ADC with DMA',
+    description: 'Learn to configure the STM32 ADC to continuously sample data at high speeds and transfer it to memory using DMA, freeing up the CPU for other tasks. This project is crucial for signal processing and real-time control applications.',
+    imageUrl: 'https://placehold.co/400x300.png',
+    imageHint: 'stm32 microcontroller adc dma',
+    tutorialLink: '/projects/stm32-dma-adc',
+    tags: ['STM32', 'ADC', 'DMA', 'Advanced'],
+  },
 ];
 
 interface FeaturedProjectsSectionProps {
