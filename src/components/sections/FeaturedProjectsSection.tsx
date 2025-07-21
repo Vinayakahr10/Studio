@@ -79,8 +79,8 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
         {projectsToDisplay.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projectsToDisplay.map((project) => (
-              <Card key={project.id} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
-                <CardHeader className="p-0">
+              <Card key={project.id} className="group flex flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/30">
+                <CardHeader className="p-0 border-b overflow-hidden">
                   <Link href={project.tutorialLink} className="block" aria-label={`View project: ${project.title}`}>
                     <Image
                       src={project.imageUrl}
@@ -88,22 +88,22 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
                       data-ai-hint={project.imageHint}
                       width={400}
                       height={300}
-                      className="aspect-[4/3] w-full object-cover"
+                      className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                     />
                   </Link>
                 </CardHeader>
-                <CardContent className="flex-grow p-6 space-y-3">
-                  <CardTitle className="text-xl font-semibold">
-                     <Link href={project.tutorialLink} className="hover:text-primary transition-colors">
+                <CardContent className="flex-grow p-4 md:p-6 space-y-3">
+                  <CardTitle className="text-xl font-bold leading-snug">
+                     <Link href={project.tutorialLink} className="hover:text-primary transition-colors duration-200">
                         {project.title}
                      </Link>
                   </CardTitle>
                   <TruncatableDescription text={project.description} className="text-sm text-muted-foreground" />
                 </CardContent>
-                <CardFooter className="p-6 pt-0">
-                  <Button asChild variant="default" className="w-full transition-colors group">
+                <CardFooter className="p-4 md:p-6 pt-0 mt-auto">
+                  <Button asChild variant="outline" className="w-auto transition-colors group/button">
                     <Link href={project.tutorialLink}>
-                      View Tutorial <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      View Tutorial <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                     </Link>
                   </Button>
                 </CardFooter>
@@ -119,4 +119,3 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
     </section>
   );
 }
-    
