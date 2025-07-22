@@ -58,6 +58,8 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                            <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
                         ) : category.id === 'dc-circuit-theory' ? (
                             <Image src="https://lh3.googleusercontent.com/d/1NNNvw3vFslKZz4mrHcX2r8XGS0OAmfn0" alt="DC Circuit Theory" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
+                        ) : category.id === 'digital-electronics' ? (
+                            <Image src="https://lh3.googleusercontent.com/d/1H1hbyiHN0idqgCJ7GsCFE18JYufHkzVr" alt="Digital Electronics" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center transition-transform duration-500 ease-in-out group-hover:scale-105">
                             <CategoryIcon className="h-16 w-16 text-primary/80" />
