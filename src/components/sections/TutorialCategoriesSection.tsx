@@ -75,7 +75,7 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                     </CardDescription>
                   </CardContent>
                   <CardFooter className="p-4 md:p-6 pt-0 mt-auto">
-                    <Button asChild variant="outline" className="w-auto transition-colors group/button">
+                    <Button asChild variant="outline" className="w-auto transition-colors group/button hover:bg-foreground hover:text-background">
                       <Link href={category.href}>
                         View Tutorials <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                       </Link>
