@@ -66,7 +66,7 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                   </CardHeader>
                   <CardContent className="flex-grow p-4 md:p-6 space-y-2">
                     <CardTitle className="text-xl font-semibold leading-snug">
-                      <Link href={category.href} className="hover:text-primary transition-colors duration-200">
+                      <Link href={category.href} className="hover:text-foreground transition-colors duration-200">
                         {category.name}
                       </Link>
                     </CardTitle>
