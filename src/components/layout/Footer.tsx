@@ -10,7 +10,6 @@ export function Footer() {
         </p>
         <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-6">
           <nav className="flex flex-wrap gap-x-4 gap-y-2">
-            <a href="/privacy-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
             <a href="/terms-of-service" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
             <a href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</a>
             <a href="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</a>
