@@ -74,7 +74,7 @@ export function Header() {
                     href={item.href}
                     className={cn(
                       buttonVariants({ variant: "link" }),
-                      "text-sm font-medium text-foreground transition-colors hover:text-primary px-3 py-2 flex items-center gap-1"
+                      "text-sm font-medium text-foreground transition-colors hover:text-primary px-3 py-2 flex items-center gap-1 hover:bg-transparent focus:bg-transparent"
                     )}
                     onMouseEnter={() => setOpenDropdown(item.label)}
                   >
