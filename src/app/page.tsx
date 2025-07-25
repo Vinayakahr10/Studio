@@ -6,12 +6,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ContactCallToActionSection } from '@/components/sections/ContactCallToActionSection';
 import { ScrollAnimationWrapper } from '@/components/shared/ScrollAnimationWrapper';
+import { cn } from '@/lib/utils';
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white rounded-lg dark:[mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_70%,transparent_100%)] overflow-hidden">
+      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white dark:[mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_70%,transparent_100%)] overflow-hidden">
         <Image
           src="https://lh3.googleusercontent.com/d/1AoTKLAX39NDyNIe9uC2bh39Tzn-GC_iD"
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
@@ -38,9 +39,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Guide Section */}
-      <ScrollAnimationWrapper>
-        <section className="w-full py-16 md:py-24 bg-background">
+      {/* Group subsequent sections in one animation wrapper for staggered effect */}
+      <ScrollAnimationWrapper className="flex flex-col gap-y-16 md:gap-y-24">
+        {/* Featured Guide Section */}
+        <section className="w-full pt-16 md:pt-24 bg-background">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div className="space-y-4">
@@ -69,10 +71,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </ScrollAnimationWrapper>
       
-      {/* Explore Core Topics Section */}
-      <ScrollAnimationWrapper>
+        {/* Explore Core Topics Section - Note: this section doesn't need its own ScrollAnimationWrapper */}
         <section className="w-full py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4 md:px-6 space-y-12">
              <div className="text-center">
@@ -133,9 +133,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </ScrollAnimationWrapper>
       
-      <ScrollAnimationWrapper>
         <ContactCallToActionSection />
       </ScrollAnimationWrapper>
     </div>
