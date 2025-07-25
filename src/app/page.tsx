@@ -24,7 +24,7 @@ export default function HomePage() {
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Master the World of Electronics
           </h1>
-          <p className="max-w-[700px] mx-auto text-lg text-primary-foreground md:text-xl">
+          <p className="max-w-[700px] mx-auto text-lg text-primary-foreground/90 md:text-xl">
             From basic circuits to advanced microcontrollers, EletronicswithVK provides the knowledge and tools you need to bring your ideas to life.
           </p>
           <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
