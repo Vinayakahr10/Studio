@@ -17,10 +17,10 @@ export default function HomePage() {
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
           fill
           objectFit="cover"
-          className="absolute inset-0 z-0 brightness-[0.7]"
+          className="absolute inset-0 z-0 brightness-[0.7] animate-fade-in transition-transform duration-1000 ease-in-out group-hover:scale-105"
           priority
         />
-        <div className="relative z-10 p-4 space-y-4 max-w-4xl">
+        <div className="relative z-10 p-4 space-y-4 max-w-4xl animate-slide-up-fade">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Master the World of Electronics
           </h1>
