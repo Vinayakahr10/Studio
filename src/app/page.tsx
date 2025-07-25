@@ -39,10 +39,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="flex flex-col gap-y-16 md:gap-y-24">
+      <div className="flex flex-col gap-y-16 md:gap-y-24 pt-16 md:pt-24">
         {/* Featured Guide Section */}
         <ScrollAnimationWrapper>
-          <section className="w-full pt-16 md:pt-24 bg-background">
+          <section className="w-full bg-background">
             <div className="container mx-auto px-4 md:px-6">
               <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                 <div className="space-y-4">
