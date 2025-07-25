@@ -1,6 +1,3 @@
-
-"use client";
-
 import { getProjectById, type ProjectDetail, type CodeSection } from '@/data/project-details';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,97 +9,13 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Highlight, themes } from 'prism-react-renderer';
 import { cn } from "@/lib/utils";
-import React, { useState, use } from 'react';
-
-const CodeBlock = ({ code, language }: { code: string; language: string }) => {
-  const [isCopied, setIsCopied] = useState(false);
-  const prismLanguage = language.toLowerCase() as any;
-
-  const copyToClipboard = () => {
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(code.trimEnd())
-        .then(() => {
-          setIsCopied(true);
-          setTimeout(() => setIsCopied(false), 2500); // Reset after 2.5 seconds
-        })
-        .catch(err => {
-          console.error('Error copying code to clipboard:', err);
-        });
-    } else {
-      console.warn('Clipboard API not available or context is not secure. Please copy manually.');
-    }
-  };
-
-  return (
-    <div className="relative group rounded-md bg-[#1e1e1e]">
-      <div className="overflow-x-auto">
-        <Highlight
-          theme={themes.vsDark}
-          code={code.trimEnd()}
-          language={prismLanguage}
-        >
-          {({ className: prismClassName, style: prismStyle, tokens, getLineProps, getTokenProps }) => (
-            <pre
-              className={cn(
-                prismClassName,
-                "p-4 text-sm"
-              )}
-              style={{ ...prismStyle, margin: 0 }}
-            >
-              {tokens.map((line, i) => {
-                if (i === tokens.length - 1 && line.length === 1 && line[0].empty) {
-                  return null;
-                }
-                const linePropsOriginal = getLineProps({ line, key: i });
-                const { key: _internalPrismLineKey, ...restLineProps } = linePropsOriginal;
-                return (
-                  <div key={i} {...restLineProps} className={cn(restLineProps.className, "flex table-row")}>
-                    <span
-                      className="table-cell text-right pr-4 select-none text-muted-foreground/50 border-r border-muted-foreground/20"
-                      style={{ minWidth: '3em' }}
-                    >
-                      {i + 1}
-                    </span>
-                    <span className="table-cell pl-4 flex-grow">
-                      {line.map((token, tokenKey) => {
-                        const tokenPropsOriginal = getTokenProps({ token, key: tokenKey });
-                        const { key: _internalPrismTokenKey, ...restTokenProps } = tokenPropsOriginal;
-                        return <span key={tokenKey} {...restTokenProps} />;
-                      })}
-                    </span>
-                  </div>
-                );
-              })}
-            </pre>
-          )}
-        </Highlight>
-      </div>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={copyToClipboard}
-        className={cn(
-          "absolute top-2 right-2 h-8 w-8 p-1.5 rounded-md z-10",
-          "text-slate-400 hover:text-slate-200 focus-visible:text-slate-100",
-          "hover:bg-slate-700/50 focus-visible:bg-slate-700/60",
-          "opacity-60 group-hover:opacity-100 focus-visible:opacity-100 transition-all duration-150",
-          isCopied ? "bg-green-700/30 hover:bg-green-700/40 focus-visible:bg-green-700/40" : ""
-        )}
-        aria-label={isCopied ? "Copied to clipboard" : "Copy code to clipboard"}
-      >
-        {isCopied ? (
-          <Check className="h-5 w-5 text-green-400" />
-        ) : (
-          <Copy className="h-5 w-5" />
-        )}
-      </Button>
-    </div>
-  );
-};
+import React, { use } from 'react';
+import { CodeBlock } from '@/components/content/CodeBlock';
 
 
 export default function ProjectDetailPage({ params }: { params: { projectId: string } }) {
-  const project = getProjectById(params.projectId);
+  const resolvedParams = use(params);
+  const project = getProjectById(resolvedParams.projectId);
 
   if (!project) {
     return (
@@ -110,7 +23,7 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
         <AlertTriangle className="h-16 w-16 text-destructive mx-auto mb-4" />
         <h1 className="text-4xl font-bold mb-2">Project Not Found</h1>
         <p className="text-muted-foreground mb-6">
-          The project with ID "{params.projectId}" does not exist or details are not yet available.
+          The project with ID "{resolvedParams.projectId}" does not exist or details are not yet available.
         </p>
         <Button asChild variant="outline">
           <Link href="/projects"><ArrowLeft className="mr-2 h-4 w-4" /> Back to All Projects</Link>
