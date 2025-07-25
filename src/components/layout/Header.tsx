@@ -53,20 +53,6 @@ const navItems = [
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [showContent, setShowContent] = useState(false);
-
-  useEffect(() => {
-    const hasSeenAnimation = sessionStorage.getItem('hasSeenIntroAnimation');
-    if (hasSeenAnimation) {
-      setShowContent(true);
-    } else {
-      // If animation hasn't been seen, wait for it to finish
-      const timer = setTimeout(() => {
-        setShowContent(true);
-      }, 2500); // Matches animation duration + delay
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
@@ -75,10 +61,7 @@ export function Header() {
           <span className="text-xl font-bold">EletronicswithVK</span>
         </Link>
         
-        <nav className={cn(
-            "hidden md:flex gap-1 items-center transition-opacity duration-1000",
-            showContent ? 'opacity-100' : 'opacity-0'
-          )}>
+        <nav className="hidden md:flex gap-1 items-center">
           {navItems.map((item) => (
             item.submenu ? (
               <DropdownMenu 
@@ -123,10 +106,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className={cn(
-            "flex items-center gap-2 transition-opacity duration-1000",
-            showContent ? 'opacity-100' : 'opacity-0'
-          )}>
+        <div className="flex items-center gap-2">
            <div className="hidden md:flex gap-2 items-center">
             <ClientOnly>
               <ThemeToggleButton />

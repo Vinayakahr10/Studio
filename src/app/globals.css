@@ -159,35 +159,3 @@ body {
     @apply bg-background/95 shadow-lg rounded-lg;
   }
 }
-
-/* Custom Intro Animation */
-@layer utilities {
-  @keyframes move-to-header {
-    from {
-      top: 50%;
-      transform: translateY(-50%) scale(1.5);
-      opacity: 1;
-    }
-    to {
-      /* Values correspond to the final header layout */
-      /* h-16 (4rem) header, items-center vertically centers it. The text itself is text-xl. */
-      /* Top position is approx half of header height minus half of text line height. (2rem - ~0.875rem) */
-      top: 1.125rem; 
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-  }
-
-  @keyframes fade-in-content {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  .animate-move-to-header {
-    animation: move-to-header 1.5s ease-in-out forwards;
-  }
-
-  .animate-fade-in-content {
-    animation: fade-in-content 1s ease-in forwards;
-  }
-}
