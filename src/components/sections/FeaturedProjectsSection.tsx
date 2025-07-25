@@ -103,7 +103,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
                       data-ai-hint={project.imageHint}
                       width={400}
                       height={300}
-                      className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                      className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 rounded-t-lg"
                     />
                   </Link>
                 </CardHeader>
