@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white dark:[mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_70%,transparent_100%)] overflow-hidden">
+      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white dark:rounded-lg dark:[mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_70%,transparent_100%)] overflow-hidden">
         <Image
           src="https://lh3.googleusercontent.com/d/1AoTKLAX39NDyNIe9uC2bh39Tzn-GC_iD"
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
@@ -39,7 +39,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="flex flex-col gap-y-16 md:gap-y-24 pt-16 md:pt-24">
+      {/* This div wraps all the scrollable content to ensure proper spacing and animation triggers */}
+      <div className="flex flex-col gap-y-16 md:gap-y-24 mt-16 md:mt-24">
         {/* Featured Guide Section */}
         <ScrollAnimationWrapper>
           <section className="w-full bg-background">
