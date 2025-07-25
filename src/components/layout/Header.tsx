@@ -64,31 +64,32 @@ export function Header() {
         <nav className="hidden md:flex gap-1 items-center">
           {navItems.map((item) => (
             item.submenu ? (
-              <DropdownMenu 
-                key={item.label} 
-                open={openDropdown === item.label} 
-                onOpenChange={(isOpen) => setOpenDropdown(isOpen ? item.label : null)}
-              >
-                <DropdownMenuTrigger asChild>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      buttonVariants({ variant: "ghost" }),
-                      "text-sm font-medium text-foreground transition-colors hover:text-primary px-3 py-2 flex items-center gap-1 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
-                    )}
-                    onMouseEnter={() => setOpenDropdown(item.label)}
-                  >
-                    {item.label}
-                  </Link>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent onMouseLeave={() => setOpenDropdown(null)}>
-                  {item.submenu.map((subItem) => (
-                    <DropdownMenuItem key={subItem.label} asChild>
-                      <Link href={subItem.href}>{subItem.label}</Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div onMouseLeave={() => setOpenDropdown(null)} key={item.label}>
+                <DropdownMenu 
+                  open={openDropdown === item.label} 
+                  onOpenChange={(isOpen) => setOpenDropdown(isOpen ? item.label : null)}
+                >
+                  <DropdownMenuTrigger asChild>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        buttonVariants({ variant: "ghost" }),
+                        "text-sm font-medium text-foreground transition-colors hover:text-primary px-3 py-2 flex items-center gap-1 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+                      )}
+                      onMouseEnter={() => setOpenDropdown(item.label)}
+                    >
+                      {item.label}
+                    </Link>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {item.submenu.map((subItem) => (
+                      <DropdownMenuItem key={subItem.label} asChild>
+                        <Link href={subItem.href}>{subItem.label}</Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             ) : (
               <Link
                 key={item.href}
