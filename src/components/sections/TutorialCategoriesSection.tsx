@@ -51,7 +51,7 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                 <Card key={category.id} className="group flex flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/30">
                   <CardHeader className="p-0 border-b overflow-hidden">
                     <Link href={category.href} className="block" aria-label={`View tutorials for ${category.name}`}>
-                      <div className="relative aspect-[4/3] w-full bg-primary/5">
+                      <div className="relative aspect-[4/3] w-full bg-primary/5 rounded-t-lg overflow-hidden">
                         {category.id === 'arduino' ? (
                           <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
                         ) : category.id === 'operational-amplifiers' ? (
@@ -79,7 +79,7 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                     </CardDescription>
                   </CardContent>
                   <CardFooter className="p-4 md:p-6 pt-0 mt-auto">
-                    <Button asChild variant="outline" className="w-auto transition-colors group/button hover:bg-foreground hover:text-background">
+                    <Button asChild variant="outline" className="w-auto transition-colors group/button hover:bg-black hover:text-white">
                       <Link href={category.href}>
                         View Tutorials <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
                       </Link>
