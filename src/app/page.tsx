@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white overflow-hidden rounded-lg">
+      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_60%,transparent_100%)]">
         <Image
           src="https://lh3.googleusercontent.com/d/1KoEC6rWkXjXImu7dWCb7IAyLDxtj8HFA"
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
