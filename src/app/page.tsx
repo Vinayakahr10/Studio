@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_70%,transparent_100%)]">
+      <section className="relative w-full h-[70vh] min-h-[400px] flex items-center justify-center text-center text-white rounded-lg dark:[mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_70%,transparent_100%)] overflow-hidden">
         <Image
           src="https://lh3.googleusercontent.com/d/1AoTKLAX39NDyNIe9uC2bh39Tzn-GC_iD"
           alt="An intricate circuit board with glowing pathways, representing the world of electronics."
