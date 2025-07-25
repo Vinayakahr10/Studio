@@ -45,23 +45,23 @@ export function IntroAnimation() {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-[100] bg-background flex items-center justify-center transition-opacity duration-500',
+        'fixed inset-0 z-[100] bg-background flex items-start justify-center transition-opacity duration-500',
         animationState === 'fading-out' ? 'opacity-0' : 'opacity-100'
       )}
     >
-      <div
+        <div
         className={cn(
-          'absolute text-xl font-bold text-primary', // Match font size with header
+          'absolute text-xl font-bold text-primary w-full',
+          'container mx-auto px-4 md:px-6', // Mimic header container
           animationState === 'animating' && 'animate-move-to-header'
         )}
         style={{
           // Initial position for the text
           top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%) scale(1.5)',
+          transform: 'translateY(-50%) scale(1.5)',
         }}
       >
-        EletronicswithVK
+        <span className={cn(animationState === 'animating' && 'text-center block', 'transition-all duration-1500 ease-in-out')}>EletronicswithVK</span>
       </div>
     </div>
   );
