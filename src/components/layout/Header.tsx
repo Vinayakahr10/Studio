@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Menu } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import { ClientOnly } from '@/components/shared/ClientOnly';
 import {
@@ -53,6 +53,20 @@ const navItems = [
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    const hasSeenAnimation = sessionStorage.getItem('hasSeenIntroAnimation');
+    if (hasSeenAnimation) {
+      setShowContent(true);
+    } else {
+      // If animation hasn't been seen, wait for it to finish
+      const timer = setTimeout(() => {
+        setShowContent(true);
+      }, 2500); // Matches animation duration + delay
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
@@ -61,7 +75,10 @@ export function Header() {
           <span className="text-xl font-bold">EletronicswithVK</span>
         </Link>
         
-        <nav className="hidden md:flex gap-1 items-center">
+        <nav className={cn(
+            "hidden md:flex gap-1 items-center transition-opacity duration-1000",
+            showContent ? 'opacity-100' : 'opacity-0'
+          )}>
           {navItems.map((item) => (
             item.submenu ? (
               <DropdownMenu 
@@ -73,7 +90,7 @@ export function Header() {
                   <Link
                     href={item.href}
                     className={cn(
-                      buttonVariants({ variant: "link" }),
+                      buttonVariants({ variant: "ghost" }),
                       "text-sm font-medium text-foreground transition-colors hover:text-primary px-3 py-2 flex items-center gap-1 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
                     )}
                     onMouseEnter={() => setOpenDropdown(item.label)}
@@ -106,7 +123,10 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className={cn(
+            "flex items-center gap-2 transition-opacity duration-1000",
+            showContent ? 'opacity-100' : 'opacity-0'
+          )}>
            <div className="hidden md:flex gap-2 items-center">
             <ClientOnly>
               <ThemeToggleButton />
