@@ -170,9 +170,12 @@ body {
       opacity: 1;
     }
     to {
-      /* Values correspond to header layout */
-      top: 1rem; /* h-16 is 4rem, vertical center is 2rem, -0.5*font-size approx */
-      left: 1rem; /* container padding */
+      /* Values correspond to the final header layout */
+      /* h-16 (4rem) header, items-center vertically centers it. The text itself is text-xl. */
+      /* Top position is approx half of header height minus half of text line height. (2rem - ~0.875rem) */
+      top: 1.125rem; 
+      /* container + px-4 = 1rem padding on left */
+      left: 1rem; 
       transform: translate(0, 0) scale(1);
       opacity: 1;
     }

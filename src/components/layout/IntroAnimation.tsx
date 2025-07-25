@@ -51,7 +51,7 @@ export function IntroAnimation() {
     >
       <div
         className={cn(
-          'absolute text-2xl font-bold text-primary',
+          'absolute text-xl font-bold text-primary', // Match font size with header
           animationState === 'animating' && 'animate-move-to-header'
         )}
         style={{
