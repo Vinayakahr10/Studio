@@ -52,7 +52,6 @@ const navItems = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isProjectsMenuOpen, setIsProjectsMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
@@ -64,33 +63,26 @@ export function Header() {
         <nav className="hidden md:flex gap-1 items-center">
           {navItems.map((item) => (
             item.submenu ? (
-               <div
-                key={item.label}
-                onMouseEnter={() => setIsProjectsMenuOpen(true)}
-                onMouseLeave={() => setIsProjectsMenuOpen(false)}
-                className="relative"
-              >
-                <DropdownMenu open={isProjectsMenuOpen} onOpenChange={setIsProjectsMenuOpen}>
-                  <DropdownMenuTrigger asChild>
-                     <Link
-                        href={item.href}
-                        className={cn(
-                          buttonVariants({ variant: "ghost" }),
-                          "text-sm font-medium text-foreground transition-colors hover:text-primary px-3 py-2 flex items-center gap-1 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
-                        )}
-                      >
-                        {item.label}
-                      </Link>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    {item.submenu.map((subItem) => (
-                      <DropdownMenuItem key={subItem.label} asChild>
-                        <Link href={subItem.href}>{subItem.label}</Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+               <DropdownMenu key={item.label}>
+                <DropdownMenuTrigger asChild>
+                   <Link
+                      href={item.href}
+                      className={cn(
+                        buttonVariants({ variant: "ghost" }),
+                        "text-sm font-medium text-foreground transition-colors hover:text-primary px-3 py-2 flex items-center gap-1 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {item.submenu.map((subItem) => (
+                    <DropdownMenuItem key={subItem.label} asChild>
+                      <Link href={subItem.href}>{subItem.label}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link
                 key={item.href}
