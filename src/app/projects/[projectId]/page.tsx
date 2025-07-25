@@ -1,3 +1,4 @@
+
 import { getProjectById, type ProjectDetail, type CodeSection } from '@/data/project-details';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -52,8 +53,8 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
           src={project.mainImageUrl}
           alt={project.title}
           data-ai-hint={project.mainImageHint || 'project image'}
-          width={1200}
-          height={675} // 16:9 aspect ratio
+          width={800}
+          height={450}
           className="w-full rounded-lg object-cover shadow-xl aspect-video"
           priority
         />
