@@ -36,6 +36,8 @@ const toolsData = [
     description: "Convert 3-digit EIA capacitor codes (e.g., 104) to capacitance values (pF, nF, µF).",
     href: "/tools/capacitor-code-calculator",
     Icon: DraftingCompass,
+    imageUrl: "https://lh3.googleusercontent.com/d/1dS7CKolEIO8JNlEAYoCpdvSQVWusp33w",
+    imageHint: "ceramic capacitor codes",
   },
   {
     title: "LED Resistor Calculator",
