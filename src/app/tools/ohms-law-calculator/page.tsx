@@ -10,8 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Calculator, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
-type OhmsLawParameter = 'voltage' | 'current' | 'resistance' | 'power';
+
+type OhmsLawParameter = 'voltage' | 'current' | 'resistance';
 
 interface OhmsLawValues {
   voltage: string;
@@ -20,8 +22,50 @@ interface OhmsLawValues {
   power: string;
 }
 
+const OhmsLawDiagram = () => (
+  <div className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg h-full">
+      <div className="relative w-full max-w-xs aspect-video">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 text-orange-500 font-semibold">V=IR</div>
+          {/* Voltage Source */}
+          <div className="absolute top-[30%] left-[5%] flex items-center">
+              <span className="text-sm mr-1">Voltage</span>
+              <div className="w-8 h-8 border-2 border-blue-500 rounded-full flex items-center justify-center">
+                  <span className="text-blue-500 font-bold">V</span>
+              </div>
+          </div>
+          {/* Resistor */}
+           <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 text-center">
+              <span className="text-red-500 font-semibold">Resistance</span>
+              <div className="w-10 h-6 border border-red-500 border-l-0 border-r-0 flex items-center justify-center text-red-500 font-bold text-xs">R</div>
+          </div>
+
+          {/* Wires */}
+          <svg className="w-full h-full" viewBox="0 0 100 60">
+            {/* Top Wire */}
+            <path d="M 40 10 L 80 10" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
+            {/* Right Wire */}
+            <path d="M 80 10 L 80 50" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
+            {/* Bottom Wire */}
+            <path d="M 80 50 L 20 50" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
+            {/* Left Wire */}
+            <path d="M 20 50 L 20 28" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
+             <path d="M 20 22 L 20 10" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
+
+            {/* Capacitor-like symbol for the resistor */}
+             <path d="M 80 30 L 80 20" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
+             <path d="M 80 40 L 80 50" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
+             <line x1="75" y1="30" x2="85" y2="30" stroke="hsl(var(--primary))" strokeWidth="1.5" />
+             <line x1="75" y1="40" x2="85" y2="40" stroke="hsl(var(--primary))" strokeWidth="1.5" />
+             <text x="90" y="38" className="text-base fill-foreground">R</text>
+
+          </svg>
+      </div>
+  </div>
+);
+
+
 export default function OhmsLawCalculatorPage() {
-  const { toast } = useToast(); // Toast can still be used for general notifications if needed
+  const { toast } = useToast();
   const [values, setValues] = useState<OhmsLawValues>({
     voltage: '',
     current: '',
@@ -33,26 +77,24 @@ export default function OhmsLawCalculatorPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (/^\d*\.?\d*$/.test(value) || value === '') { // Allow numbers and one decimal point
-      setValues(prev => ({ ...prev, [name]: value, power: '' })); // Clear power as it's always derived
+    if (/^\d*\.?\d*$/.test(value) || value === '') { 
+      setValues(prev => ({ ...prev, [name]: value, power: '' })); 
       setError(null);
     }
   };
 
   const handleSelectChange = (value: OhmsLawParameter) => {
     setCalculateWhich(value);
-    // Optionally clear fields when changing calculation target
-    // setValues({ voltage: '', current: '', resistance: '', power: ''}); 
+    setValues({ voltage: '', current: '', resistance: '', power: ''}); 
     setError(null);
   };
 
-  const formatResult = (num: number | null | undefined): string => {
+  const formatResult = (num: number | null | undefined, unit: string): string => {
     if (num === null || num === undefined || isNaN(num) || !isFinite(num)) return '';
-    // Show more precision for smaller numbers, less for larger ones.
-    if (Math.abs(num) < 0.0001 && num !== 0) return num.toExponential(2);
-    if (Math.abs(num) < 1) return num.toFixed(4);
-    if (Math.abs(num) < 1000) return num.toFixed(2);
-    return num.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    if (Math.abs(num) < 0.0001 && num !== 0) return num.toExponential(2) + ` ${unit}`;
+    if (Math.abs(num) < 1) return num.toFixed(4) + ` ${unit}`;
+    if (Math.abs(num) < 1000) return num.toFixed(2) + ` ${unit}`;
+    return num.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ` ${unit}`;
   };
 
   const performCalculation = () => {
@@ -61,64 +103,76 @@ export default function OhmsLawCalculatorPage() {
     const i = parseFloat(values.current);
     const r = parseFloat(values.resistance);
 
-    let newVoltage = NaN;
-    let newCurrent = NaN;
-    let newResistance = NaN;
-    let newPower = NaN;
-
-    const knownValuesCount = [values.voltage, values.current, values.resistance]
-      .filter(val => val !== '' && !isNaN(parseFloat(val)))
-      .length;
-
-    if (calculateWhich !== 'power' && knownValuesCount < 2) {
-      setError("Please enter at least two values from Voltage, Current, or Resistance to calculate the third.");
-      return;
-    }
+    let newVoltage = NaN, newCurrent = NaN, newResistance = NaN, newPower = NaN;
 
     try {
-      if (calculateWhich === 'voltage') {
-        if (isNaN(i) || isNaN(r)) throw new Error("Current and Resistance are required to calculate Voltage.");
-        newVoltage = i * r;
-        newPower = newVoltage * i;
-      } else if (calculateWhich === 'current') {
-        if (isNaN(v) || isNaN(r)) throw new Error("Voltage and Resistance are required to calculate Current.");
-        if (r === 0) throw new Error("Resistance cannot be zero when calculating Current.");
-        newCurrent = v / r;
-        newPower = v * newCurrent;
-      } else if (calculateWhich === 'resistance') {
-        if (isNaN(v) || isNaN(i)) throw new Error("Voltage and Current are required to calculate Resistance.");
-        if (i === 0) throw new Error("Current cannot be zero when calculating Resistance.");
-        newResistance = v / i;
-        newPower = v * i;
-      } else if (calculateWhich === 'power') {
-        if (!isNaN(v) && !isNaN(i)) { // V and I known
-          newPower = v * i;
-          if (isNaN(r) && i !== 0) newResistance = v / i;
-          else if (isNaN(r) && i === 0 && v !== 0) newResistance = Infinity; // Open circuit
-        } else if (!isNaN(i) && !isNaN(r)) { // I and R known
-          newPower = i * i * r;
-          if (isNaN(v)) newVoltage = i * r;
-        } else if (!isNaN(v) && !isNaN(r)) { // V and R known
-          if (r === 0) throw new Error("Resistance cannot be zero for this power calculation (V^2/R).");
-          newPower = (v * v) / r;
-          if (isNaN(i)) newCurrent = v / r;
-        } else {
-          throw new Error("To calculate Power, provide at least two of: Voltage, Current, or Resistance.");
-        }
-      }
+        const requiredInputs = {
+            voltage: ['current', 'resistance'],
+            current: ['voltage', 'resistance'],
+            resistance: ['voltage', 'current'],
+        };
 
-      setValues({
-        voltage: !isNaN(newVoltage) ? formatResult(newVoltage) : (calculateWhich === 'voltage' || isNaN(v) ? '' : formatResult(v)),
-        current: !isNaN(newCurrent) ? formatResult(newCurrent) : (calculateWhich === 'current' || isNaN(i) ? '' : formatResult(i)),
-        resistance: !isNaN(newResistance) ? formatResult(newResistance) : (calculateWhich === 'resistance' || isNaN(r) ? '' : formatResult(r)),
-        power: formatResult(newPower),
-      });
+        const inputsProvided = {
+            voltage: values.voltage,
+            current: values.current,
+            resistance: values.resistance,
+        };
+
+        for (const input of requiredInputs[calculateWhich]) {
+            if (inputsProvided[input as keyof typeof inputsProvided] === '' || isNaN(parseFloat(inputsProvided[input as keyof typeof inputsProvided]))) {
+                throw new Error(`Please provide ${requiredInputs[calculateWhich].join(' and ')} to calculate ${calculateWhich}.`);
+            }
+        }
+        
+        if (calculateWhich === 'voltage') {
+            if (i <= 0 || r <= 0) throw new Error("Current and Resistance must be positive.");
+            newVoltage = i * r;
+            newPower = newVoltage * i;
+        } else if (calculateWhich === 'current') {
+            if (r <= 0) throw new Error("Resistance must be positive and greater than zero.");
+            if (v < 0) throw new Error("Voltage must be non-negative.");
+            newCurrent = v / r;
+            newPower = v * newCurrent;
+        } else if (calculateWhich === 'resistance') {
+            if (i <= 0) throw new Error("Current must be positive and greater than zero.");
+            if (v < 0) throw new Error("Voltage must be non-negative.");
+            newResistance = v / i;
+            newPower = v * i;
+        }
+
+        const finalValues = {
+            voltage: isNaN(newVoltage) ? values.voltage : newVoltage.toString(),
+            current: isNaN(newCurrent) ? values.current : newCurrent.toString(),
+            resistance: isNaN(newResistance) ? values.resistance : newResistance.toString(),
+            power: newPower.toString(),
+        }
+
+        setValues(finalValues);
+         toast({
+            title: "Calculation Complete",
+            description: (
+              <div className="flex flex-col gap-1">
+                <span>{`Calculated ${calculateWhich.charAt(0).toUpperCase() + calculateWhich.slice(1)}: ${formatResult(parseFloat(finalValues[calculateWhich]), calculateWhich === 'voltage' ? 'V' : calculateWhich === 'current' ? 'A' : 'Ω')}`}</span>
+                <span>{`Power: ${formatResult(newPower, 'W')}`}</span>
+              </div>
+            ),
+        });
 
     } catch (e: any) {
       setError(e.message || "Calculation error.");
-      setValues(prev => ({ ...prev, power: '' })); // Clear power on error
+      setValues(prev => ({ ...prev, power: '' })); 
     }
   };
+  
+   const getFormulaText = () => {
+    switch(calculateWhich) {
+        case 'voltage': return "V = I × R";
+        case 'current': return "I = V / R";
+        case 'resistance': return "R = V / I";
+        default: return "V = I × R";
+    }
+  }
+
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-16">
@@ -131,72 +185,86 @@ export default function OhmsLawCalculatorPage() {
         </Button>
       </div>
 
-      <Card className="max-w-2xl mx-auto shadow-xl">
+      <Card className="max-w-4xl mx-auto shadow-xl">
         <CardHeader className="text-center">
-          <div className="inline-block bg-primary/10 p-3 rounded-full mb-4 mx-auto w-fit">
-            <Calculator className="h-10 w-10 text-primary" />
-          </div>
-          <CardTitle className="text-3xl">Ohm's Law Calculator</CardTitle>
+          <CardTitle className="text-3xl font-bold tracking-tight">Ohm's Law Calculator</CardTitle>
           <CardDescription>
-            Enter known values and select which value to calculate. Power (W) will also be calculated.
+            Enter any two values to calculate the third, based on Ohm's Law. Power (W) is also calculated.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
-            <div className="space-y-2">
-              <Label htmlFor="voltage">Voltage (V)</Label>
-              <Input id="voltage" name="voltage" type="text" placeholder="e.g., 12" value={values.voltage} onChange={handleInputChange} className="h-11 text-base" inputMode="decimal" disabled={calculateWhich === 'voltage'}/>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="current">Current (I) - Amps</Label>
-              <Input id="current" name="current" type="text" placeholder="e.g., 0.5" value={values.current} onChange={handleInputChange} className="h-11 text-base" inputMode="decimal" disabled={calculateWhich === 'current'}/>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="resistance">Resistance (R) - Ohms</Label>
-              <Input id="resistance" name="resistance" type="text" placeholder="e.g., 24" value={values.resistance} onChange={handleInputChange} className="h-11 text-base" inputMode="decimal" disabled={calculateWhich === 'resistance'}/>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="power">Power (P) - Watts</Label>
-              <Input id="power" name="power" type="text" placeholder="Calculated" value={values.power} readOnly className="h-11 text-base bg-muted/50" disabled={calculateWhich === 'power'}/>
-            </div>
-          </div>
-          
-          <div className="space-y-2">
-              <Label htmlFor="calculateWhich">Calculate Which Value?</Label>
-              <Select value={calculateWhich} onValueChange={handleSelectChange as any}>
-                <SelectTrigger className="h-11 text-base">
-                  <SelectValue placeholder="Select value to calculate" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="voltage">Voltage (V)</SelectItem>
-                  <SelectItem value="current">Current (I)</SelectItem>
-                  <SelectItem value="resistance">Resistance (Ω)</SelectItem>
-                  <SelectItem value="power">Power (W)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+        <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+                {/* Left Column: Inputs and Controls */}
+                <div className="space-y-6">
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="voltage">Voltage (V)</Label>
+                            <Input id="voltage" name="voltage" type="text" placeholder="Enter Voltage" value={values.voltage} onChange={handleInputChange} className="h-11 text-base" inputMode="decimal" disabled={calculateWhich === 'voltage'}/>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="current">Current (I) - Amps</Label>
+                            <Input id="current" name="current" type="text" placeholder="Enter Current" value={values.current} onChange={handleInputChange} className="h-11 text-base" inputMode="decimal" disabled={calculateWhich === 'current'}/>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="resistance">Resistance (R) - Ohms</Label>
+                            <Input id="resistance" name="resistance" type="text" placeholder="Enter Resistance" value={values.resistance} onChange={handleInputChange} className="h-11 text-base" inputMode="decimal" disabled={calculateWhich === 'resistance'}/>
+                        </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                        <Label htmlFor="calculateWhich">Value to Calculate</Label>
+                        <Select value={calculateWhich} onValueChange={handleSelectChange as any}>
+                            <SelectTrigger className="h-11 text-base">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                            <SelectItem value="voltage">Voltage (V)</SelectItem>
+                            <SelectItem value="current">Current (I)</SelectItem>
+                            <SelectItem value="resistance">Resistance (R)</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
 
-          {error && 
-            <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive flex items-center gap-2 justify-center">
-              <AlertTriangle className="h-4 w-4"/> {error}
-            </div>
-          }
+                     <Button onClick={performCalculation} size="lg" className={cn(
+                        "w-full transition-transform hover:scale-105 h-12 text-lg font-bold",
+                        "bg-red-600 hover:bg-red-700 text-white"
+                     )}>
+                        <Zap className="mr-2 h-5 w-5"/> CALCULATE
+                    </Button>
+                </div>
+                
+                {/* Right Column: Diagram and Results */}
+                <div className="space-y-6">
+                    <div className="bg-muted p-4 rounded-lg text-center">
+                        <p className="text-lg font-semibold text-muted-foreground">Formula</p>
+                        <p className="text-3xl font-mono font-bold text-primary tracking-wider">{getFormulaText()}</p>
+                    </div>
+                    
+                    <OhmsLawDiagram />
+                    
+                    {error && 
+                        <div className="p-3 bg-destructive/10 border border-destructive/50 rounded-md text-center text-sm text-destructive flex items-center gap-2 justify-center">
+                        <AlertTriangle className="h-4 w-4"/> {error}
+                        </div>
+                    }
 
-          <Button onClick={performCalculation} size="lg" className="w-full transition-transform hover:scale-105">
-            <Zap className="mr-2 h-5 w-5"/> Calculate
-          </Button>
-
-          <div className="mt-6 p-6 bg-primary/5 rounded-lg space-y-3 border border-primary/20">
-            <h3 className="text-xl font-semibold text-center text-primary mb-2">Results Summary:</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-base">
-              <p><strong>Voltage (V):</strong> {values.voltage || "---"}</p>
-              <p><strong>Current (A):</strong> {values.current || "---"}</p>
-              <p><strong>Resistance (Ω):</strong> {values.resistance || "---"}</p>
-              <p><strong>Power (W):</strong> {values.power || "---"}</p>
+                    {(values.power || Object.values(values).some(v => v && !isNaN(parseFloat(v)))) && !error && (
+                         <div className="mt-6 p-4 bg-primary/5 rounded-lg space-y-3 border border-primary/20">
+                            <h3 className="text-xl font-semibold text-center text-primary mb-2">Results</h3>
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-base">
+                                <p><strong>Voltage:</strong> {values.voltage ? `${parseFloat(values.voltage).toPrecision(4)} V` : "---"}</p>
+                                <p><strong>Current:</strong> {values.current ? `${parseFloat(values.current).toPrecision(4)} A` : "---"}</p>
+                                <p><strong>Resistance:</strong> {values.resistance ? `${parseFloat(values.resistance).toPrecision(4)} Ω` : "---"}</p>
+                                <p><strong>Power:</strong> {values.power ? `${parseFloat(values.power).toPrecision(4)} W`: "---"}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
-          </div>
         </CardContent>
       </Card>
     </div>
   );
 }
+
+    
