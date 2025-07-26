@@ -184,7 +184,7 @@ export default function ToolsPage() {
                 </CardDescription>
               </CardContent>
               <CardFooter className="p-6 pt-0">
-                <Button asChild variant="default" className="w-full transition-colors group">
+                <Button asChild variant="outline" className="w-full transition-colors group">
                   <Link href={tool.href}>
                     Use Tool <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
