@@ -24,7 +24,7 @@ interface OhmsLawValues {
 }
 
 const OhmsLawDiagram = () => (
-    <div className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg h-full">
+    <div className="flex flex-col items-center justify-center p-4 rounded-lg h-full">
         <Image
             src="https://lh3.googleusercontent.com/d/15AUu1zE3iZMmkHmBIMkiAUHsfg8hQbAc"
             alt="Ohm's Law Circuit Diagram"
