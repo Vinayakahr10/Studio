@@ -11,6 +11,7 @@ import { ArrowLeft, Calculator, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 
 type OhmsLawParameter = 'voltage' | 'current' | 'resistance';
@@ -23,44 +24,16 @@ interface OhmsLawValues {
 }
 
 const OhmsLawDiagram = () => (
-  <div className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg h-full">
-      <div className="relative w-full max-w-xs aspect-video">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 text-orange-500 font-semibold">V=IR</div>
-          {/* Voltage Source */}
-          <div className="absolute top-[30%] left-[5%] flex items-center">
-              <span className="text-sm mr-1">Voltage</span>
-              <div className="w-8 h-8 border-2 border-blue-500 rounded-full flex items-center justify-center">
-                  <span className="text-blue-500 font-bold">V</span>
-              </div>
-          </div>
-          {/* Resistor */}
-           <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 text-center">
-              <span className="text-red-500 font-semibold">Resistance</span>
-              <div className="w-10 h-6 border border-red-500 border-l-0 border-r-0 flex items-center justify-center text-red-500 font-bold text-xs">R</div>
-          </div>
-
-          {/* Wires */}
-          <svg className="w-full h-full" viewBox="0 0 100 60">
-            {/* Top Wire */}
-            <path d="M 40 10 L 80 10" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-            {/* Right Wire */}
-            <path d="M 80 10 L 80 50" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-            {/* Bottom Wire */}
-            <path d="M 80 50 L 20 50" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-            {/* Left Wire */}
-            <path d="M 20 50 L 20 28" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-             <path d="M 20 22 L 20 10" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-
-            {/* Capacitor-like symbol for the resistor */}
-             <path d="M 80 30 L 80 20" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-             <path d="M 80 40 L 80 50" stroke="hsl(var(--primary))" strokeWidth="1.5" fill="none" />
-             <line x1="75" y1="30" x2="85" y2="30" stroke="hsl(var(--primary))" strokeWidth="1.5" />
-             <line x1="75" y1="40" x2="85" y2="40" stroke="hsl(var(--primary))" strokeWidth="1.5" />
-             <text x="90" y="38" className="text-base fill-foreground">R</text>
-
-          </svg>
-      </div>
-  </div>
+    <div className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg h-full">
+        <Image
+            src="https://lh3.googleusercontent.com/d/15AUu1zE3iZMmkHmBIMkiAUHsfg8hQbAc"
+            alt="Ohm's Law Circuit Diagram"
+            data-ai-hint="ohms law diagram"
+            width={300}
+            height={200}
+            className="rounded-lg object-contain"
+        />
+    </div>
 );
 
 
@@ -266,5 +239,3 @@ export default function OhmsLawCalculatorPage() {
     </div>
   );
 }
-
-    
