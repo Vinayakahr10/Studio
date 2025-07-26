@@ -63,7 +63,7 @@ export default function TutorialsPage() {
       </div>
       
       {/* Programming Section */}
-      <div className="mb-12 md:mb-16">
+      <div id="programming" className="mb-12 md:mb-16 scroll-mt-20">
         <div className="mb-8 md:mb-12 text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-3">
               <Code className="h-8 w-8 text-primary"/>
@@ -77,7 +77,7 @@ export default function TutorialsPage() {
       </div>
 
       {/* Theory Section */}
-       <div>
+       <div id="theory" className="scroll-mt-20">
         <div className="mb-8 md:mb-12 text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-3">
               <BookOpen className="h-8 w-8 text-primary"/>
