@@ -40,6 +40,20 @@ const navItems = [
   {
     label: "Tutorials",
     href: "/tutorials",
+    submenu: [
+        { href: "/tutorials/arduino", label: "Arduino" },
+        { href: "/tutorials/esp32", label: "ESP32" },
+        { href: "/tutorials/stm32", label: "STM32" },
+        { href: "/tutorials/dc-circuit-theory", label: "DC Circuit Theory" },
+        { href: "/tutorials/digital-electronics", label: "Digital Electronics" },
+        { href: "/tutorials/ac-circuits", label: "AC Circuits" },
+        { href: "/tutorials/bjt-transistors", label: "BJT Transistors" },
+        { href: "/tutorials/operational-amplifiers", label: "Op-Amps" },
+        { href: "/tutorials/semiconductor-devices", label: "Semiconductor Devices" },
+        { href: "/tutorials/power-electronics", label: "Power Electronics" },
+        { href: "/tutorials/oscillators", label: "Oscillators" },
+        { href: "/tutorials", label: "View All Tutorials" },
+    ]
   },
   { href: "/blog", label: "Blog" },
   { href: "/tools", label: "Tools" },
@@ -52,7 +66,7 @@ const navItems = [
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isProjectsMenuOpen, setIsProjectsMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
@@ -64,8 +78,8 @@ export function Header() {
         <nav className="hidden md:flex gap-1 items-center">
           {navItems.map((item) => (
             item.submenu ? (
-               <DropdownMenu key={item.label} open={isProjectsMenuOpen} onOpenChange={setIsProjectsMenuOpen}>
-                  <div onMouseEnter={() => setIsProjectsMenuOpen(true)} onMouseLeave={() => setIsProjectsMenuOpen(false)}>
+               <DropdownMenu key={item.label} open={openDropdown === item.label} onOpenChange={(isOpen) => setOpenDropdown(isOpen ? item.label : null)}>
+                  <div onMouseEnter={() => setOpenDropdown(item.label)} onMouseLeave={() => setOpenDropdown(null)}>
                     <DropdownMenuTrigger asChild>
                        <Link
                           href={item.href}
