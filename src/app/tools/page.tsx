@@ -169,7 +169,7 @@ export default function ToolsPage() {
                         alt={tool.title} 
                         data-ai-hint={tool.imageHint || tool.title.toLowerCase()}
                         layout="fill"
-                        className="object-contain" 
+                        className="object-cover" 
                       />
                     ) : (
                       <ToolIcon className="h-16 w-16 text-primary/80" />
