@@ -143,7 +143,7 @@ export default function ToolsPage() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-16">
       <section className="text-center mb-12 md:mb-16">
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-primary">
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-foreground">
           Electronics Tools
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-muted-foreground md:text-xl">
