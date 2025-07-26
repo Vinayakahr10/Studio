@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ArrowLeft, ChevronDown, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface ColorSpec {
   name: string;
@@ -245,23 +246,23 @@ export default function ResistorColorCodeCalculatorPage() {
           </div>
 
           {/* Resistor Graphic */}
-          <div className="flex justify-center items-center my-6 h-20">
-            <div className="w-2 h-6 bg-gray-400 dark:bg-gray-500 rounded-l-sm" /> {/* Left Lead */}
-            <div className="h-12 w-40 bg-beige-200 dark:bg-beige-700 border-2 border-gray-400 dark:border-gray-600 rounded-md flex items-center justify-around px-2 relative shadow-inner"
-                 style={{ background: '#F5F5DC' }}> {/* Beige body */}
-              {bandDefinitions.map((bandDef, index) => (
-                <div
-                  key={`resistor-band-${index}`}
-                  className={cn(
-                    "h-full w-3", 
-                    index === 0 && "ml-1", 
-                    index === bandDefinitions.length -1 && "mr-1"
-                  )}
-                  style={{ backgroundColor: getColorSpec(bandColors[index])?.hex || 'transparent' }}
-                />
-              ))}
-            </div>
-            <div className="w-2 h-6 bg-gray-400 dark:bg-gray-500 rounded-r-sm" /> {/* Right Lead */}
+          <div className="relative flex justify-center items-center my-6 h-24">
+              <Image 
+                src="https://lh3.googleusercontent.com/d/1XPtbyTKYjwFVIfy_tfccvLTdTfCsECzn" 
+                alt="Resistor body"
+                width={300}
+                height={96}
+                className="z-0"
+              />
+              <div className="absolute flex items-center justify-around h-full w-[300px] z-10 px-10">
+                 {bandDefinitions.map((bandDef, index) => (
+                  <div
+                    key={`resistor-band-overlay-${index}`}
+                    className="h-[55%] w-3"
+                    style={{ backgroundColor: getColorSpec(bandColors[index])?.hex || 'transparent' }}
+                  />
+                ))}
+              </div>
           </div>
           
           {/* Resistance Value Display */}
@@ -344,4 +345,3 @@ export default function ResistorColorCodeCalculatorPage() {
     </div>
   );
 }
-
