@@ -103,7 +103,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
                       data-ai-hint={project.imageHint}
                       width={400}
                       height={300}
-                      className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 rounded-t-lg"
+                      className="aspect-[4/3] w-full object-cover"
                     />
                   </Link>
                 </CardHeader>
@@ -116,9 +116,9 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
                   <TruncatableDescription text={project.description} className="text-sm text-muted-foreground" />
                 </CardContent>
                 <CardFooter className="p-4 md:p-6 pt-0 mt-auto">
-                  <Button asChild variant="outline" className="w-auto transition-colors group/button">
+                  <Button asChild variant="outline" className="w-auto transition-colors group hover:bg-black hover:text-white">
                     <Link href={project.tutorialLink}>
-                      View Tutorial <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
+                      View Tutorial <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </Button>
                 </CardFooter>

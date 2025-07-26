@@ -53,15 +53,15 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                     <Link href={category.href} className="block" aria-label={`View tutorials for ${category.name}`}>
                       <div className="relative aspect-[4/3] w-full bg-primary/5 rounded-t-lg overflow-hidden">
                         {category.id === 'arduino' ? (
-                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
+                          <Image src="https://lh3.googleusercontent.com/d/1DbG4WUFIwootjZkxJge08T61zvgDjfsD" alt="Arduino" layout="fill" className="object-cover" />
                         ) : category.id === 'operational-amplifiers' ? (
-                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
+                           <Image src="https://lh3.googleusercontent.com/d/1Syvg1EnUBduCAxtL1N9TrsHIIG7asWhf" alt="Operational Amplifier" layout="fill" className="object-cover" />
                         ) : category.id === 'dc-circuit-theory' ? (
-                            <Image src="https://lh3.googleusercontent.com/d/1NNNvw3vFslKZz4mrHcX2r8XGS0OAmfn0" alt="DC Circuit Theory" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
+                            <Image src="https://lh3.googleusercontent.com/d/1NNNvw3vFslKZz4mrHcX2r8XGS0OAmfn0" alt="DC Circuit Theory" layout="fill" className="object-cover" />
                         ) : category.id === 'digital-electronics' ? (
-                            <Image src="https://lh3.googleusercontent.com/d/1H1hbyiHN0idqgCJ7GsCFE18JYufHkzVr" alt="Digital Electronics" layout="fill" className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
+                            <Image src="https://lh3.googleusercontent.com/d/1H1hbyiHN0idqgCJ7GsCFE18JYufHkzVr" alt="Digital Electronics" layout="fill" className="object-cover" />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center transition-transform duration-500 ease-in-out group-hover:scale-105">
+                          <div className="flex h-full w-full items-center justify-center">
                             <CategoryIcon className="h-16 w-16 text-primary/80" />
                           </div>
                         )}
@@ -79,9 +79,9 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
                     </CardDescription>
                   </CardContent>
                   <CardFooter className="p-4 md:p-6 pt-0 mt-auto">
-                    <Button asChild variant="outline" className="w-auto transition-colors group/button hover:bg-black hover:text-white">
+                    <Button asChild variant="outline" className="w-auto transition-colors group hover:bg-black hover:text-white">
                       <Link href={category.href}>
-                        View Tutorials <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/button:translate-x-1" />
+                        View Tutorials <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </Link>
                     </Button>
                   </CardFooter>
