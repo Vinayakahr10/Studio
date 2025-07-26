@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { ArrowLeft, Sigma, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 interface LedResistorResults {
   resistorValue: string;
@@ -137,7 +138,7 @@ export default function LedResistorCalculatorPage() {
             </div>
           )}
           
-          <Button onClick={calculateResistor} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={calculateResistor} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5"/> Calculate Resistor
           </Button>
 
@@ -157,3 +158,5 @@ export default function LedResistorCalculatorPage() {
     </div>
   );
 }
+
+    

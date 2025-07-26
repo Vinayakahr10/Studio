@@ -128,7 +128,7 @@ export default function BatteryLifeCalculatorPage() {
             </div>
           )}
           
-          <Button onClick={calculateBatteryLife} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={calculateBatteryLife} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5"/> Calculate Battery Life
           </Button>
 
@@ -151,3 +151,5 @@ export default function BatteryLifeCalculatorPage() {
     </div>
   );
 }
+
+    

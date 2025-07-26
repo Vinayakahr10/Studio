@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Timer as TimerIcon, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 // Helper to format time
 const formatTime = (seconds: number): string => {
@@ -130,7 +131,7 @@ export default function RcTimeConstantCalculatorPage() {
             </div>
           )}
           
-          <Button onClick={calculateTimeConstant} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={calculateTimeConstant} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5"/> Calculate Time Constant (τ)
           </Button>
 
@@ -146,3 +147,5 @@ export default function RcTimeConstantCalculatorPage() {
     </div>
   );
 }
+
+    

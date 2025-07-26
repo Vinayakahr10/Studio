@@ -21,6 +21,7 @@ import {
   Scatter,
 } from 'recharts';
 import { ChartContainer, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
+import { cn } from '@/lib/utils';
 
 interface IdealDiodeResults {
   diodeCurrentDisplay: string;
@@ -179,7 +180,7 @@ export default function IdealDiodeCalculatorPage() {
             </div>
           )}
           
-          <Button onClick={calculateDiodeParameters} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={calculateDiodeParameters} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5"/> Calculate Parameters
           </Button>
 
@@ -262,5 +263,7 @@ export default function IdealDiodeCalculatorPage() {
     </div>
   );
 }
+
+    
 
     

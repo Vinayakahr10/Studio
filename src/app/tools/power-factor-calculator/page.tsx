@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { ArrowLeft, PieChart, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 export default function PowerFactorCalculatorPage() {
   const { toast } = useToast();
@@ -111,7 +112,7 @@ export default function PowerFactorCalculatorPage() {
             </div>
           )}
           
-          <Button onClick={calculatePowerFactor} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={calculatePowerFactor} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5"/> Calculate Power Factor
           </Button>
 
@@ -129,3 +130,5 @@ export default function PowerFactorCalculatorPage() {
     </div>
   );
 }
+
+    

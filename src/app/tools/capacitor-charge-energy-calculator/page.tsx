@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Bolt, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 interface CapacitorResults {
   charge: string;
@@ -154,7 +155,7 @@ export default function CapacitorChargeEnergyCalculatorPage() {
             </div>
           )}
           
-          <Button onClick={calculateValues} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={calculateValues} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5"/> Calculate Charge & Energy
           </Button>
 
@@ -172,3 +173,5 @@ export default function CapacitorChargeEnergyCalculatorPage() {
     </div>
   );
 }
+
+    

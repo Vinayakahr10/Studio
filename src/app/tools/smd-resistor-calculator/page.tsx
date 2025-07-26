@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Cpu, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 type SmdCodeType = '3-digit' | '4-digit' | 'eia-96';
 
@@ -198,7 +199,7 @@ export default function SmdResistorCalculatorPage() {
             </div>
           )}
 
-          <Button onClick={calculateResistance} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={calculateResistance} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5" /> Calculate Resistance
           </Button>
 
@@ -213,3 +214,5 @@ export default function SmdResistorCalculatorPage() {
     </div>
   );
 }
+
+    

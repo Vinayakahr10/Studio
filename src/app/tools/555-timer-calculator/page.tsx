@@ -21,6 +21,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { ChartContainer, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
+import { cn } from '@/lib/utils';
 
 type OperatingMode = 'astable' | 'monostable';
 
@@ -264,7 +265,7 @@ export default function Timer555CalculatorPage() {
             </div>
           )}
           
-          <Button onClick={calculateValues} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={calculateValues} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5"/> Calculate
           </Button>
 
@@ -338,4 +339,6 @@ export default function Timer555CalculatorPage() {
     </div>
   );
 }
+    
+
     

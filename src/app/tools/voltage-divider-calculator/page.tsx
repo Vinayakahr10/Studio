@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Network, Zap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 type CalculateOption = 'vout' | 'r1' | 'r2';
 
@@ -173,7 +174,7 @@ export default function VoltageDividerCalculatorPage() {
             </div>
           )}
 
-          <Button onClick={performCalculation} size="lg" className="w-full transition-transform hover:scale-105">
+          <Button onClick={performCalculation} size="lg" className={cn("w-full transition-transform hover:scale-105", "bg-red-600 hover:bg-red-700 text-white")}>
             <Zap className="mr-2 h-5 w-5" /> Calculate
           </Button>
 
@@ -188,3 +189,5 @@ export default function VoltageDividerCalculatorPage() {
     </div>
   );
 }
+
+    
