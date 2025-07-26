@@ -11,14 +11,7 @@ export const categoriesData: Category[] = [
   { id: 'stm32', name: 'STM32', Icon: Cpu, href: '/tutorials/stm32', description: 'ARM Cortex-M development with STM32.' },
   { id: 'esp32', name: 'ESP32 & ESP8266', Icon: Router, href: '/tutorials/esp32', description: 'WiFi, Bluetooth, and IoT projects.' },
   { id: 'dc-circuit-theory', name: 'DC Circuit Theory', Icon: Network, href: '/tutorials/dc-circuit-theory', description: 'Fundamentals of DC circuits and analysis.' },
-  { id: 'ac-circuits', name: 'AC Circuits', Icon: Activity, href: '/tutorials/ac-circuits', description: 'Explore alternating current, phasors, and impedance.' },
   { id: 'digital-electronics', name: 'Digital Electronics', Icon: DigitalIcon, href: '/tutorials/digital-electronics', description: 'Binary, logic gates, Boolean algebra, and more.' },
-  { id: 'semiconductor-devices', name: 'Semiconductor Devices', Icon: SemiconductorIcon, href: '/tutorials/semiconductor-devices', description: 'Diodes, transistors (BJT, FET), and thyristors.' },
-  { id: 'operational-amplifiers', name: 'Operational Amplifiers', Icon: OpAmpIcon, href: '/tutorials/operational-amplifiers', description: 'Op-amp basics, configurations, and applications.' },
-  { id: 'power-electronics', name: 'Power Electronics', Icon: PowerIcon, href: '/tutorials/power-electronics', description: 'Power supplies, converters, and control.' },
-  { id: 'oscillators', name: 'Oscillators', Icon: Waves, href: '/tutorials/oscillators', description: 'Learn about circuits that generate periodic waveforms.' },
-  { id: 'circuit-design', name: 'Circuit Design', Icon: CircuitBoard, href: '/categories/circuit-design', description: 'Fundamentals of electronic circuits.' },
-  { id: 'components', name: 'Components', Icon: Component, href: '/categories/components', description: 'Understanding electronic parts.' },
 ];
 
 interface TutorialCategoriesSectionProps {
