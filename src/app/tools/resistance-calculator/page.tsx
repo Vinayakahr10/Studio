@@ -23,7 +23,7 @@ interface ColorSpec {
 type ResistorBandColor = 
   | 'black' | 'brown' | 'red' | 'orange' | 'yellow' 
   | 'green' | 'blue' | 'violet' | 'gray' | 'white' 
-  | 'gold' | 'silver' | 'none' | 'pink'; // Added pink as per prompt implying it in tolerance
+  | 'gold' | 'silver' | 'none' | 'pink';
 
 const colorData: ColorSpec[] = [
   { name: 'Black', id: 'black', hex: '#000000', digit: 0, multiplier: 1, multiplierVal: 0, tempCo: 250 },
@@ -38,17 +38,71 @@ const colorData: ColorSpec[] = [
   { name: 'White', id: 'white', hex: '#FFFFFF', digit: 9, multiplier: 1000000000, multiplierVal: 9, tempCo: 1 },
   { name: 'Gold', id: 'gold', hex: '#FFD700', multiplier: 0.1, multiplierVal: -1, tolerance: 5 },
   { name: 'Silver', id: 'silver', hex: '#C0C0C0', multiplier: 0.01, multiplierVal: -2, tolerance: 10 },
-  { name: 'Pink', id: 'pink', hex: '#FFC0CB', tolerance: 0 }, // Example for pink, not standard EIA for tolerance. Usually Gold/Silver/None. For this example assuming it's placeholder for a value.
+  { name: 'Pink', id: 'pink', hex: '#FFC0CB', tolerance: 0 },
   { name: 'None', id: 'none', hex: 'transparent', tolerance: 20 },
 ];
 
 const getColorSpec = (id: ResistorBandColor): ColorSpec | undefined => colorData.find(c => c.id === id);
 
+// Visual Resistor Component
+const ResistorIllustration = ({ bands, numBands }: { bands: ResistorBandColor[], numBands: number }) => {
+  const bandSpecs = bands.slice(0, numBands).map(id => getColorSpec(id));
+  
+  const bandStyles = [
+    "left-[15%]", "left-[28%]", "left-[41%]", // Digit bands
+    "left-[58%]", // Multiplier band
+    "left-[75%]", // Tolerance band
+    "left-[90%]"  // TempCo band
+  ];
+  
+  // Adjust band positions for 3, 4, 5, 6 bands
+  const bandPositions: Record<number, number[]> = {
+    3: [0, 1, 3], // d1, d2, mult
+    4: [0, 1, 3, 4], // d1, d2, mult, tol
+    5: [0, 1, 2, 3, 4], // d1, d2, d3, mult, tol
+    6: [0, 1, 2, 3, 4, 5], // d1, d2, d3, mult, tol, tempco
+  };
+
+  const activeBandIndices = bandPositions[numBands];
+
+  return (
+    <div className="relative w-full max-w-sm h-24 mx-auto my-4 flex items-center justify-center">
+      {/* Wire start */}
+      <div className="absolute left-0 w-[10%] h-0.5 bg-gray-400 z-0"></div>
+      
+      {/* Resistor Body */}
+      <div className="h-14 w-[80%] bg-amber-200 dark:bg-amber-800 rounded-lg shadow-inner flex items-center justify-around relative border-2 border-amber-300 dark:border-amber-700">
+        {bandSpecs.map((spec, index) => {
+          if (!spec || !activeBandIndices.includes(index)) return null;
+
+          const positionIndex = activeBandIndices.indexOf(index);
+          const styleIndex = activeBandIndices[positionIndex];
+
+          return (
+            <div
+              key={index}
+              className={cn(
+                "absolute h-full w-2.5",
+                bandStyles[styleIndex]
+              )}
+              style={{ backgroundColor: spec.hex === 'transparent' ? '#E5E7EB' : spec.hex }}
+            />
+          );
+        })}
+      </div>
+
+      {/* Wire end */}
+      <div className="absolute right-0 w-[10%] h-0.5 bg-gray-400 z-0"></div>
+    </div>
+  );
+};
+
+
 type BandType = 'digit' | 'multiplier' | 'tolerance' | 'tempCo';
 
 interface BandDefinition {
   type: BandType;
-  label: string; // For table header
+  label: string;
   colorStateSetter: React.Dispatch<React.SetStateAction<ResistorBandColor>>;
   currentColor: ResistorBandColor;
   validColors: ResistorBandColor[];
@@ -59,13 +113,12 @@ export default function ResistorColorCodeCalculatorPage() {
   
   const [band1Color, setBand1Color] = useState<ResistorBandColor>('brown');
   const [band2Color, setBand2Color] = useState<ResistorBandColor>('black');
-  const [band3Color, setBand3Color] = useState<ResistorBandColor>('red'); // Digit for 5/6, Multiplier for 3/4
-  const [band4Color, setBand4Color] = useState<ResistorBandColor>('gold'); // Multiplier for 5/6, Tolerance for 4
-  const [band5Color, setBand5Color] = useState<ResistorBandColor>('gold'); // Tolerance for 5/6
-  const [band6Color, setBand6Color] = useState<ResistorBandColor>('brown'); // TempCo for 6
+  const [band3Color, setBand3Color] = useState<ResistorBandColor>('red');
+  const [band4Color, setBand4Color] = useState<ResistorBandColor>('gold');
+  const [band5Color, setBand5Color] = useState<ResistorBandColor>('gold');
+  const [band6Color, setBand6Color] = useState<ResistorBandColor>('brown');
 
   const [resistanceResult, setResistanceResult] = useState<string>('');
-  const [activeBandConfig, setActiveBandConfig] = useState<number>(1); // 1-indexed band user is currently configuring
 
   const digitColors = colorData.filter(c => c.digit !== undefined).map(c => c.id);
   const multiplierColors = colorData.filter(c => c.multiplier !== undefined).map(c => c.id);
@@ -78,12 +131,11 @@ export default function ResistorColorCodeCalculatorPage() {
   const bandDefinitions = useMemo((): BandDefinition[] => {
     const defs: Partial<Record<number, { type: BandType, label: string, validColors: ResistorBandColor[] }>> = {};
     
-    defs[1] = { type: 'digit', label: 'Band 1 (1st)', validColors: digitColors.filter(c => c !== 'black' || numBands > 4) }; // Black not allowed for 1st band in 4 band usually
+    defs[1] = { type: 'digit', label: 'Band 1 (1st)', validColors: digitColors.filter(c => c !== 'black' || numBands > 4) };
     defs[2] = { type: 'digit', label: 'Band 2 (2nd)', validColors: digitColors };
 
     if (numBands === 3) {
       defs[3] = { type: 'multiplier', label: 'Multiplier', validColors: multiplierColors };
-      // Implicit tolerance of +/-20% (None) for 3-band
     } else if (numBands === 4) {
       defs[3] = { type: 'multiplier', label: 'Multiplier', validColors: multiplierColors };
       defs[4] = { type: 'tolerance', label: 'Tolerance', validColors: toleranceColors };
@@ -103,18 +155,17 @@ export default function ResistorColorCodeCalculatorPage() {
       colorStateSetter: bandSetters[i],
       currentColor: bandColors[i],
     }));
-  }, [numBands, band1Color, band2Color, band3Color, band4Color, band5Color, band6Color]);
+  }, [numBands, ...bandColors]);
 
 
   useEffect(() => {
     // Reset colors when numBands changes to avoid invalid states
-    setBand1Color(getColorSpec(bandDefinitions[0]?.validColors[1] || 'brown')?.id || 'brown'); // default to brown or first valid
-    setBand2Color(getColorSpec(bandDefinitions[1]?.validColors[0] || 'black')?.id || 'black'); // default to black
+    setBand1Color(getColorSpec(bandDefinitions[0]?.validColors[1] || 'brown')?.id || 'brown');
+    setBand2Color(getColorSpec(bandDefinitions[1]?.validColors[0] || 'black')?.id || 'black');
     if (numBands >= 3) setBand3Color(getColorSpec(bandDefinitions[2]?.validColors[2] || 'red')?.id || 'red');
     if (numBands >= 4) setBand4Color(getColorSpec(bandDefinitions[3]?.validColors.includes('gold') ? 'gold' : bandDefinitions[3]?.validColors[0] || 'gold')?.id || 'gold');
     if (numBands >= 5) setBand5Color(getColorSpec(bandDefinitions[4]?.validColors.includes('gold') ? 'gold' : bandDefinitions[4]?.validColors[0] || 'gold')?.id || 'gold');
     if (numBands >= 6) setBand6Color(getColorSpec(bandDefinitions[5]?.validColors[0] || 'brown')?.id || 'brown');
-    setActiveBandConfig(1);
   }, [numBands]);
 
 
@@ -244,6 +295,8 @@ export default function ResistorColorCodeCalculatorPage() {
               </Button>
             ))}
           </div>
+
+          <ResistorIllustration bands={bandColors} numBands={numBands} />
           
           {/* Resistance Value Display */}
           <div className="bg-white dark:bg-gray-700 p-3 rounded-md shadow-md text-center">
