@@ -70,13 +70,10 @@ export function BlogLayoutSection({
         </div>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
           <div className="lg:col-span-2 space-y-8">
-            {articlesToDisplay.length === 0 && !articles && (
-                 <p className="text-muted-foreground text-center py-8">No articles available at the moment. Check back soon!</p>
-            )}
-            {articlesToDisplay.length === 0 && articles && ( // 'articles' prop was passed but is empty
-                 <p className="text-muted-foreground text-center py-8">No articles found matching your criteria.</p>
-            )}
-            {articlesToDisplay.map((article) => (
+            {articlesToDisplay.length === 0 ? (
+                 <p className="text-muted-foreground text-center py-8">No articles available yet. Coming soon!</p>
+            ) : (
+                articlesToDisplay.map((article) => (
               <Card key={article.id} className="overflow-hidden shadow-lg transition-all flex flex-col md:flex-row">
                 <div className="md:w-1/3">
                   <Image
@@ -108,7 +105,7 @@ export function BlogLayoutSection({
                   </CardFooter>
                 </div>
               </Card>
-            ))}
+            )))}
              {showViewAllButton && articlesToDisplay.length > 0 && (
                 <div className="text-center mt-8">
                     <Button asChild variant="default" size="lg" className="transition-transform hover:scale-105">
