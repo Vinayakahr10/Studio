@@ -244,26 +244,6 @@ export default function ResistorColorCodeCalculatorPage() {
               </Button>
             ))}
           </div>
-
-          {/* Resistor Graphic */}
-          <div className="relative flex justify-center items-center my-6 h-24">
-              <Image 
-                src="https://lh3.googleusercontent.com/d/1XPtbyTKYjwFVIfy_tfccvLTdTfCsECzn" 
-                alt="Resistor body"
-                width={300}
-                height={96}
-                className="z-0"
-              />
-              <div className="absolute flex items-center justify-around h-full w-[300px] z-10 px-10">
-                 {bandDefinitions.map((bandDef, index) => (
-                  <div
-                    key={`resistor-band-overlay-${index}`}
-                    className="h-[55%] w-3"
-                    style={{ backgroundColor: getColorSpec(bandColors[index])?.hex || 'transparent' }}
-                  />
-                ))}
-              </div>
-          </div>
           
           {/* Resistance Value Display */}
           <div className="bg-white dark:bg-gray-700 p-3 rounded-md shadow-md text-center">

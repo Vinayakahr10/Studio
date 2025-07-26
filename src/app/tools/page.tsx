@@ -21,7 +21,9 @@ const toolsData = [
     title: "Resistor Color Code Calculator",
     description: "Determine the resistance value of a resistor based on its color bands (4, 5, or 6 bands).",
     href: "/tools/resistance-calculator",
-    Icon: Zap, 
+    Icon: Zap,
+    imageUrl: "https://lh3.googleusercontent.com/d/1XPtbyTKYjwFVIfy_tfccvLTdTfCsECzn",
+    imageHint: "resistor color bands",
   },
   {
     title: "555 Timer Calculator",
