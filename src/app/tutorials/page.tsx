@@ -5,24 +5,38 @@ import React, { useState, useEffect } from 'react';
 import { TutorialCategoriesSection, categoriesData } from "@/components/sections/TutorialCategoriesSection";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, Code, BookOpen } from "lucide-react";
 import type { Category } from '@/types';
-import Image from 'next/image';
+
+// Split categories into two types
+const programmingCategoriesData = categoriesData.filter(c => ['arduino', 'stm32', 'esp32'].includes(c.id));
+const theoryCategoriesData = categoriesData.filter(c => ['dc-circuit-theory', 'digital-electronics'].includes(c.id));
+
 
 export default function TutorialsPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCategories, setFilteredCategories] = useState<Category[]>(categoriesData);
+  
+  const [filteredProgrammingCategories, setFilteredProgrammingCategories] = useState<Category[]>(programmingCategoriesData);
+  const [filteredTheoryCategories, setFilteredTheoryCategories] = useState<Category[]>(theoryCategoriesData);
 
   useEffect(() => {
     if (searchTerm === "") {
-      setFilteredCategories(categoriesData);
+      setFilteredProgrammingCategories(programmingCategoriesData);
+      setFilteredTheoryCategories(theoryCategoriesData);
     } else {
       const lowercasedFilter = searchTerm.toLowerCase();
-      const newFilteredCategories = categoriesData.filter(category =>
+      
+      const newFilteredProgramming = programmingCategoriesData.filter(category =>
         category.name.toLowerCase().includes(lowercasedFilter) ||
         (category.description && category.description.toLowerCase().includes(lowercasedFilter))
       );
-      setFilteredCategories(newFilteredCategories);
+      setFilteredProgrammingCategories(newFilteredProgramming);
+      
+      const newFilteredTheory = theoryCategoriesData.filter(category =>
+        category.name.toLowerCase().includes(lowercasedFilter) ||
+        (category.description && category.description.toLowerCase().includes(lowercasedFilter))
+      );
+      setFilteredTheoryCategories(newFilteredTheory);
     }
   }, [searchTerm]);
 
@@ -35,11 +49,11 @@ export default function TutorialsPage() {
         </p>
       </div>
 
-       <div className="mb-8 max-w-xl mx-auto">
+       <div className="mb-12 max-w-xl mx-auto">
         <div className="relative">
           <Input 
             type="search" 
-            placeholder="Search tutorials by name or description..." 
+            placeholder="Search all tutorials..." 
             className="w-full pl-10 h-12 text-base rounded-lg border-foreground/50 focus-visible:ring-primary" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -48,11 +62,34 @@ export default function TutorialsPage() {
         </div>
       </div>
       
-      <TutorialCategoriesSection categories={filteredCategories} />
+      {/* Programming Section */}
+      <div className="mb-12 md:mb-16">
+        <div className="mb-8 md:mb-12 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-3">
+              <Code className="h-8 w-8 text-primary"/>
+              Programming & Microcontrollers
+            </h2>
+            <p className="mt-3 max-w-2xl mx-auto text-muted-foreground md:text-lg">
+              Dive into coding with popular platforms like Arduino, ESP32, and STM32.
+            </p>
+        </div>
+        <TutorialCategoriesSection categories={filteredProgrammingCategories} showSectionTitle={false} />
+      </div>
 
-      {/* <div className="mt-12 text-center">
-        <p className="text-muted-foreground">More tutorials coming soon...</p>
-      </div> */}
+      {/* Theory Section */}
+       <div>
+        <div className="mb-8 md:mb-12 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl flex items-center justify-center gap-3">
+              <BookOpen className="h-8 w-8 text-primary"/>
+              Fundamentals & Theory
+            </h2>
+            <p className="mt-3 max-w-2xl mx-auto text-muted-foreground md:text-lg">
+             Strengthen your understanding of core electronics principles.
+            </p>
+        </div>
+        <TutorialCategoriesSection categories={filteredTheoryCategories} showSectionTitle={false} />
+      </div>
+
     </div>
   );
 }

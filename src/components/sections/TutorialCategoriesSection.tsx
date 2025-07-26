@@ -15,16 +15,16 @@ export const categoriesData: Category[] = [
 ];
 
 interface TutorialCategoriesSectionProps {
-  categories?: Category[];
+  categories: Category[]; // Now required
+  showSectionTitle?: boolean; // New prop to control title visibility
 }
 
-export function TutorialCategoriesSection({ categories }: TutorialCategoriesSectionProps) {
-  const categoriesToDisplay = categories || categoriesData;
+export function TutorialCategoriesSection({ categories, showSectionTitle = true }: TutorialCategoriesSectionProps) {
 
   return (
     <section className="w-full py-12 md:py-16 lg:py-20">
       <div className="container mx-auto px-4 md:px-6">
-        {!categories && ( 
+        {showSectionTitle && ( 
           <div className="mb-8 md:mb-12 text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Explore Tutorials by Category</h2>
             <p className="mt-3 max-w-2xl mx-auto text-muted-foreground md:text-lg">
@@ -32,9 +32,9 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
             </p>
           </div>
         )}
-        {categoriesToDisplay.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {categoriesToDisplay.map((category) => {
+        {categories.length > 0 ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+            {categories.map((category) => {
                 const CategoryIcon = category.Icon;
                 return(
                 <Card key={category.id} className="group flex flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300">
