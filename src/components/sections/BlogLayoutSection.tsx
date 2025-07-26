@@ -77,7 +77,7 @@ export function BlogLayoutSection({
                  <p className="text-muted-foreground text-center py-8">No articles found matching your criteria.</p>
             )}
             {articlesToDisplay.map((article) => (
-              <Card key={article.id} className="overflow-hidden shadow-lg transition-all hover:shadow-xl flex flex-col md:flex-row hover:bg-muted/30">
+              <Card key={article.id} className="overflow-hidden shadow-lg transition-all flex flex-col md:flex-row">
                 <div className="md:w-1/3">
                   <Image
                     src={article.imageUrl || article.featuredImage || 'https://placehold.co/400x250.png'}

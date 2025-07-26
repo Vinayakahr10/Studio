@@ -48,7 +48,7 @@ export function TutorialCategoriesSection({ categories }: TutorialCategoriesSect
             {categoriesToDisplay.map((category) => {
                 const CategoryIcon = category.Icon;
                 return(
-                <Card key={category.id} className="group flex flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/30">
+                <Card key={category.id} className="group flex flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300">
                   <CardHeader className="p-0 border-b overflow-hidden">
                     <Link href={category.href} className="block" aria-label={`View tutorials for ${category.name}`}>
                       <div className="relative aspect-[4/3] w-full bg-primary/5 rounded-t-lg overflow-hidden">

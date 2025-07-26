@@ -85,7 +85,7 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="grid md:grid-cols-3 gap-6">
-                <Card className="text-center flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+                <Card className="text-center flex flex-col shadow-lg">
                     <CardHeader className="items-center">
                         <div className="p-3 bg-primary/10 rounded-full w-fit mb-2">
                             <Network className="h-8 w-8 text-primary"/>
@@ -101,7 +101,7 @@ export default function HomePage() {
                         </Button>
                     </CardContent>
                 </Card>
-                <Card className="text-center flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+                <Card className="text-center flex flex-col shadow-lg">
                     <CardHeader className="items-center">
                         <div className="p-3 bg-primary/10 rounded-full w-fit mb-2">
                             <Cpu className="h-8 w-8 text-primary"/>
@@ -117,7 +117,7 @@ export default function HomePage() {
                         </Button>
                     </CardContent>
                 </Card>
-                <Card className="text-center flex flex-col shadow-lg hover:shadow-xl transition-shadow">
+                <Card className="text-center flex flex-col shadow-lg">
                     <CardHeader className="items-center">
                         <div className="p-3 bg-primary/10 rounded-full w-fit mb-2">
                             <Lightbulb className="h-8 w-8 text-primary"/>

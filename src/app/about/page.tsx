@@ -25,7 +25,7 @@ export default function AboutPage() {
       </section>
 
       <section className="grid md:grid-cols-3 gap-8 mb-12 md:mb-16">
-        <Card className="text-center shadow-lg hover:shadow-xl transition-shadow">
+        <Card className="text-center shadow-lg transition-shadow">
           <CardHeader>
             <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-2">
               <Lightbulb className="h-8 w-8 text-primary" />
@@ -38,7 +38,7 @@ export default function AboutPage() {
             </p>
           </CardContent>
         </Card>
-        <Card className="text-center shadow-lg hover:shadow-xl transition-shadow">
+        <Card className="text-center shadow-lg transition-shadow">
           <CardHeader>
             <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-2">
               <Target className="h-8 w-8 text-primary" />
@@ -51,7 +51,7 @@ export default function AboutPage() {
             </p>
           </CardContent>
         </Card>
-        <Card className="text-center shadow-lg hover:shadow-xl transition-shadow">
+        <Card className="text-center shadow-lg transition-shadow">
           <CardHeader>
             <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-2">
               <Users className="h-8 w-8 text-primary" />

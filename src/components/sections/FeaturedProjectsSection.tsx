@@ -94,7 +94,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
         {projectsToDisplay.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projectsToDisplay.map((project) => (
-              <Card key={project.id} className="group flex flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/30">
+              <Card key={project.id} className="group flex flex-col overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300">
                 <CardHeader className="p-0 border-b overflow-hidden">
                   <Link href={project.tutorialLink} className="block" aria-label={`View project: ${project.title}`}>
                     <Image

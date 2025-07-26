@@ -155,7 +155,7 @@ export default function ToolsPage() {
         {toolsData.map((tool) => {
            const ToolIcon = tool.Icon;
            return (
-            <Card key={tool.title} className="flex flex-col overflow-hidden shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] hover:bg-muted/30">
+            <Card key={tool.title} className="flex flex-col overflow-hidden shadow-lg transition-all">
               <CardHeader className="p-0">
                 <Link href={tool.href} className="block" aria-label={`Use tool: ${tool.title}`}>
                   <div className="relative aspect-[4/3] w-full bg-primary/5 flex items-center justify-center">
