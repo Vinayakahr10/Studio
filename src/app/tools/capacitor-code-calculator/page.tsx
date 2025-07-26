@@ -97,9 +97,6 @@ export default function CapacitorCodeCalculatorPage() {
 
       <Card className="max-w-md mx-auto shadow-xl">
         <CardHeader className="text-center">
-           <div className="inline-block bg-primary/10 p-3 rounded-full mb-4 mx-auto w-fit">
-            <DraftingCompass className="h-10 w-10 text-primary" />
-          </div>
           <CardTitle className="text-3xl">Capacitor Code Calculator</CardTitle>
           <CardDescription>
             Convert 3-digit EIA capacitor codes (e.g., 104, 222, 479) to capacitance values.
