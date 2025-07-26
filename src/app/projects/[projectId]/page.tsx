@@ -10,13 +10,12 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Highlight, themes } from 'prism-react-renderer';
 import { cn } from "@/lib/utils";
-import React, { use } from 'react';
+import React from 'react';
 import { CodeBlock } from '@/components/content/CodeBlock';
 
 
 export default function ProjectDetailPage({ params }: { params: { projectId: string } }) {
-  const resolvedParams = use(params);
-  const project = getProjectById(resolvedParams.projectId);
+  const project = getProjectById(params.projectId);
 
   if (!project) {
     return (
@@ -24,7 +23,7 @@ export default function ProjectDetailPage({ params }: { params: { projectId: str
         <AlertTriangle className="h-16 w-16 text-destructive mx-auto mb-4" />
         <h1 className="text-4xl font-bold mb-2">Project Not Found</h1>
         <p className="text-muted-foreground mb-6">
-          The project with ID "{resolvedParams.projectId}" does not exist or details are not yet available.
+          The project with ID "{params.projectId}" does not exist or details are not yet available.
         </p>
         <Button asChild variant="outline">
           <Link href="/projects"><ArrowLeft className="mr-2 h-4 w-4" /> Back to All Projects</Link>
